@@ -1,1 +1,1 @@
-hay
+printf("hai lagi");
