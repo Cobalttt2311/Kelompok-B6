@@ -140,3 +140,7 @@ int main(int argc, char *argv[]) {
 
     fclose(outputFile);
 
+    printf("MixColumns operation completed and saved to execution_times.txt\n");
+
+    return 0;
+}
