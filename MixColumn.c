@@ -1,146 +1,61 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-#include <pthread.h>
 
-typedef struct {
-    unsigned char data[4][4];
-} StateMatrix;
+typedef unsigned char byte;
 
-void MixColumns(StateMatrix *state) {
-    StateMatrix result;
-    for (int c = 0; c < 4; c++) {
-        result.data[0][c] = (unsigned char)((state->data[0][c] << 1) ^ (state->data[1][c] << 1) ^ state->data[1][c] ^ state->data[2][c] ^ state->data[3][c]);
-        result.data[1][c] = (unsigned char)(state->data[0][c] ^ (state->data[0][c] << 1) ^ state->data[1][c] ^ (state->data[2][c] << 1) ^ state->data[2][c]);
-        result.data[2][c] = (unsigned char)(state->data[2][c] ^ state->data[0][c] ^ state->data[1][c] ^ (state->data[1][c] << 1) ^ (state->data[3][c] << 1));
-        result.data[3][c] = (unsigned char)((state->data[0][c] << 1) ^ state->data[1][c] ^ state->data[2][c] ^ (state->data[2][c] << 1) ^ (state->data[3][c] << 1));
+void mixColumns(byte state[][4]) {
+    byte temp[4];
+
+    for (int i = 0; i < 4; ++i) {
+        temp[0] = state[0][i] ^ state[1][i] ^ state[2][i] ^ state[3][i];
+        byte x = state[0][i] ^ state[1][i];
+        byte xtime = x << 1;
+        if (state[0][i] & 0x80)
+            xtime ^= 0x1B; // XOR with irreducible polynomial x^8 + x^4 + x^3 + x + 1
+        temp[1] = xtime ^ state[1][i] ^ state[2][i] ^ state[3][i];
+        x = state[1][i] ^ state[2][i];
+        xtime = x << 1;
+        if (state[1][i] & 0x80)
+            xtime ^= 0x1B;
+        temp[2] = xtime ^ state[2][i] ^ state[3][i] ^ state[0][i];
+        x = state[2][i] ^ state[3][i];
+        xtime = x << 1;
+        if (state[2][i] & 0x80)
+            xtime ^= 0x1B;
+        temp[3] = xtime ^ state[3][i] ^ state[0][i] ^ state[1][i];
+
+        // Copy the values back to the state
+        for (int j = 0; j < 4; ++j) {
+            state[j][i] = temp[j];
+        }
     }
-    memcpy(state->data, result.data, 16);
 }
 
-void *ThreadMixColumns(void *arg) {
-    StateMatrix *matrices = (StateMatrix *)arg;
-    MixColumns(matrices);
-    pthread_exit(NULL);
+void printState(byte state[][4]) {
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            printf("%02x ", state[i][j]);
+        }
+        printf("\n");
+    }
 }
 
-int readMatricesFromFile(const char *filename, StateMatrix matrices[], int N) {
-    FILE *file = fopen(filename, "rb");
-    if (file == NULL) {
-        perror("Unable to open file");
-        return 0;
-    }
+int main() {
+    byte state[4][4];
 
-    for (int i = 0; i < N; i++) {
-        if (fread(matrices[i].data, sizeof(unsigned char), 16, file) != 16) {
-            fprintf(stderr, "Error reading matrix %d from file.\n", i);
-            fclose(file);
-            return 0;
+    printf("Enter the state matrix (4x4 in hexadecimal):\n");
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            scanf("%hhx", &state[i][j]);
         }
     }
 
-    fclose(file);
-    return 1;
-}
+    printf("\nState matrix before MixColumns:\n");
+    printState(state);
 
-int writeMatricesToFile(const char *filename, StateMatrix matrices[], int N, double executionTime, size_t dataSizeInBytes) {
-    FILE *file = fopen(filename, "wb");
-    if (file == NULL) {
-        perror("Unable to open file");
-        return 0;
-    }
+    mixColumns(state);
 
-    for (int i = 0; i < N; i++) {
-        if (fwrite(matrices[i].data, sizeof(unsigned char), 16, file) != 16) {
-            fprintf(stderr, "Error writing matrix %d to file.\n", i);
-            fclose(file);
-            return 0;
-        }
-    }
-
-    fseek(file, 0, SEEK_END); // Перейти в конец файла
-    fprintf(file, "Execution Time: %lf seconds\n", executionTime);
-    fprintf(file, "Data Size Processed: %zu bytes\n", dataSizeInBytes);
-
-    fclose(file);
-    return 1;
-}
-
-void generateRandomData(const char *filename, size_t sizeInMB) {
-    FILE *file = fopen(filename, "wb");
-    if (file == NULL) {
-        perror("Unable to create file");
-        return;
-    }
-
-    size_t dataSizeInBytes = sizeInMB * 1024 * 1024;
-
-    srand(time(NULL));
-
-    for (size_t i = 0; i < dataSizeInBytes; i++) {
-        unsigned char byte = rand() % 256;
-        fwrite(&byte, sizeof(unsigned char), 1, file);
-    }
-
-    fclose(file);
-}
-
-int main(int argc, char *argv[]) {
-    if (argc != 3) {
-        fprintf(stderr, "Usage: %s <filename> <size_in_MB>\n", argv[0]);
-        return 1;
-    }
-
-    const char *filename = argv[1];
-    size_t sizeInMB = atoi(argv[2]);
-
-    if (sizeInMB <= 0) {
-        fprintf(stderr, "Invalid size in MB.\n");
-        return 1;
-    }
-
-    const int num_experiments = 5;
-    const int data_sizes[] = {1, 2, 4, 8, 16}; 
-    const int num_threads[] = {1, 2, 4, 8, 16}; 
-
-    FILE *outputFile = fopen("execution_times.txt", "w");
-    if (outputFile == NULL) {
-        perror("Unable to open output file");
-        return 1;
-    }
-
-    for (int i = 0; i < num_experiments; i++) {
-        size_t sizeInMB = data_sizes[i];
-        generateRandomData("input.dat", sizeInMB);
-
-        for (int j = 0; j < sizeof(num_threads) / sizeof(num_threads[0]); j++) {
-            int N = 10; // Количество матриц
-            StateMatrix matrices[N];
-
-            if (readMatricesFromFile("input.dat", matrices, N)) {
-                pthread_t threads[num_threads[j]];
-                clock_t start = clock();
-
-                for (int k = 0; k < N; k++) {
-                    pthread_create(&threads[k % num_threads[j]], NULL, ThreadMixColumns, &matrices[k]);
-                }
-
-                for (int k = 0; k < N; k++) {
-                    pthread_join(threads[k % num_threads[j]], NULL);
-                }
-
-                clock_t end = clock();
-                double executionTime = (double)(end - start) / CLOCKS_PER_SEC;
-
-                fprintf(outputFile, "Data Size: %d MB, Threads: %d, Execution Time: %lf seconds\n", data_sizes[i], num_threads[j], executionTime);
-            }
-        }
-    }
-
-    fclose(outputFile);
-
-    printf("MixColumns operation completed and saved to execution_times.txt\n");
+    printf("\nState matrix after MixColumns:\n");
+    printState(state);
 
     return 0;
 }
