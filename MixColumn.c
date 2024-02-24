@@ -76,7 +76,7 @@ void generateRandomData(const char *filename, size_t sizeInMB) {
 
     size_t dataSizeInBytes = sizeInMB * 1024 * 1024;
 
-    srand(time(NULL)); // Инициализация генератора случайных чисел
+    srand(time(NULL));
 
     for (size_t i = 0; i < dataSizeInBytes; i++) {
         unsigned char byte = rand() % 256;
@@ -101,8 +101,8 @@ int main(int argc, char *argv[]) {
     }
 
     const int num_experiments = 5;
-    const int data_sizes[] = {1, 2, 4, 8, 16}; // Размеры данных в мегабайтах
-    const int num_threads[] = {1, 2, 4, 8, 16}; // Разные степени параллелизма
+    const int data_sizes[] = {1, 2, 4, 8, 16}; 
+    const int num_threads[] = {1, 2, 4, 8, 16}; 
 
     FILE *outputFile = fopen("execution_times.txt", "w");
     if (outputFile == NULL) {
