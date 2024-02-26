@@ -14,4 +14,5 @@ int main()
     masuk = 12;
     masuk = masuk + 123;
     printf("masuk =%d", masuk);
+    
 }
