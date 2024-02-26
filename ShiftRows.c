@@ -1,34 +1,48 @@
 #include <stdio.h>
 #include <string.h>
 
-// Deklarasi fungsi-fungsi yang diperlukan
 void rotateToLeft(char a[], int n);
-void shiftRows(char input[][3], char output_shiftRows[][3]);
+void shiftRows(char input[][4], char output_shiftRows[][4]);
 
 int main() {
-    // Contoh input
-    char input[16][3] = {
-        "00", "01", "02", "03",
-        "10", "11", "12", "13",
-        "20", "21", "22", "23",
-        "30", "31", "32", "33"
-    };
+    // Matriks input 4x4
+    char input[4][4];
+
+    // Meminta pengguna untuk memasukkan nilai matriks
+    printf("Masukkan nilai matriks 4x4:\n");
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            scanf(" %c", &input[i][j]);
+        }
+    }
+
+    // Menampilkan matriks sebelum Shift Rows
+    printf("Matriks sebelum Shift Rows:\n");
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            printf("%c ", input[i][j]);
+        }
+        printf("\n");
+    }
+
     // Array untuk menyimpan hasil Shift Rows
-    char output_shiftRows[16][3];
+    char output_shiftRows[4][4];
 
     // Memanggil fungsi shiftRows
     shiftRows(input, output_shiftRows);
 
-    // Menampilkan hasil Shift Rows
-    printf("Hasil Shift Rows:\n");
-    for (int i = 0; i < 16; i++) {
-        printf("%s%s", output_shiftRows[i], (i != 15) ? ", " : "\n");
+    // Menampilkan matriks setelah Shift Rows
+    printf("\nMatriks setelah Shift Rows:\n");
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            printf("%c ", output_shiftRows[i][j]);
+        }
+        printf("\n");
     }
 
     return 0;
 }
 
-// Fungsi untuk melakukan rotasi ke kiri sebanyak n kali pada array a
 void rotateToLeft(char a[], int n) {
     char temp;
     while (n-- > 0) {
@@ -40,23 +54,24 @@ void rotateToLeft(char a[], int n) {
     }
 }
 
-// Fungsi untuk Shift Rows
-void shiftRows(char input[][3], char output_shiftRows[][3]) {
-    char row1[4], row2[4], row3[4];
-    
-    // Meng-copy baris-baris dari input ke row1, row2, dan row3
-    memcpy(output_shiftRows, input, sizeof(char) * 16 * 3);
-    memcpy(row1, input[0], sizeof(char) * 3 * 4);
-    memcpy(row2, input[4], sizeof(char) * 3 * 4);
-    memcpy(row3, input[8], sizeof(char) * 3 * 4);
+void shiftRows(char input[][4], char output_shiftRows[][4]) {
+    char row1[4], row2[4], row3[4], row4[4];
+
+    // Meng-copy baris-baris dari input ke row1, row2, row3, dan row4
+    memcpy(output_shiftRows, input, sizeof(char) * 4 * 4);
+    memcpy(row1, input[0], sizeof(char) * 4);
+    memcpy(row2, input[1], sizeof(char) * 4);
+    memcpy(row3, input[2], sizeof(char) * 4);
+    memcpy(row4, input[3], sizeof(char) * 4);
 
     // Melakukan rotasi ke kiri pada setiap baris sesuai aturan Shift Rows
-    rotateToLeft(row1, 1);
-    rotateToLeft(row2, 2);
-    rotateToLeft(row3, 3);
+    rotateToLeft(row2, 1);
+    rotateToLeft(row3, 2);
+    rotateToLeft(row4, 3);
 
-    // Meng-copy kembali row1, row2, dan row3 yang telah di-shift ke output_shiftRows
-    memcpy(output_shiftRows[0], row1, sizeof(char) * 3 * 4);
-    memcpy(output_shiftRows[4], row2, sizeof(char) * 3 * 4);
-    memcpy(output_shiftRows[8], row3, sizeof(char) * 3 * 4);
+    // Meng-copy kembali row1, row2, row3, dan row4 yang telah di-shift ke output_shiftRows
+    memcpy(output_shiftRows[0], row1, sizeof(char) * 4);
+    memcpy(output_shiftRows[1], row2, sizeof(char) * 4);
+    memcpy(output_shiftRows[2], row3, sizeof(char) * 4);
+    memcpy(output_shiftRows[3], row4, sizeof(char) * 4);
 }
