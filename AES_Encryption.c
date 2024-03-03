@@ -115,3 +115,16 @@ void expandKey(unsigned char *expandedKey, unsigned char *key, enum keySize size
         }
     }
 }
+
+//createRoundKey, Mendefinisikan fungsi createRoundKey untuk membuat round key dari kunci yang diperluas.
+void createRoundKey(unsigned char *expandedKey, unsigned char *roundKey)
+{
+    int i, j;
+    // melakukan iterasi pada kolom-kolom
+    for (i = 0; i < 4; i++)
+    {
+        // melakukan iterasi pada baris
+        for (j = 0; j < 4; j++)
+            roundKey[(i + (j * 4))] = expandedKey[(i * 4) + j];
+    }
+}
