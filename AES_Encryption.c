@@ -1,3 +1,10 @@
+// enum KeySize, digunakan untuk merepresentasikan ukuran kunci
+enum keySize
+{
+    SIZE_16 = 16,
+    SIZE_24 = 24,
+    SIZE_32 = 32
+};
 
 //Addroundkey
 void addRoundKey(unsigned char *state, unsigned char *roundKey)
@@ -59,4 +66,52 @@ unsigned char getSBoxValue(unsigned char num)
 unsigned char getRconValue(unsigned char num)
 {
     return Rcon[num];
+}
+
+//expandKey, Mendefinisikan fungsi expandKey untuk memperluas kunci utama menjadi kunci yang diperluas sesuai dengan algoritma AES.
+void expandKey(unsigned char *expandedKey, unsigned char *key, enum keySize size, size_t expandedKeySize)
+{
+    // KeySize yang diperluas, dalam byte
+    int currentSize = 0;
+    int rconIteration = 1;
+    int i;
+    unsigned char t[4] = {0}; // variabel sementara 4 byte
+
+    // Mengatur 16,24,32 byte dari kunci yang diperluas ke kunci input 
+    for (i = 0; i < size; i++)
+        expandedKey[i] = key[i];
+    currentSize += size;
+
+    while (currentSize < expandedKeySize)
+    {
+        // menetapkan 4 byte sebelumnya kenilai sementara t
+        for (i = 0; i < 4; i++)
+        {
+            t[i] = expandedKey[(currentSize - 4) + i];
+        }
+
+        /* setiap 16,24,32 byte kita menerapkan inti jadwal ke t
+         * dan meningkatkan rconIteration setelahnya
+         */
+        if (currentSize % size == 0)
+        {
+            core(t, rconIteration++);
+        }
+
+        // Untuk kunci 256-bit, kita menambahkan sbox ekstra ke perhitungan
+        if (size == SIZE_32 && ((currentSize % size) == 16))
+        {
+            for (i = 0; i < 4; i++)
+                t[i] = getSBoxValue(t[i]);
+        }
+
+        /* OR t dengan blok empat byte sebelumnya 16,24,32 byte sebelum kunci yang diperluas yang baru.
+         * Ini menjadi empat byte berikutnya dalam kunci yang diperluas.
+         */
+        for (i = 0; i < 4; i++)
+        {
+            expandedKey[currentSize] = expandedKey[currentSize - size] ^ t[i];
+            currentSize++;
+        }
+    }
 }
