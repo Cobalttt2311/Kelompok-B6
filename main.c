@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include <stdio.h>
 
 int main()
@@ -15,3 +16,6 @@ int main()
     masuk = masuk + 123;
     printf("masuk =%d", masuk);
 }
+=======
+
+>>>>>>> f728dbedb53900a6ff9356dd213768ac718e6514
