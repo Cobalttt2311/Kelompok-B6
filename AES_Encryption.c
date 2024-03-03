@@ -72,6 +72,23 @@ void rotate(unsigned char *word)
     word[3] = c;
 }
 
+void core(unsigned char *word, int iteration)
+{
+    int i;
+
+    // rotate the 32-bit word 8 bits to the left
+    rotate(word);
+
+    // apply S-Box substitution on all 4 parts of the 32-bit word
+    for (i = 0; i < 4; ++i)
+    {
+        word[i] = getSBoxValue(word[i]);
+    }
+
+    // XOR the output of the rcon operation with i to the first part (leftmost) only
+    word[0] = word[0] ^ getRconValue(iteration);
+}
+
 void shiftRows(unsigned char *state)
 {
     int i;
