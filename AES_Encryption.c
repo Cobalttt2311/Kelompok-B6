@@ -61,6 +61,17 @@ unsigned char getRconValue(unsigned char num)
     return Rcon[num];
 }
 
+void rotate(unsigned char *word)
+{
+    unsigned char c;
+    int i;
+
+    c = word[0];
+    for (i = 0; i < 3; i++)
+        word[i] = word[i + 1];
+    word[3] = c;
+}
+
 void shiftRows(unsigned char *state)
 {
     int i;
