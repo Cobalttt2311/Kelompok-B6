@@ -4,9 +4,7 @@
 
 enum keySize
 {
-    SIZE_16 = 16,
-    SIZE_24 = 24,
-    SIZE_32 = 32
+    SIZE_16 = 16
 };	
 
 enum errorCode
