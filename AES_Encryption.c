@@ -98,23 +98,23 @@ void core(unsigned char *word, int iteration)
 {
     int i;
 
-    // rotate the 32-bit word 8 bits to the left
+    // memutar kata 32-bit ke kiri
     rotate(word);
 
-    // apply S-Box substitution on all 4 parts of the 32-bit word
+    // subtutusi S-Box pada keempat bagian kata 32-bit
     for (i = 0; i < 4; ++i)
     {
         word[i] = getSBoxValue(word[i]);
     }
 
-    // XOR the output of the rcon operation with i to the first part (leftmost) only
+    // XOR output operasi rcon dengan i ke bagian pertama (paling kiri) saja
     word[0] = word[0] ^ getRconValue(iteration);
 }
 
 void shiftRows(unsigned char *state)
 {
     int i;
-    // iterate over the 4 rows and call shiftRow() with that row
+    // iterasi 4 baris dan memanggil fungsi shiftRows() pada baris itu
     for (i = 0; i < 4; i++)
         shiftRow(state + i * 4, i);
 }
@@ -123,7 +123,7 @@ void shiftRow(unsigned char *state, unsigned char nbr)
 {
     int i, j;
     unsigned char tmp;
-    // each iteration shifts the row to the left by 1
+    // setiap iterasi menggeser baris ke kiri sebanyak 1 kali
     for (i = 0; i < nbr; i++)
     {
         tmp = state[0];
