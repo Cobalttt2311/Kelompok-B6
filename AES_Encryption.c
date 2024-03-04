@@ -1,4 +1,12 @@
 
+// enum KeySize, digunakan untuk merepresentasikan ukuran kunci
+enum keySize
+{
+    SIZE_16 = 16,
+    SIZE_24 = 24,
+    SIZE_32 = 32
+};
+
 //Addroundkey
 void addRoundKey(unsigned char *state, unsigned char *roundKey)
 {
@@ -110,3 +118,166 @@ void shiftRow(unsigned char *state, unsigned char nbr)
         state[3] = tmp;
     }
 }
+
+void subBytes(unsigned char *state)
+{
+    int index,i,j;
+    // 16 * row * col = matrix[biner huruf awal][biner huruf kedua]
+    // Iterasi dari awal sampai tengah dan dari akhir sampai tengah
+    for (i = 0, j = 15; i < 8; i+=2, j-=2) {
+        int row = state[i] & 0x0F;
+        int col = state[i+1] & 0x0F;
+        index = 16 * row * col;
+        state[i] = sbox[index];
+    
+        row = state[j] & 0x0F;
+        col = state[j-1] & 0x0F;
+        index = 16 * row * col;
+        state[j] = sbox[index];
+    }
+}
+
+//createRoundKey, Mendefinisikan fungsi createRoundKey untuk membuat round key dari kunci yang diperluas.
+void createRoundKey(unsigned char *expandedKey, unsigned char *roundKey)
+{
+    int i, j;
+    // melakukan iterasi pada kolom-kolom
+    for (i = 0; i < 4; i++)
+    {
+        // melakukan iterasi pada baris
+        for (j = 0; j < 4; j++)
+            roundKey[(i + (j * 4))] = expandedKey[(i * 4) + j];
+    }
+}
+
+//expandKey, Mendefinisikan fungsi expandKey untuk memperluas kunci utama menjadi kunci yang diperluas sesuai dengan algoritma AES.
+void expandKey(unsigned char *expandedKey, unsigned char *key, enum keySize size, size_t expandedKeySize)
+{
+    // KeySize yang diperluas, dalam byte
+    int currentSize = 0;
+    int rconIteration = 1;
+    int i;
+    unsigned char t[4] = {0}; // variabel sementara 4 byte
+
+    // Mengatur 16,24,32 byte dari kunci yang diperluas ke kunci input 
+    for (i = 0; i < size; i++)
+        expandedKey[i] = key[i];
+    currentSize += size;
+
+    while (currentSize < expandedKeySize)
+    {
+        // menetapkan 4 byte sebelumnya kenilai sementara t
+        for (i = 0; i < 4; i++)
+        {
+            t[i] = expandedKey[(currentSize - 4) + i];
+        }
+
+        /* setiap 16,24,32 byte kita menerapkan inti jadwal ke t
+         * dan meningkatkan rconIteration setelahnya
+         */
+        if (currentSize % size == 0)
+        {
+            core(t, rconIteration++);
+        }
+
+        // Untuk kunci 256-bit, kita menambahkan sbox ekstra ke perhitungan
+        if (size == SIZE_32 && ((currentSize % size) == 16))
+        {
+            for (i = 0; i < 4; i++)
+                t[i] = getSBoxValue(t[i]);
+        }
+
+        /* OR t dengan blok empat byte sebelumnya 16,24,32 byte sebelum kunci yang diperluas yang baru.
+         * Ini menjadi empat byte berikutnya dalam kunci yang diperluas.
+         */
+        for (i = 0; i < 4; i++)
+        {
+            expandedKey[currentSize] = expandedKey[currentSize - size] ^ t[i];
+            currentSize++;
+        }
+    }
+}
+
+//aes_encrypt, Mendefinisikan fungsi aes_encrypt yang merupakan antarmuka untuk melakukan enkripsi AES dengan input berupa teks biasa, kunci, dan ukuran kunci tertentu.
+char aes_encrypt(unsigned char *input, unsigned char *output, unsigned char *key, enum keySize size)
+{
+    // Ukuran kunci yang diperluas
+    int expandedKeySize;
+
+    // Jumlah putaran
+    int nbrRounds;
+
+    // Kunci yang telah diperluas
+    unsigned char *expandedKey;
+
+    // Blok 128 bit untuk dienkripsi
+    unsigned char block[16];
+
+    int i, j;
+
+    // Tetapkan jumlah putaran berdasarkan ukuran kunci
+    switch (size)
+    {
+    case SIZE_16:
+        nbrRounds = 10;
+        break;
+    case SIZE_24:
+        nbrRounds = 12;
+        break;
+    case SIZE_32:
+        nbrRounds = 14;
+        break;
+    default:
+        return ERROR_AES_UNKNOWN_KEYSIZE;
+        break;
+    }
+
+    expandedKeySize = (16 * (nbrRounds + 1));
+
+    // Alokasi memori untuk expandedKey
+    expandedKey = (unsigned char *)malloc(expandedKeySize * sizeof(unsigned char));
+
+    if (expandedKey == NULL)
+    {
+        return ERROR_MEMORY_ALLOCATION_FAILED;
+    }
+    else
+    {
+        /* Tetapkan nilai blok, untuk blok:
+         * a0,0 a0,1 a0,2 a0,3
+         * a1,0 a1,1 a1,2 a1,3
+         * a2,0 a2,1 a2,2 a2,3
+         * a3,0 a3,1 a3,2 a3,3
+         * urutan pemetaan adalah a0,0 a1,0 a2,0 a3,0 a0,1 a1,1 ... a2,3 a3,3
+         */
+
+        // Iterasi untuk kolom
+        for (i = 0; i < 4; i++)
+        {
+            // Iterasi untuk baris
+            for (j = 0; j < 4; j++)
+                block[(i + (j * 4))] = input[(i * 4) + j];
+        }
+
+        // Perluas kunci menjadi kunci 176, 208, 240 byte
+        expandKey(expandedKey, key, size, expandedKeySize);
+
+        // Enkripsi blok menggunakan expandedKey
+        aes_main(block, expandedKey, nbrRounds);
+
+        // Kembalikan blok lagi ke output
+        for (i = 0; i < 4; i++)
+        {
+            // Iterasi untuk baris
+            for (j = 0; j < 4; j++)
+                output[(i * 4) + j] = block[(i + (j * 4))];
+        }
+
+        // Bebaskan memori untuk expandedKey
+        free(expandedKey);
+        expandedKey = NULL;
+    }
+
+    return SUCCESS;
+}
+
