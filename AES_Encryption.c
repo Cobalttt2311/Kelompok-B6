@@ -1,4 +1,11 @@
 
+enum errorCode
+{
+    SUCCESS = 0,
+    ERROR_AES_UNKNOWN_KEYSIZE,
+    ERROR_MEMORY_ALLOCATION_FAILED,
+};
+
 //Addroundkey
 void addRoundKey(unsigned char *state, unsigned char *roundKey)
 {
@@ -59,4 +66,12 @@ unsigned char getSBoxValue(unsigned char num)
 unsigned char getRconValue(unsigned char num)
 {
     return Rcon[num];
+}
+
+void aes_round(unsigned char *state, unsigned char *roundKey)
+{
+    subBytes(state);
+    shiftRows(state);
+    mixColumns(state);
+    addRoundKey(state, roundKey);
 }
