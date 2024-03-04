@@ -25,18 +25,12 @@ unsigned char sbox[256] = {
 
 void subBytes(unsigned char *state)
 {
-    int index,i,j;
-    // 16 * row * col = matrix[biner huruf awal][biner huruf kedua]
-    // Iterasi dari awal sampai tengah dan dari akhir sampai tengah
-    for (i = 0, j = 15; i < 8; i+=2, j-=2) {
-        int row = state[i] & 0x0F;
-        int col = state[i+1] & 0x0F;
-        index = 16 * row * col;
+    int index;
+    int i;
+    for (i = 0; i < 16; i++) {
+        int row = (state[i] >> 4) & 0x0F;
+        int col = state[i] & 0x0F;
+        index = 16 * row + col;
         state[i] = sbox[index];
-    
-        row = state[j] & 0x0F;
-        col = state[j-1] & 0x0F;
-        index = 16 * row * col;
-        state[j] = sbox[index];
     }
 }
