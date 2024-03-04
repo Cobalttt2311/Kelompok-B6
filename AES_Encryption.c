@@ -1,3 +1,4 @@
+
 // enum KeySize, digunakan untuk merepresentasikan ukuran kunci
 enum keySize
 {
@@ -68,6 +69,37 @@ unsigned char getRconValue(unsigned char num)
     return Rcon[num];
 }
 
+void subBytes(unsigned char *state)
+{
+    int index,i,j;
+    // 16 * row * col = matrix[biner huruf awal][biner huruf kedua]
+    // Iterasi dari awal sampai tengah dan dari akhir sampai tengah
+    for (i = 0, j = 15; i < 8; i+=2, j-=2) {
+        int row = state[i] & 0x0F;
+        int col = state[i+1] & 0x0F;
+        index = 16 * row * col;
+        state[i] = sbox[index];
+    
+        row = state[j] & 0x0F;
+        col = state[j-1] & 0x0F;
+        index = 16 * row * col;
+        state[j] = sbox[index];
+    }
+}
+
+//createRoundKey, Mendefinisikan fungsi createRoundKey untuk membuat round key dari kunci yang diperluas.
+void createRoundKey(unsigned char *expandedKey, unsigned char *roundKey)
+{
+    int i, j;
+    // melakukan iterasi pada kolom-kolom
+    for (i = 0; i < 4; i++)
+    {
+        // melakukan iterasi pada baris
+        for (j = 0; j < 4; j++)
+            roundKey[(i + (j * 4))] = expandedKey[(i * 4) + j];
+    }
+}
+
 //expandKey, Mendefinisikan fungsi expandKey untuk memperluas kunci utama menjadi kunci yang diperluas sesuai dengan algoritma AES.
 void expandKey(unsigned char *expandedKey, unsigned char *key, enum keySize size, size_t expandedKeySize)
 {
@@ -113,19 +145,6 @@ void expandKey(unsigned char *expandedKey, unsigned char *key, enum keySize size
             expandedKey[currentSize] = expandedKey[currentSize - size] ^ t[i];
             currentSize++;
         }
-    }
-}
-
-//createRoundKey, Mendefinisikan fungsi createRoundKey untuk membuat round key dari kunci yang diperluas.
-void createRoundKey(unsigned char *expandedKey, unsigned char *roundKey)
-{
-    int i, j;
-    // melakukan iterasi pada kolom-kolom
-    for (i = 0; i < 4; i++)
-    {
-        // melakukan iterasi pada baris
-        for (j = 0; j < 4; j++)
-            roundKey[(i + (j * 4))] = expandedKey[(i * 4) + j];
     }
 }
 
