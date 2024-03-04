@@ -1,3 +1,4 @@
+#include "AES_Encryption.h"
 // enum KeySize, digunakan untuk merepresentasikan ukuran kunci
 enum keySize
 {
