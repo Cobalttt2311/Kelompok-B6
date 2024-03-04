@@ -1,10 +1,16 @@
-
 // enum KeySize, digunakan untuk merepresentasikan ukuran kunci
 enum keySize
 {
     SIZE_16 = 16,
     SIZE_24 = 24,
     SIZE_32 = 32
+};
+
+enum errorCode
+{
+    SUCCESS = 0,
+    ERROR_AES_UNKNOWN_KEYSIZE,
+    ERROR_MEMORY_ALLOCATION_FAILED,
 };
 
 //Addroundkey
@@ -67,6 +73,14 @@ unsigned char getSBoxValue(unsigned char num)
 unsigned char getRconValue(unsigned char num)
 {
     return Rcon[num];
+}
+
+
+void aes_round(unsigned char *state, unsigned char *roundKey)
+{
+    subBytes(state);
+    shiftRows(state);
+    mixColumns(state);
 }
 
 void rotate(unsigned char *word)
