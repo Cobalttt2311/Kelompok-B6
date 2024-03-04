@@ -108,6 +108,14 @@ void subBytes(unsigned char *state)
     }
 }
 
+//addroundkey
+void addRoundKey(unsigned char *state, unsigned char *roundKey)
+{
+    int i;
+    for (i = 0; i < 16; i++)
+        state[i] = state[i] ^ roundKey[i];
+}
+
 //createRoundKey, Mendefinisikan fungsi createRoundKey untuk membuat round key dari kunci yang diperluas.
 void createRoundKey(unsigned char *expandedKey, unsigned char *roundKey)
 {
