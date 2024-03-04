@@ -69,6 +69,56 @@ unsigned char getRconValue(unsigned char num)
     return Rcon[num];
 }
 
+void rotate(unsigned char *word)
+{
+    unsigned char c;
+    int i;
+
+    c = word[0];
+    for (i = 0; i < 3; i++)
+        word[i] = word[i + 1];
+    word[3] = c;
+}
+
+void core(unsigned char *word, int iteration)
+{
+    int i;
+
+    // rotate the 32-bit word 8 bits to the left
+    rotate(word);
+
+    // apply S-Box substitution on all 4 parts of the 32-bit word
+    for (i = 0; i < 4; ++i)
+    {
+        word[i] = getSBoxValue(word[i]);
+    }
+
+    // XOR the output of the rcon operation with i to the first part (leftmost) only
+    word[0] = word[0] ^ getRconValue(iteration);
+}
+
+void shiftRows(unsigned char *state)
+{
+    int i;
+    // iterate over the 4 rows and call shiftRow() with that row
+    for (i = 0; i < 4; i++)
+        shiftRow(state + i * 4, i);
+}
+
+void shiftRow(unsigned char *state, unsigned char nbr)
+{
+    int i, j;
+    unsigned char tmp;
+    // each iteration shifts the row to the left by 1
+    for (i = 0; i < nbr; i++)
+    {
+        tmp = state[0];
+        for (j = 0; j < 3; j++)
+            state[j] = state[j + 1];
+        state[3] = tmp;
+    }
+}
+
 void subBytes(unsigned char *state)
 {
     int index,i,j;
@@ -230,3 +280,4 @@ char aes_encrypt(unsigned char *input, unsigned char *output, unsigned char *key
 
     return SUCCESS;
 }
+
