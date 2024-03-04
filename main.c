@@ -105,4 +105,7 @@ int main(int argc, char *argv[])
                 }
                 printf("\n\n");
                 break;
+    	}
     }
+    return 0;
+}
