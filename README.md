@@ -1,4 +1,5 @@
 Enkripsi AES dan LSB
+
 a. Petunjuk Instalasi
   1. Download seluruh file yang tersedia di GitHub melalui link https://github.com/Cobalttt2311/Kelompok-B6
   2. Download aplikasi compiler bahasa C ( disarankan menggunakan Dev C++ )
