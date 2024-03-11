@@ -1,15 +1,19 @@
 #include "AES_Encryption.h"
+#include <stdio.h>
+#include <stdlib.h>
+
 // enum KeySize, digunakan untuk merepresentasikan ukuran kunci
 enum keySize
 {
     SIZE_16 = 16,
 };
 
+//enum errorCode, untuk penanda kesalahan
 enum errorCode
 {
-    SUCCESS = 0,
-    ERROR_AES_UNKNOWN_KEYSIZE,
-    ERROR_MEMORY_ALLOCATION_FAILED,
+    SUCCESS = 0,                   // Kode sukses
+    ERROR_AES_UNKNOWN_KEYSIZE,     // Kode kesalahan untuk ukuran kunci tidak dikenal
+    ERROR_MEMORY_ALLOCATION_FAILED // Kode kesalahan untuk kegagalan alokasi memori
 };
 
 
@@ -39,9 +43,10 @@ unsigned char sbox[256] = {
 
 void aes_round(unsigned char *state, unsigned char *roundKey)
 {
-    subBytes(state);
-    shiftRows(state);
-    mixColumns(state);
+    subBytes(state); //panggil fungsi subBytes
+    shiftRows(state); //panggil fungsi shiftRows
+    mixColumns(state); //panggil fungsi mixColumns
+    addRoundKey(state, roundKey); //panggil fungsi addRoundKey
 }
 
 void rotate(unsigned char *word)
@@ -336,17 +341,26 @@ void aes_main(unsigned char *state, unsigned char *expandedKey, int nbrRounds)
 
     unsigned char roundKey[16];
 
+    // Membuat kunci putaran pertama
     createRoundKey(expandedKey, roundKey);
+    // Menambahkan kunci putaran pertama ke state
     addRoundKey(state, roundKey);
 
+    // Melakukan iterasi untuk setiap putaran kecuali yang terakhir
     for (i = 1; i < nbrRounds; i++)
     {
+        // Membuat kunci putaran berikutnya
         createRoundKey(expandedKey + 16 * i, roundKey);
+        // Melakukan operasi putaran AES pada state dengan kunci putaran yang sesuai
         aes_round(state, roundKey);
     }
 
+    // Membuat kunci putaran terakhir
     createRoundKey(expandedKey + 16 * nbrRounds, roundKey);
+    // Melakukan operasi SubBytes pada state
     subBytes(state);
+    // Melakukan operasi ShiftRows pada state
     shiftRows(state);
+    // Menambahkan kunci putaran terakhir ke state
     addRoundKey(state, roundKey);
 }
