@@ -1,16 +1,15 @@
 // enum KeySize, digunakan untuk merepresentasikan ukuran kunci
 enum keySize
 {
-    SIZE_16 = 16,
-    SIZE_24 = 24,
-    SIZE_32 = 32
+    SIZE_16 = 16 // Ukuran kunci 128 bit
 };
 
+//enum errorCode, untuk penanda kesalahan
 enum errorCode
 {
-    SUCCESS = 0,
-    ERROR_AES_UNKNOWN_KEYSIZE,
-    ERROR_MEMORY_ALLOCATION_FAILED,
+    SUCCESS = 0,                  // Kode sukses
+    ERROR_AES_UNKNOWN_KEYSIZE,    // Kode kesalahan untuk ukuran kunci tidak dikenal
+    ERROR_MEMORY_ALLOCATION_FAILED // Kode kesalahan untuk kegagalan alokasi memori
 };
 
 //Addroundkey
