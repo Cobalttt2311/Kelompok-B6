@@ -1,21 +1,22 @@
 #include "AES_Encryption.h"
-#include <stdio.h>  // for printf
-#include <stdlib.h> // for malloc, free
-
 // enum KeySize, digunakan untuk merepresentasikan ukuran kunci
 enum keySize
 {
-    SIZE_16 = 16 // Ukuran kunci 128 bit
-};
-//enum errorCode, untuk penanda kesalahan
-enum errorCode
-{
-    SUCCESS = 0,                  // Kode sukses
-    ERROR_AES_UNKNOWN_KEYSIZE,    // Kode kesalahan untuk ukuran kunci tidak dikenal
-    ERROR_MEMORY_ALLOCATION_FAILED // Kode kesalahan untuk kegagalan alokasi memori
+    SIZE_16 = 16,
+    SIZE_24 = 24,
+    SIZE_32 = 32
 };
 
+enum errorCode
+{
+    SUCCESS = 0,
+    ERROR_AES_UNKNOWN_KEYSIZE,
+    ERROR_MEMORY_ALLOCATION_FAILED,
+};
+
+
 // S-Box, Mendefinisikan array sbox yang berisi tabel substitusi S-box untuk enkripsi AES.
+
 unsigned char sbox[256] = {
     // 0     1    2      3     4    5     6     7      8    9     A      B    C     D     E     F
     0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76,  // 0
@@ -35,174 +36,87 @@ unsigned char sbox[256] = {
     0xe1, 0xf8, 0x98, 0x11, 0x69, 0xd9, 0x8e, 0x94, 0x9b, 0x1e, 0x87, 0xe9, 0xce, 0x55, 0x28, 0xdf,  // E
     0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68, 0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16}; // F
 
-// Rcon, Mendefinisikan array konstanta putaran yang digunakan untuk pembangkitan kunci
-unsigned char Rcon[255] = {
-    0x8d, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36, 0x6c, 0xd8, 0xab, 0x4d, 0x9a, 
-    0x2f, 0x5e, 0xbc, 0x63, 0xc6, 0x97, 0x35, 0x6a, 0xd4, 0xb3, 0x7d, 0xfa, 0xef, 0xc5, 0x91, 0x39, 
-    0x72, 0xe4, 0xd3, 0xbd, 0x61, 0xc2, 0x9f, 0x25, 0x4a, 0x94, 0x33, 0x66, 0xcc, 0x83, 0x1d, 0x3a,    
-    0x74, 0xe8, 0xcb, 0x8d, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36, 0x6c, 0xd8, 
-    0xab, 0x4d, 0x9a, 0x2f, 0x5e, 0xbc, 0x63, 0xc6, 0x97, 0x35, 0x6a, 0xd4, 0xb3, 0x7d, 0xfa, 0xef, 
-    0xc5, 0x91, 0x39, 0x72, 0xe4, 0xd3, 0xbd, 0x61, 0xc2, 0x9f, 0x25, 0x4a, 0x94, 0x33, 0x66, 0xcc,
-    0x83, 0x1d, 0x3a, 0x74, 0xe8, 0xcb, 0x8d, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 
-    0x36, 0x6c, 0xd8, 0xab, 0x4d, 0x9a, 0x2f, 0x5e, 0xbc, 0x63, 0xc6, 0x97, 0x35, 0x6a, 0xd4, 0xb3, 
-    0x7d, 0xfa, 0xef, 0xc5, 0x91, 0x39, 0x72, 0xe4, 0xd3, 0xbd, 0x61, 0xc2, 0x9f, 0x25, 0x4a, 0x94, 
-    0x33, 0x66, 0xcc, 0x83, 0x1d, 0x3a, 0x74, 0xe8, 0xcb, 0x8d, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 
-    0x40, 0x80, 0x1b, 0x36, 0x6c, 0xd8, 0xab, 0x4d, 0x9a, 0x2f, 0x5e, 0xbc, 0x63, 0xc6, 0x97, 0x35, 
-    0x6a, 0xd4, 0xb3, 0x7d, 0xfa, 0xef, 0xc5, 0x91, 0x39, 0x72, 0xe4, 0xd3, 0xbd, 0x61, 0xc2, 0x9f, 
-    0x25, 0x4a, 0x94, 0x33, 0x66, 0xcc, 0x83, 0x1d, 0x3a, 0x74, 0xe8, 0xcb, 0x8d, 0x01, 0x02, 0x04,
-    0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36, 0x6c, 0xd8, 0xab, 0x4d, 0x9a, 0x2f, 0x5e, 0xbc, 0x63, 
-    0xc6, 0x97, 0x35, 0x6a, 0xd4, 0xb3, 0x7d, 0xfa, 0xef, 0xc5, 0x91, 0x39, 0x72, 0xe4, 0xd3, 0xbd, 
-    0x61, 0xc2, 0x9f, 0x25, 0x4a, 0x94, 0x33, 0x66, 0xcc, 0x83, 0x1d, 0x3a, 0x74, 0xe8, 0xcb};
+// Rcon, Mendefinisikan array Rcon yang berisi nilai-nilai konstan untuk operasi key expansion.
 
-// getSBoxValue, Mendapatkan nilai S-box untuk byte input yang diberikan
-unsigned char getSBoxValue(unsigned char num)
+
+void aes_round(unsigned char *state, unsigned char *roundKey)
 {
-    return sbox[num];
+    subBytes(state);
+    shiftRows(state);
+    mixColumns(state);
 }
 
-// getRconValue, Mendapatkan nilai konstanta putaran untuk byte input yang diberikan
-unsigned char getRconValue(unsigned char num)
+void rotate(unsigned char *word)
 {
-    return Rcon[num];
+    unsigned char c;
+    int i;
+
+    c = word[0];
+    for (i = 0; i < 3; i++)
+        word[i] = word[i + 1];
+    word[3] = c;
 }
 
-// core, Terapkan jadwal inti Rijndael pada sebuah kata 4-byte yang diberikan
 void core(unsigned char *word, int iteration)
 {
-    int i; // Variabel untuk iterasi
+    int i;
 
-    unsigned char c; // Variabel untuk menyimpan sementara karakter
+    // rotate the 32-bit word 8 bits to the left
+    rotate(word);
 
-    /* Operasi rotasi jadwal kunci Rijndael
-     * memutar delapan word bit ke kiri
-     * rotate(1d2c3a4f) = 2c3a4f1d
-     * word adalah array char dengan ukuran 4 (32 bit)*/
-    c = word[0]; // Simpan karakter pertama dalam variabel sementara c
-    for (i = 0; i < 3; i++) // Loop untuk melakukan rotasi ke kiri pada karakter
-        word[i] = word[i + 1]; // Pindahkan karakter ke kiri
-    word[3] = c; // Tempatkan karakter pertama yang disimpan di akhir
-
-    // Terapkan substitusi S-Box pada keempat bagian dari word 32-bit
+    // apply S-Box substitution on all 4 parts of the 32-bit word
     for (i = 0; i < 4; ++i)
     {
-        word[i] = getSBoxValue(word[i]); // Panggil fungsi untuk mendapatkan nilai S-Box
+        word[i] = getSBoxValue(word[i]);
     }
 
-    // XOR hasil operasi rcon dengan i pada bagian pertama (kiri atas) saja
-    word[0] = word[0] ^ getRconValue(iteration); // Panggil fungsi untuk mendapatkan nilai Rcon
+    // XOR the output of the rcon operation with i to the first part (leftmost) only
+    word[0] = word[0] ^ getRconValue(iteration);
 }
 
-// subBytes, Terapkan transformasi SubBytes pada state
+void shiftRows(unsigned char *state)
+{
+    int i;
+    // iterate over the 4 rows and call shiftRow() with that row
+    for (i = 0; i < 4; i++)
+        shiftRow(state + i * 4, i);
+}
+
+void shiftRow(unsigned char *state, unsigned char nbr)
+{
+    int i, j;
+    unsigned char tmp;
+    // each iteration shifts the row to the left by 1
+    for (i = 0; i < nbr; i++)
+    {
+        tmp = state[0];
+        for (j = 0; j < 3; j++)
+            state[j] = state[j + 1];
+        state[3] = tmp;
+    }
+}
+
 void subBytes(unsigned char *state)
 {
     int index;
     int i;
-    // Loop melalui semua elemen state (ada 16 elemen)
     for (i = 0; i < 16; i++) {
-        // Mendapatkan nilai baris dan kolom dari elemen state saat ini
-        int row = (state[i] >> 4) & 0x0F; // Mendapatkan 4 bit pertama
-        int col = state[i] & 0x0F; // Mendapatkan 4 bit terakhir
-        // Menghitung indeks dalam sbox menggunakan baris dan kolom
+        int row = (state[i] >> 4) & 0x0F;
+        int col = state[i] & 0x0F;
         index = 16 * row + col;
-        // Mengganti nilai elemen state dengan nilai yang sesuai dari sbox
         state[i] = sbox[index];
     }
 }
 
-
-// shiftRows, Terapkan transformasi ShiftRows pada state
-void shiftRows(unsigned char *state) {
-    int i, j;
-    unsigned char tmp;
-
-    for (i = 0; i < 4; i++) {
-        // Menggeser baris ke kiri sesuai dengan nomor barisnya
-        for (j = 0; j < i; j++) {
-            tmp = state[i * 4]; // Simpan byte pertama
-            state[i * 4] = state[i * 4 + 1]; // Geser byte ke-2 ke byte pertama
-            state[i * 4 + 1] = state[i * 4 + 2]; // Geser byte ke-3 ke byte ke-2
-            state[i * 4 + 2] = state[i * 4 + 3]; // Geser byte ke-4 ke byte ke-3
-            state[i * 4 + 3] = tmp; // Pindahkan byte pertama ke byte ke-4
-        }
-    }
-}
-
-// addRoundKey, Terapkan AddRoundKey pada state
+//addroundkey
 void addRoundKey(unsigned char *state, unsigned char *roundKey)
 {
     int i;
-    // Loop melalui semua elemen state dan roundKey (masing-masing 16 elemen)
     for (i = 0; i < 16; i++)
-        // Melakukan operasi XOR antara elemen state dan roundKey pada posisi yang sesuai
         state[i] = state[i] ^ roundKey[i];
 }
 
-// galois_multiplication, Melakukan perkalian Galois untuk keperluan mix columns
-unsigned char galois_multiplication(unsigned char a, unsigned char b)
-{
-    unsigned char p = 0;
-    unsigned char counter;
-    unsigned char hi_bit_set;
-    for (counter = 0; counter < 8; counter++)
-    {
-        if ((b & 1) == 1)
-            p ^= a;
-        hi_bit_set = (a & 0x80);
-        a <<= 1;
-        if (hi_bit_set == 0x80)
-            a ^= 0x1b;
-        b >>= 1;
-    }
-    return p;
-}
-
-// mixColumns, Terapkan transformasi MixColumns pada state
-void mixColumns(unsigned char *state)
-{
-    int i, j;
-    unsigned char column[4]; // Variabel untuk menyimpan satu kolom sementara
-    unsigned char cpy[4]; // Variabel untuk menyimpan salinan nilai kolom
-
-    // Iterasi melalui 4 kolom
-    for (i = 0; i < 4; i++)
-    {
-        // Membangun satu kolom dengan iterasi melalui 4 baris
-        for (j = 0; j < 4; j++)
-        {
-            column[j] = state[(j * 4) + i]; // Ambil nilai dari state dan letakkan dalam kolom
-            cpy[j] = column[j]; // Salin nilai ke dalam array sementara
-        }
-
-        // Terapkan operasi mixColumn pada satu kolom
-        column[0] = galois_multiplication(cpy[0], 2) ^
-                    galois_multiplication(cpy[3], 1) ^
-                    galois_multiplication(cpy[2], 1) ^
-                    galois_multiplication(cpy[1], 3);
-
-        column[1] = galois_multiplication(cpy[1], 2) ^
-                    galois_multiplication(cpy[0], 1) ^
-                    galois_multiplication(cpy[3], 1) ^
-                    galois_multiplication(cpy[2], 3);
-
-        column[2] = galois_multiplication(cpy[2], 2) ^
-                    galois_multiplication(cpy[1], 1) ^
-                    galois_multiplication(cpy[0], 1) ^
-                    galois_multiplication(cpy[3], 3);
-
-        column[3] = galois_multiplication(cpy[3], 2) ^
-                    galois_multiplication(cpy[2], 1) ^
-                    galois_multiplication(cpy[1], 1) ^
-                    galois_multiplication(cpy[0], 3);
-
-        // Masukkan kembali nilai-nilai kolom yang sudah dimodifikasi ke dalam state
-        for (j = 0; j < 4; j++)
-        {
-            state[(j * 4) + i] = column[j];
-        }
-    }
-}
-
-// createRoundKey, Buat kunci putaran untuk iterasi tertentu dari kunci yang diperluas
+//createRoundKey, Mendefinisikan fungsi createRoundKey untuk membuat round key dari kunci yang diperluas.
 void createRoundKey(unsigned char *expandedKey, unsigned char *roundKey)
 {
     int i, j;
@@ -215,44 +129,46 @@ void createRoundKey(unsigned char *expandedKey, unsigned char *roundKey)
     }
 }
 
-// aes_round, Lakukan satu putaran enkripsi AES pada state dengan kunci putaran yang diberikan
-void aes_round(unsigned char *state, unsigned char *roundKey)
-{
-    subBytes(state); //panggil fungsi subBytes
-    shiftRows(state); //panggil fungsi shiftRows
-    mixColumns(state); //panggil fungsi mixColumns
-    addRoundKey(state, roundKey); //panggil fungsi addRoundKey
-}
-
 //expandKey, Mendefinisikan fungsi expandKey untuk memperluas kunci utama menjadi kunci yang diperluas sesuai dengan algoritma AES.
 void expandKey(unsigned char *expandedKey, unsigned char *key, enum keySize size, size_t expandedKeySize)
 {
-    int currentSize = 0; // Variabel untuk melacak ukuran kunci yang telah diperluas
-    int rconIteration = 1; // Iterasi untuk menghasilkan nilai Rcon
-    int i; // Variabel loop untuk iterasi
-    unsigned char t[4] = {0}; // Variabel sementara 4 byte untuk menyimpan nilai
+    // KeySize yang diperluas, dalam byte
+    int currentSize = 0;
+    int rconIteration = 1;
+    int i;
+    unsigned char t[4] = {0}; // variabel sementara 4 byte
 
-    // Salin kunci awal ke dalam kunci yang diperluas
+    // Mengatur 16,24,32 byte dari kunci yang diperluas ke kunci input 
     for (i = 0; i < size; i++)
         expandedKey[i] = key[i];
     currentSize += size;
 
-    // Loop sampai kunci yang diperluas mencapai ukuran yang diinginkan
     while (currentSize < expandedKeySize)
     {
-        // Ambil 4 byte terakhir sebagai nilai sementara
+        // menetapkan 4 byte sebelumnya kenilai sementara t
         for (i = 0; i < 4; i++)
         {
             t[i] = expandedKey[(currentSize - 4) + i];
         }
 
-        // Setiap 16 byte, terapkan operasi inti (core) pada nilai sementara
+        /* setiap 16,24,32 byte kita menerapkan inti jadwal ke t
+         * dan meningkatkan rconIteration setelahnya
+         */
         if (currentSize % size == 0)
         {
             core(t, rconIteration++);
         }
 
-        // XOR nilai sementara dengan blok sebelumnya dan tambahkan ke kunci yang diperluas
+        // Untuk kunci 256-bit, kita menambahkan sbox ekstra ke perhitungan
+        if (size == SIZE_32 && ((currentSize % size) == 16))
+        {
+            for (i = 0; i < 4; i++)
+                t[i] = getSBoxValue(t[i]);
+        }
+
+        /* OR t dengan blok empat byte sebelumnya 16,24,32 byte sebelum kunci yang diperluas yang baru.
+         * Ini menjadi empat byte berikutnya dalam kunci yang diperluas.
+         */
         for (i = 0; i < 4; i++)
         {
             expandedKey[currentSize] = expandedKey[currentSize - size] ^ t[i];
@@ -261,45 +177,13 @@ void expandKey(unsigned char *expandedKey, unsigned char *key, enum keySize size
     }
 }
 
-// aes_main, Lakukan enkripsi AES pada state menggunakan kunci yang diperluas untuk putaran yang ditentukan
-void aes_main(unsigned char *state, unsigned char *expandedKey, int nbrRounds)
-{
-    int i = 0;
-
-    unsigned char roundKey[16];
-
-    // Membuat kunci putaran pertama
-    createRoundKey(expandedKey, roundKey);
-    // Menambahkan kunci putaran pertama ke state
-    addRoundKey(state, roundKey);
-
-    // Melakukan iterasi untuk setiap putaran kecuali yang terakhir
-    for (i = 1; i < nbrRounds; i++)
-    {
-        // Membuat kunci putaran berikutnya
-        createRoundKey(expandedKey + 16 * i, roundKey);
-        // Melakukan operasi putaran AES pada state dengan kunci putaran yang sesuai
-        aes_round(state, roundKey);
-    }
-
-    // Membuat kunci putaran terakhir
-    createRoundKey(expandedKey + 16 * nbrRounds, roundKey);
-    // Melakukan operasi SubBytes pada state
-    subBytes(state);
-    // Melakukan operasi ShiftRows pada state
-    shiftRows(state);
-    // Menambahkan kunci putaran terakhir ke state
-    addRoundKey(state, roundKey);
-}
-
-
-//aes_encrypt, Mendefinisikan fungsi aes_encrypt yang merupakan antarmuka untuk melakukan enkripsi AES dengan input berupa teks biasa, kunci.
+//aes_encrypt, Mendefinisikan fungsi aes_encrypt yang merupakan antarmuka untuk melakukan enkripsi AES dengan input berupa teks biasa, kunci, dan ukuran kunci tertentu.
 char aes_encrypt(unsigned char *input, unsigned char *output, unsigned char *key, enum keySize size)
 {
     // Ukuran kunci yang diperluas
     int expandedKeySize;
 
-    // Jumlah putaran AES
+    // Jumlah putaran
     int nbrRounds;
 
     // Kunci yang telah diperluas
@@ -307,29 +191,34 @@ char aes_encrypt(unsigned char *input, unsigned char *output, unsigned char *key
 
     // Blok 128 bit untuk dienkripsi
     unsigned char block[16];
-	
-	// Variabel loop
+
     int i, j;
 
     // Tetapkan jumlah putaran berdasarkan ukuran kunci
     switch (size)
     {
     case SIZE_16:
-        nbrRounds = 10; // Kunci 128-bit memiliki 10 putaran
+        nbrRounds = 10;
+        break;
+    case SIZE_24:
+        nbrRounds = 12;
+        break;
+    case SIZE_32:
+        nbrRounds = 14;
         break;
     default:
         return ERROR_AES_UNKNOWN_KEYSIZE;
         break;
     }
-	
-    expandedKeySize = (16 * (nbrRounds + 1)); // Hitung ukuran kunci yang diperluas
+
+    expandedKeySize = (16 * (nbrRounds + 1));
 
     // Alokasi memori untuk expandedKey
     expandedKey = (unsigned char *)malloc(expandedKeySize * sizeof(unsigned char));
 
     if (expandedKey == NULL)
     {
-        return ERROR_MEMORY_ALLOCATION_FAILED; // Kembalikan kesalahan jika alokasi memori gagal
+        return ERROR_MEMORY_ALLOCATION_FAILED;
     }
     else
     {
@@ -368,5 +257,98 @@ char aes_encrypt(unsigned char *input, unsigned char *output, unsigned char *key
         expandedKey = NULL;
     }
 
-    return SUCCESS; // Kembalikan kode sukses
+    return SUCCESS;
+}
+
+unsigned char galois_multiplication(unsigned char a, unsigned char b)
+{
+    unsigned char p = 0;
+    unsigned char counter;
+    unsigned char hi_bit_set;
+    for (counter = 0; counter < 8; counter++)
+    {
+        if ((b & 1) == 1)
+            p ^= a;
+        hi_bit_set = (a & 0x80);
+        a <<= 1;
+        if (hi_bit_set == 0x80)
+            a ^= 0x1b;
+        b >>= 1;
+    }
+    return p;
+}
+
+void mixColumns(unsigned char *state)
+{
+    int i, j;
+    unsigned char column[4];
+
+    // iterate over the 4 columns
+    for (i = 0; i < 4; i++)
+    {
+        // construct one column by iterating over the 4 rows
+        for (j = 0; j < 4; j++)
+        {
+            column[j] = state[(j * 4) + i];
+        }
+
+        // apply the mixColumn on one column
+        mixColumn(column);
+
+        // put the values back into the state
+        for (j = 0; j < 4; j++)
+        {
+            state[(j * 4) + i] = column[j];
+        }
+    }
+}
+
+void mixColumn(unsigned char *column)
+{
+    unsigned char cpy[4];
+    int i;
+    for (i = 0; i < 4; i++)
+    {
+        cpy[i] = column[i];
+    }
+    column[0] = galois_multiplication(cpy[0], 2) ^
+                galois_multiplication(cpy[3], 1) ^
+                galois_multiplication(cpy[2], 1) ^
+                galois_multiplication(cpy[1], 3);
+
+    column[1] = galois_multiplication(cpy[1], 2) ^
+                galois_multiplication(cpy[0], 1) ^
+                galois_multiplication(cpy[3], 1) ^
+                galois_multiplication(cpy[2], 3);
+
+    column[2] = galois_multiplication(cpy[2], 2) ^
+                galois_multiplication(cpy[1], 1) ^
+                galois_multiplication(cpy[0], 1) ^
+                galois_multiplication(cpy[3], 3);
+
+    column[3] = galois_multiplication(cpy[3], 2) ^
+                galois_multiplication(cpy[2], 1) ^
+                galois_multiplication(cpy[1], 1) ^
+                galois_multiplication(cpy[0], 3);
+}
+
+void aes_main(unsigned char *state, unsigned char *expandedKey, int nbrRounds)
+{
+    int i = 0;
+
+    unsigned char roundKey[16];
+
+    createRoundKey(expandedKey, roundKey);
+    addRoundKey(state, roundKey);
+
+    for (i = 1; i < nbrRounds; i++)
+    {
+        createRoundKey(expandedKey + 16 * i, roundKey);
+        aes_round(state, roundKey);
+    }
+
+    createRoundKey(expandedKey + 16 * nbrRounds, roundKey);
+    subBytes(state);
+    shiftRows(state);
+    addRoundKey(state, roundKey);
 }
