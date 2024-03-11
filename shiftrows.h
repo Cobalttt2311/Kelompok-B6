@@ -1,16 +1,37 @@
-// shiftRows, Terapkan transformasi ShiftRows pada state
-void shiftRows(unsigned char *state) {
-    int i, j;
-    unsigned char tmp;
+// Fungsi untuk melakukan operasi ShiftRows
+void shiftRows(unsigned char state[NB][NB]) {
+    shiftRow2(state);
+    shiftRow3(state);
+    shiftRow4(state);
+}
 
-    for (i = 0; i < 4; i++) {
-        // Menggeser baris ke kiri sesuai dengan nomor barisnya
-        for (j = 0; j < i; j++) {
-            tmp = state[i * 4]; // Simpan byte pertama
-            state[i * 4] = state[i * 4 + 1]; // Geser byte ke-2 ke byte pertama
-            state[i * 4 + 1] = state[i * 4 + 2]; // Geser byte ke-3 ke byte ke-2
-            state[i * 4 + 2] = state[i * 4 + 3]; // Geser byte ke-4 ke byte ke-3
-            state[i * 4 + 3] = tmp; // Pindahkan byte pertama ke byte ke-4
-        }
-    }
+// Fungsi untuk melakukan pergeseran baris pada baris kedua
+void shiftRow2(unsigned char state[NB][NB]) {
+    unsigned char temp;
+    temp = state[1][0];
+    state[1][0] = state[1][1];
+    state[1][1] = state[1][2];
+    state[1][2] = state[1][3];
+    state[1][3] = temp;
+}
+
+// Fungsi untuk melakukan pergeseran baris pada baris ketiga
+void shiftRow3(unsigned char state[NB][NB]) {
+    unsigned char temp;
+    temp = state[2][0];
+    state[2][0] = state[2][2];
+    state[2][2] = temp;
+    temp = state[2][1];
+    state[2][1] = state[2][3];
+    state[2][3] = temp;
+}
+
+// Fungsi untuk melakukan pergeseran baris pada baris keempat
+void shiftRow4(unsigned char state[NB][NB]) {
+    unsigned char temp;
+    temp = state[3][0];
+    state[3][0] = state[3][1];
+    state[3][1] = state[3][2];
+    state[3][2] = state[3][3];
+    state[3][3] = temp;
 }
