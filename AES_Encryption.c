@@ -260,23 +260,7 @@ char aes_encrypt(unsigned char *input, unsigned char *output, unsigned char *key
     return SUCCESS;
 }
 
-unsigned char galois_multiplication(unsigned char a, unsigned char b)
-{
-    unsigned char p = 0;
-    unsigned char counter;
-    unsigned char hi_bit_set;
-    for (counter = 0; counter < 8; counter++)
-    {
-        if ((b & 1) == 1)
-            p ^= a;
-        hi_bit_set = (a & 0x80);
-        a <<= 1;
-        if (hi_bit_set == 0x80)
-            a ^= 0x1b;
-        b >>= 1;
-    }
-    return p;
-}
+
 
 void mixColumns(unsigned char *state)
 {
