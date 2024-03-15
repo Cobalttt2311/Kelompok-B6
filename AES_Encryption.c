@@ -1,21 +1,25 @@
 #include "AES_Encryption.h"
+#include <stdio.h>
+#include <stdlib.h>
+
 // enum KeySize, digunakan untuk merepresentasikan ukuran kunci
 enum keySize
 {
     SIZE_16 = 16,
 };
 
+//enum errorCode, untuk penanda kesalahan
 enum errorCode
 {
-    SUCCESS = 0,
-    ERROR_AES_UNKNOWN_KEYSIZE,
-    ERROR_MEMORY_ALLOCATION_FAILED,
+    SUCCESS = 0,                   // Kode sukses
+    ERROR_AES_UNKNOWN_KEYSIZE,     // Kode kesalahan untuk ukuran kunci tidak dikenal
+    ERROR_MEMORY_ALLOCATION_FAILED // Kode kesalahan untuk kegagalan alokasi memori
 };
 
 
 // S-Box, Mendefinisikan array sbox yang berisi tabel substitusi S-box untuk enkripsi AES.
 
-unsigned char sbox[256] = {
+char sbox[256] = {
     // 0     1    2      3     4    5     6     7      8    9     A      B    C     D     E     F
     0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76,  // 0
     0xca, 0x82, 0xc9, 0x7d, 0xfa, 0x59, 0x47, 0xf0, 0xad, 0xd4, 0xa2, 0xaf, 0x9c, 0xa4, 0x72, 0xc0,  // 1
@@ -55,9 +59,10 @@ unsigned char Rcon[255] = {
 
 void aes_round(unsigned char *state, unsigned char *roundKey)
 {
-    subBytes(state);
-    shiftRows(state);
-    mixColumns(state);
+    subBytes(state); //panggil fungsi subBytes
+    shiftRows(state); //panggil fungsi shiftRows
+    mixColumns(state); //panggil fungsi mixColumns
+    addRoundKey(state, roundKey); //panggil fungsi addRoundKey
 }
 
 void rotate(unsigned char *word)
@@ -197,7 +202,7 @@ char aes_encrypt(unsigned char *input, unsigned char *output, unsigned char *key
     // Ukuran kunci yang diperluas
     int expandedKeySize;
 
-    // Jumlah putaran
+    // Jumlah putaran AES
     int nbrRounds;
 
     // Kunci yang telah diperluas
@@ -205,34 +210,29 @@ char aes_encrypt(unsigned char *input, unsigned char *output, unsigned char *key
 
     // Blok 128 bit untuk dienkripsi
     unsigned char block[16];
-
+	
+	// Variabel loop
     int i, j;
 
     // Tetapkan jumlah putaran berdasarkan ukuran kunci
     switch (size)
     {
     case SIZE_16:
-        nbrRounds = 10;
-        break;
-    case SIZE_24:
-        nbrRounds = 12;
-        break;
-    case SIZE_32:
-        nbrRounds = 14;
+        nbrRounds = 10; // Kunci 128-bit memiliki 10 putaran
         break;
     default:
         return ERROR_AES_UNKNOWN_KEYSIZE;
         break;
     }
-
-    expandedKeySize = (16 * (nbrRounds + 1));
+	
+    expandedKeySize = (16 * (nbrRounds + 1)); // Hitung ukuran kunci yang diperluas
 
     // Alokasi memori untuk expandedKey
     expandedKey = (unsigned char *)malloc(expandedKeySize * sizeof(unsigned char));
 
     if (expandedKey == NULL)
     {
-        return ERROR_MEMORY_ALLOCATION_FAILED;
+        return ERROR_MEMORY_ALLOCATION_FAILED; // Kembalikan kesalahan jika alokasi memori gagal
     }
     else
     {
@@ -271,7 +271,7 @@ char aes_encrypt(unsigned char *input, unsigned char *output, unsigned char *key
         expandedKey = NULL;
     }
 
-    return SUCCESS;
+    return SUCCESS; // Kembalikan kode sukses
 }
 
 unsigned char galois_multiplication(unsigned char a, unsigned char b)
@@ -352,17 +352,26 @@ void aes_main(unsigned char *state, unsigned char *expandedKey, int nbrRounds)
 
     unsigned char roundKey[16];
 
+    // Membuat kunci putaran pertama
     createRoundKey(expandedKey, roundKey);
+    // Menambahkan kunci putaran pertama ke state
     addRoundKey(state, roundKey);
 
+    // Melakukan iterasi untuk setiap putaran kecuali yang terakhir
     for (i = 1; i < nbrRounds; i++)
     {
+        // Membuat kunci putaran berikutnya
         createRoundKey(expandedKey + 16 * i, roundKey);
+        // Melakukan operasi putaran AES pada state dengan kunci putaran yang sesuai
         aes_round(state, roundKey);
     }
 
+    // Membuat kunci putaran terakhir
     createRoundKey(expandedKey + 16 * nbrRounds, roundKey);
+    // Melakukan operasi SubBytes pada state
     subBytes(state);
+    // Melakukan operasi ShiftRows pada state
     shiftRows(state);
+    // Menambahkan kunci putaran terakhir ke state
     addRoundKey(state, roundKey);
 }
