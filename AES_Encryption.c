@@ -110,25 +110,19 @@ void core(unsigned char *word, int iteration)
     word[0] = word[0] ^ getRconValue(iteration);
 }
 
-void shiftRows(unsigned char *state)
-{
-    int i;
-    // iterasi 4 baris dan memanggil fungsi shiftRows() pada baris itu
-    for (i = 0; i < 4; i++)
-        shiftRow(state + i * 4, i);
-}
-
-void shiftRow(unsigned char *state, unsigned char nbr)
-{
+void shiftRows(unsigned char *state) {
     int i, j;
     unsigned char tmp;
-    // setiap iterasi menggeser baris ke kiri sebanyak 1 kali
-    for (i = 0; i < nbr; i++)
-    {
-        tmp = state[0];
-        for (j = 0; j < 3; j++)
-            state[j] = state[j + 1];
-        state[3] = tmp;
+
+    for (i = 0; i < 4; i++) {
+        // Menggeser baris ke kiri sesuai dengan nomor barisnya
+        for (j = 0; j < i; j++) {
+            tmp = state[i * 4]; // Simpan byte pertama
+            state[i * 4] = state[i * 4 + 1]; // Geser byte ke-2 ke byte pertama
+            state[i * 4 + 1] = state[i * 4 + 2]; // Geser byte ke-3 ke byte ke-2
+            state[i * 4 + 2] = state[i * 4 + 3]; // Geser byte ke-4 ke byte ke-3
+            state[i * 4 + 3] = tmp; // Pindahkan byte pertama ke byte ke-4
+        }
     }
 }
 
