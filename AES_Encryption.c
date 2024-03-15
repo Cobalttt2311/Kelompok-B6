@@ -186,7 +186,7 @@ char aes_encrypt(unsigned char *input, unsigned char *output, unsigned char *key
     // Ukuran kunci yang diperluas
     int expandedKeySize;
 
-    // Jumlah putaran
+    // Jumlah putaran AES
     int nbrRounds;
 
     // Kunci yang telah diperluas
@@ -194,34 +194,29 @@ char aes_encrypt(unsigned char *input, unsigned char *output, unsigned char *key
 
     // Blok 128 bit untuk dienkripsi
     unsigned char block[16];
-
+	
+	// Variabel loop
     int i, j;
 
     // Tetapkan jumlah putaran berdasarkan ukuran kunci
     switch (size)
     {
     case SIZE_16:
-        nbrRounds = 10;
-        break;
-    case SIZE_24:
-        nbrRounds = 12;
-        break;
-    case SIZE_32:
-        nbrRounds = 14;
+        nbrRounds = 10; // Kunci 128-bit memiliki 10 putaran
         break;
     default:
         return ERROR_AES_UNKNOWN_KEYSIZE;
         break;
     }
-
-    expandedKeySize = (16 * (nbrRounds + 1));
+	
+    expandedKeySize = (16 * (nbrRounds + 1)); // Hitung ukuran kunci yang diperluas
 
     // Alokasi memori untuk expandedKey
     expandedKey = (unsigned char *)malloc(expandedKeySize * sizeof(unsigned char));
 
     if (expandedKey == NULL)
     {
-        return ERROR_MEMORY_ALLOCATION_FAILED;
+        return ERROR_MEMORY_ALLOCATION_FAILED; // Kembalikan kesalahan jika alokasi memori gagal
     }
     else
     {
@@ -260,7 +255,7 @@ char aes_encrypt(unsigned char *input, unsigned char *output, unsigned char *key
         expandedKey = NULL;
     }
 
-    return SUCCESS;
+    return SUCCESS; // Kembalikan kode sukses
 }
 
 unsigned char galois_multiplication(unsigned char a, unsigned char b)
