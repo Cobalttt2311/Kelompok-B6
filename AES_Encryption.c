@@ -70,16 +70,7 @@ void aes_round(unsigned char *state, unsigned char *roundKey)
     addRoundKey(state, roundKey); //panggil fungsi addRoundKey
 }
 
-void shiftRows(unsigned char *state)
-{
-    int i;
-    // iterate over the 4 rows and call shiftRow() with that row
-    for (i = 0; i < 4; i++)
-        shiftRow(state + i * 4, i);
-}
-
-void shiftRow(unsigned char *state, unsigned char nbr)
-{
+void shiftRows(unsigned char *state) {
     int i, j;
     unsigned char tmp;
 
