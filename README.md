@@ -3,15 +3,14 @@
 Enkripsi AES dan LSB
 
 ## Daftar Isi
-
-- [Informasi Umum](#informasi-umum)
-- [Teknologi](#teknologi)
-- [Petunjuk Instalasi](#petunjuk-instalasi)
-- [Algoritma Advanced Encryption Standard(AES)](#algoritma-aes)
-- [Penjelasan Struktur/Hirarki Program](#penjelasan-strukturhirarki-program)
-- [Fitur Aplikasi](#fitur-aplikasi)
-- [About Us](#about-us)
-- [Sumber](#sumber-referensi)
+  * [Informasi Umum](#informasi-umum)
+  * [Teknologi](#teknologi)
+  * [Petunjuk Instalasi](#petunjuk-instalasi)
+  * [Algoritma Advanced Encryption Standard(AES)](#algoritma-aes)
+  * [Penjelasan Struktur/Hirarki Program](#penjelasan-strukturhirarki-program)
+  * [Fitur Aplikasi](#fitur-aplikasi)
+  * [About Us](#about-us)
+  * [Sumber](#sumber-referensi)
 
 ## Informasi Umum
 
