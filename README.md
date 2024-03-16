@@ -62,6 +62,10 @@ Enkripsi Algoritma AES
 Sub Byte :
 mengambil Nilai bit awal dan bit akhir untuk dijadikan index penunjuk sbox
 lalu mensubtitusikan / menukar nilai yang dikirim(state) dengan sbox
+
+ShiftRows :
+memanipulasi baris-baris dalam matriks state dengan cara menggeser setiap baris 
+ke kiri dengan jumlah posisi yang berbeda-beda.
  <!--![Algorithm schema](./image/nama.jpg) ini buat image algoritma encrypt-->
 
 ## Fitur Aplikasi
