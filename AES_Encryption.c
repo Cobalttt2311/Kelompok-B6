@@ -126,7 +126,7 @@ void subBytes(unsigned char *state)
     int i;
     for (i = 0; i < 16; i++) {
         int row = (state[i] >> 4) & 0x0F;
-        int col = state[i] & 0x0F;
+        int col = (state[i] << 4) & 0x0F;
         index = 16 * row + col;
         state[i] = sbox[index];
     }
