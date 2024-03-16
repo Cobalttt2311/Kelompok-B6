@@ -1,4 +1,9 @@
 #include "AES_Encryption.h"
+#include "addroundkey.h"
+#include "mixcolumn.h"
+#include <stdio.h>
+#include <stdlib.h>
+
 // enum KeySize, digunakan untuk merepresentasikan ukuran kunci
 enum keySize
 {
@@ -275,7 +280,6 @@ unsigned char galois_multiplication(unsigned char a, unsigned char b)
     }
     return p;
 }
-
 void mixColumns(unsigned char *state)
 {
     int i, j;
