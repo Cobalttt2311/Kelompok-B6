@@ -6,9 +6,11 @@ Enkripsi AES dan LSB
   * [Informasi Umum](#informasi-umum)
   * [Teknologi](#teknologi)
   * [Petunjuk Instalasi](#petunjuk-instalasi)
+  * [Algoritma Advanced Encryption Standard(AES)](#algoritma-aes)
   * [Penjelasan Struktur/Hirarki Program](#penjelasan-strukturhirarki-program)
   * [Fitur Aplikasi](#fitur-aplikasi)
   * [About Us](#about-us)
+  * [Sumber](#sumber)
 
 ## Informasi Umum
 Sistem keamanan ini dikembangkan sebagai syarat untuk memenuhi tugas Proyek 2. Kami menggabungkan Advanced Encryption Standard (AES) untuk mengenkripsi data dan metode Least Significant Bit (LSB) untuk menyembunyikan data dalam gambar. 
@@ -17,6 +19,7 @@ Sistem keamanan ini dikembangkan sebagai syarat untuk memenuhi tugas Proyek 2. K
 Proyek ini dibuat dengan :
   * Bahasa Pemrograman  : C++
   * VSCODE Version      : 1.84.2
+  * Dev-C Version       : 4.9.2
 
 ## Petunjuk Instalasi
   1. Download seluruh file yang tersedia di GitHub melalui link https://github.com/Cobalttt2311/Kelompok-B6
@@ -25,12 +28,16 @@ Proyek ini dibuat dengan :
   4. Tambahkan proyek baru
   5. Tambahkkan seluruh file yang telah diunduh ke dalam proyek
 
+## Algoritma Advanced Encryption Standard (AES)
+Enkripsi Algoritma AES
+ <!--![Algorithm schema](./image/nama.jpg) ini buat image algoritma encrypt-->
+
 ## Penjelasan Struktur/Hirarki Program
   1.
 
 ## Fitur Aplikasi 
 Kriptografi
-  1. Eknripsi plainteks menggunakan metode AES
+  1. Enkripsi plainteks menggunakan metode AES
   2. Dekripsi chiperteks menggunakan metode AES
 Steganografi
   3. Menyisipkan sebuah pesan ke dalam gambar menggunakan metode LSB
@@ -62,5 +69,6 @@ Steganografi
     
       1. Djoko Cahyo Utomo Lieharyani, S.Kom., M.MT. (199312282019031013) , Lieharyani
   
-
+## Sumber
+Aplikasi ini terinspirasi dari 
 
