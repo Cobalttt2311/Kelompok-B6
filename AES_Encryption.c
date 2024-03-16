@@ -82,16 +82,16 @@ void core(unsigned char *word, int iteration)
 {
     int i;
 
-    // memutar kata 32-bit ke kiri
+    // rotate the 32-bit word 8 bits to the left
     rotate(word);
 
-    // subtutusi S-Box pada keempat bagian kata 32-bit
+    // apply S-Box substitution on all 4 parts of the 32-bit word
     for (i = 0; i < 4; ++i)
     {
         word[i] = getSBoxValue(word[i]);
     }
 
-    // XOR output operasi rcon dengan i ke bagian pertama (paling kiri) saja
+    // XOR the output of the rcon operation with i to the first part (leftmost) only
     word[0] = word[0] ^ getRconValue(iteration);
 }
 
