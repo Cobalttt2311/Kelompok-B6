@@ -9,11 +9,7 @@
 // enum KeySize, digunakan untuk merepresentasikan ukuran kunci
 enum keySize
 {
-<<<<<<< HEAD
     SIZE_16 = 16 // Ukuran kunci 128 bit
-=======
-    SIZE_16 = 16,
->>>>>>> 6029cfb448f1ffcdfab22277681625ef865da998
 };
 
 //enum errorCode, untuk penanda kesalahan
