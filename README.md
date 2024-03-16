@@ -58,7 +58,8 @@ Enkripsi Algoritma AES
 ## Penjelasan Struktur/Hirarki Program
 
 1. Diagram Alur Encrypt AES
-![Diagram AES](./image/Diagram Alur Encrypt AES.png)
+
+![Diagram AES](./image/Encrypt_AES.png)
 
 ## Fitur Aplikasi
 
