@@ -10,7 +10,7 @@ Enkripsi AES dan LSB
   * [Penjelasan Struktur/Hirarki Program](#penjelasan-strukturhirarki-program)
   * [Fitur Aplikasi](#fitur-aplikasi)
   * [About Us](#about-us)
-  * [Sumber](#sumber-referensi)
+  * [Sumber Referensi](#sumber-referensi)
 
 ## Informasi Umum
 Sistem keamanan ini dikembangkan sebagai syarat untuk memenuhi tugas Proyek 2. Kami menggabungkan Advanced Encryption Standard (AES) untuk mengenkripsi data dan metode Least Significant Bit (LSB) untuk menyembunyikan data dalam gambar. 
