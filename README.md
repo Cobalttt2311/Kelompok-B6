@@ -15,6 +15,9 @@ Enkripsi AES dan LSB
 ## Informasi Umum
 Sistem keamanan ini dikembangkan sebagai syarat untuk memenuhi tugas Proyek 2. Kami menggabungkan Advanced Encryption Standard (AES) untuk mengenkripsi data dan metode Least Significant Bit (LSB) untuk menyembunyikan data dalam gambar. 
 
+Advanced Encryption Standard (AES) merupakan algoritma cryptographic yang dapat digunkan untuk mengamakan data. Algoritma AES adalah blok chipertext simetrik yang dapat mengenkripsi (encipher) dan dekripsi (decipher) informasi. Enkripsi merubah data yang tidak dapat lagi dibaca disebut ciphertext; sebaliknya dekripsi adalah merubah ciphertext data menjadi bentuk semula yang kita kenal sebagai plaintext. Algoritma AES is mengunkan kunci kriptografi 128, 192, dan 256 bits untuk mengenkrip dan dekrip data pada blok 128 bits.
+
+
 ## Teknologi
 Proyek ini dibuat dengan :
   * Bahasa Pemrograman  : C++
@@ -73,4 +76,7 @@ Steganografi
 Aplikasi ini terinspirasi dari 
 https://github.com/m3y54m/aes-in-c
 https://youtu.be/YpHJPvuCHNA?si=-fCSDrAgCLqRn0DO
+
+Definisi AES : 
+https://kelas-ol.esaunggul.ac.id/pluginfile.php/232572/mod_forum/intro/Enkripsi%20Algoritma%20AES%20(Advanced%20Encryption%20Standard)%20PERTEMUAN%20KE%205.pdf?time=1585913179960
 
