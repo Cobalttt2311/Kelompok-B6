@@ -1,18 +1,26 @@
-Proyek 2 - Pengembangan Aplikasi Berbasis Library
+# Proyek 2 - Pengembangan Aplikasi Berbasis Library
 
-Enkripsi AES dan LSB
+# Enkripsi AES dan LSB
 
-a. Petunjuk Instalasi
+## Informasi Umum
+Sistem keamanan ini dikembangkan sebagai syarat untuk memenuhi tugas Proyek 2. Kami menggabungkan Advanced Encryption Standard (AES) untuk mengenkripsi data dan metode Least Significant Bit (LSB) untuk menyembunyikan data dalam gambar. 
+
+## Teknologi
+Proyek ini dibuat dengan :
+  * Bahasa Pemrograman   : C++
+  * Aplikasi Code Editor : VsCode & Dev-C
+
+## Petunjuk Instalasi
   1. Download seluruh file yang tersedia di GitHub melalui link https://github.com/Cobalttt2311/Kelompok-B6
   2. Download aplikasi compiler bahasa C ( disarankan menggunakan Dev C++ )
   3. Import seluruh file yang telah diunduh ke aplikasi compiler bahasa C
   4. Tambahkan proyek baru
   5. Tambahkkan seluruh file yang telah diunduh ke dalam proyek
 
-c. Penjelasan Struktur/Hirarki Program
+## Penjelasan Struktur/Hirarki Program
   1.
 
-d. Daftar Fitur Aplikasi 
+## Daftar Fitur Aplikasi 
 Kriptografi
   1. Eknripsi plainteks menggunakan metode AES
   2. Dekripsi chiperteks menggunakan metode AES
@@ -20,7 +28,7 @@ Steganografi
   3. Menyisipkan sebuah pesan ke dalam gambar menggunakan metode LSB
   4. Dekripsi sebuah gambar menjadi sebuah pesan menggunakan metode LSB
 
-e. About Us
+## About Us
 
   Jurusan    : Teknik Komputer dan Informatika
   
