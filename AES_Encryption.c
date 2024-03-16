@@ -1,22 +1,26 @@
-#include "AES_Encryption.h"
+#include "expandkey.h"
 #include "addroundkey.h"
 #include "mixcolumn.h"
 #include "aesencrypt.h"
+#include "aesmain.h"
+#include "subbytes.h"
+#include "shiftrows.h"
+#include "enum.h"
 #include <stdio.h>
 #include <stdlib.h>
 
 // enum KeySize, digunakan untuk merepresentasikan ukuran kunci
 enum keySize
 {
-    SIZE_16 = 16,
+    SIZE_16 = 16 // Ukuran kunci 128 bit
 };
 
 //enum errorCode, untuk penanda kesalahan
 enum errorCode
 {
-    SUCCESS = 0,                   // Kode sukses
-    ERROR_AES_UNKNOWN_KEYSIZE,     // Kode kesalahan untuk ukuran kunci tidak dikenal
-    ERROR_MEMORY_ALLOCATION_FAILED // Kode kesalahan untuk kegagalan alokasi memori
+    SUCCESS = 0,
+    ERROR_AES_UNKNOWN_KEYSIZE,
+    ERROR_MEMORY_ALLOCATION_FAILED,
 };
 
 
@@ -60,6 +64,38 @@ unsigned char Rcon[255] = {
     0xc6, 0x97, 0x35, 0x6a, 0xd4, 0xb3, 0x7d, 0xfa, 0xef, 0xc5, 0x91, 0x39, 0x72, 0xe4, 0xd3, 0xbd, 
     0x61, 0xc2, 0x9f, 0x25, 0x4a, 0x94, 0x33, 0x66, 0xcc, 0x83, 0x1d, 0x3a, 0x74, 0xe8, 0xcb};
 
+
+// procedure aes_round, melakukan satu putaran enkripsi AES pada state dengan kunci putaran yang diberikan
+void aes_round(char *state, char *roundKey)
+{
+    subBytes(state); //memanggil fungsi subBytes
+    shiftRows(state); //memanggil fungsi shiftRows
+    mixColumns(state); //memanggil fungsi mixColumns
+    addRoundKey(state, roundKey); //memanggil fungsi addRoundKey
+}
+
+// procedure pembangkit_kunci, melakukan Rotword, Subword, dan XOR
+void pembangkit_kunci(char *word, int iteration)
+{
+    int i; // Variabel untuk iterasi
+    char temp = word[0]; // karakter pertama disimpan kedalam variabel sementara 
+     
+    // Operasi Rotasi (ROTWORD)
+    for (i = 0; i < 3; i++) // Loop untuk melakukan rotasi ke kiri pada karakter
+	{
+        word[i] = word[i + 1]; // Pindahkan karakter ke kiri
+    }
+	word[3] = temp; // Tempatkan karakter pertama yang disimpan di akhir
+
+    // substitusi S-Box pada keempat bagian dari word (SubWord)
+    for (i = 0; i < 4; ++i)
+    {
+        word[i] = sbox[word[i]]; // Panggil fungsi untuk mendapatkan nilai S-Box
+    }
+
+    // XOR keluaran dari operasi rcon dengan i untuk bagian pertama (paling kiri) saja
+    word[0] = word[0] ^ Rcon[iteration]; // Panggil fungsi untuk mendapatkan nilai Rcon
+
 void aes_round(unsigned char *state, unsigned char *roundKey)
 {
     subBytes(state); //panggil fungsi subBytes
@@ -68,25 +104,19 @@ void aes_round(unsigned char *state, unsigned char *roundKey)
     addRoundKey(state, roundKey); //panggil fungsi addRoundKey
 }
 
-void shiftRows(unsigned char *state)
-{
-    int i;
-    // iterate over the 4 rows and call shiftRow() with that row
-    for (i = 0; i < 4; i++)
-        shiftRow(state + i * 4, i);
-}
-
-void shiftRow(unsigned char *state, unsigned char nbr)
-{
+void shiftRows(unsigned char *state) {
     int i, j;
     unsigned char tmp;
-    // each iteration shifts the row to the left by 1
-    for (i = 0; i < nbr; i++)
-    {
-        tmp = state[0];
-        for (j = 0; j < 3; j++)
-            state[j] = state[j + 1];
-        state[3] = tmp;
+
+    for (i = 0; i < 4; i++) {
+        // Menggeser baris ke kiri sesuai dengan nomor barisnya
+        for (j = 0; j < i; j++) {
+            tmp = state[i * 4]; // Simpan byte pertama
+            state[i * 4] = state[i * 4 + 1]; // Geser byte ke-2 ke byte pertama
+            state[i * 4 + 1] = state[i * 4 + 2]; // Geser byte ke-3 ke byte ke-2
+            state[i * 4 + 2] = state[i * 4 + 3]; // Geser byte ke-4 ke byte ke-3
+            state[i * 4 + 3] = tmp; // Pindahkan byte pertama ke byte ke-4
+        }
     }
 }
 
@@ -96,7 +126,7 @@ void subBytes(unsigned char *state)
     int i;
     for (i = 0; i < 16; i++) {
         int row = (state[i] >> 4) & 0x0F;
-        int col = state[i] & 0x0F;
+        int col = (state[i] << 4) & 0x0F;
         index = 16 * row + col;
         state[i] = sbox[index];
     }
@@ -249,6 +279,7 @@ char aes_encrypt(unsigned char *input, unsigned char *output, unsigned char *key
     return SUCCESS; // Kembalikan kode sukses
 }
 
+// galois_multiplication, Melakukan perkalian Galois untuk keperluan mix columns
 unsigned char galois_multiplication(unsigned char a, unsigned char b)
 {
     unsigned char p = 0;
@@ -266,24 +297,47 @@ unsigned char galois_multiplication(unsigned char a, unsigned char b)
     }
     return p;
 }
+
+
+// mixColumns, Terapkan transformasi MixColumns pada state
 void mixColumns(unsigned char *state)
 {
     int i, j;
-    unsigned char column[4];
+    unsigned char column[4]; // Variabel untuk menyimpan satu kolom sementara
+    unsigned char cpy[4]; // Variabel untuk menyimpan salinan nilai kolom
 
-    // iterate over the 4 columns
+    // Iterasi melalui 4 kolom
     for (i = 0; i < 4; i++)
     {
-        // construct one column by iterating over the 4 rows
+        // Membangun satu kolom dengan iterasi melalui 4 baris
         for (j = 0; j < 4; j++)
         {
-            column[j] = state[(j * 4) + i];
+            column[j] = state[(j * 4) + i]; // Ambil nilai dari state dan letakkan dalam kolom
+            cpy[j] = column[j]; // Salin nilai ke dalam array sementara
         }
 
-        // apply the mixColumn on one column
-        mixColumn(column);
+        // Terapkan operasi mixColumn pada satu kolom
+        column[0] = galois_multiplication(cpy[0], 2) ^
+                    galois_multiplication(cpy[3], 1) ^
+                    galois_multiplication(cpy[2], 1) ^
+                    galois_multiplication(cpy[1], 3);
 
-        // put the values back into the state
+        column[1] = galois_multiplication(cpy[1], 2) ^
+                    galois_multiplication(cpy[0], 1) ^
+                    galois_multiplication(cpy[3], 1) ^
+                    galois_multiplication(cpy[2], 3);
+
+        column[2] = galois_multiplication(cpy[2], 2) ^
+                    galois_multiplication(cpy[1], 1) ^
+                    galois_multiplication(cpy[0], 1) ^
+                    galois_multiplication(cpy[3], 3);
+
+        column[3] = galois_multiplication(cpy[3], 2) ^
+                    galois_multiplication(cpy[2], 1) ^
+                    galois_multiplication(cpy[1], 1) ^
+                    galois_multiplication(cpy[0], 3);
+
+        // Masukkan kembali nilai-nilai kolom yang sudah dimodifikasi ke dalam state
         for (j = 0; j < 4; j++)
         {
             state[(j * 4) + i] = column[j];

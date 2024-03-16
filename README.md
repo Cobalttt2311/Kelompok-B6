@@ -105,3 +105,6 @@ https://youtu.be/YpHJPvuCHNA?si=-fCSDrAgCLqRn0DO
 
 Definisi AES :
 https://kelas-ol.esaunggul.ac.id/pluginfile.php/232572/mod_forum/intro/Enkripsi%20Algoritma%20AES%20(Advanced%20Encryption%20Standard)%20PERTEMUAN%20KE%205.pdf?time=1585913179960
+
+Definisi LSB :
+https://medium.com/swlh/lsb-image-steganography-using-python-2bbbee2c69a2
