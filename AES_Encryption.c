@@ -1,9 +1,7 @@
 #include "AES_Encryption.h"
-<<<<<<< HEAD
 #include "addroundkey.h"
 #include "mixcolumn.h"
-=======
->>>>>>> 1db344f8d5558e964b2355cd81ed856286a3aec4
+#include "aesencrypt.h"
 #include <stdio.h>
 #include <stdlib.h>
 
