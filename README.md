@@ -69,6 +69,8 @@ Steganografi
     
       1. Djoko Cahyo Utomo Lieharyani, S.Kom., M.MT. (199312282019031013) , Lieharyani
   
-## Sumber
+## Sumber referensi
 Aplikasi ini terinspirasi dari 
+https://github.com/m3y54m/aes-in-c
+https://youtu.be/YpHJPvuCHNA?si=-fCSDrAgCLqRn0DO
 
