@@ -2,6 +2,8 @@
 #include "addroundkey.h"
 #include "mixcolumn.h"
 #include "aesencrypt.h"
+#include "shiftrows.h"
+#include "enum.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -68,25 +70,19 @@ void aes_round(unsigned char *state, unsigned char *roundKey)
     addRoundKey(state, roundKey); //panggil fungsi addRoundKey
 }
 
-void shiftRows(unsigned char *state)
-{
-    int i;
-    // iterate over the 4 rows and call shiftRow() with that row
-    for (i = 0; i < 4; i++)
-        shiftRow(state + i * 4, i);
-}
-
-void shiftRow(unsigned char *state, unsigned char nbr)
-{
+void shiftRows(unsigned char *state) {
     int i, j;
     unsigned char tmp;
-    // each iteration shifts the row to the left by 1
-    for (i = 0; i < nbr; i++)
-    {
-        tmp = state[0];
-        for (j = 0; j < 3; j++)
-            state[j] = state[j + 1];
-        state[3] = tmp;
+
+    for (i = 0; i < 4; i++) {
+        // Menggeser baris ke kiri sesuai dengan nomor barisnya
+        for (j = 0; j < i; j++) {
+            tmp = state[i * 4]; // Simpan byte pertama
+            state[i * 4] = state[i * 4 + 1]; // Geser byte ke-2 ke byte pertama
+            state[i * 4 + 1] = state[i * 4 + 2]; // Geser byte ke-3 ke byte ke-2
+            state[i * 4 + 2] = state[i * 4 + 3]; // Geser byte ke-4 ke byte ke-3
+            state[i * 4 + 3] = tmp; // Pindahkan byte pertama ke byte ke-4
+        }
     }
 }
 
