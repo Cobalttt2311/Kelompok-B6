@@ -321,35 +321,6 @@ void mixColumns(unsigned char *state)
     }
 }
 
-void mixColumn(unsigned char *column)
-{
-    unsigned char cpy[4];
-    int i;
-    for (i = 0; i < 4; i++)
-    {
-        cpy[i] = column[i];
-    }
-    column[0] = galois_multiplication(cpy[0], 2) ^
-                galois_multiplication(cpy[3], 1) ^
-                galois_multiplication(cpy[2], 1) ^
-                galois_multiplication(cpy[1], 3);
-
-    column[1] = galois_multiplication(cpy[1], 2) ^
-                galois_multiplication(cpy[0], 1) ^
-                galois_multiplication(cpy[3], 1) ^
-                galois_multiplication(cpy[2], 3);
-
-    column[2] = galois_multiplication(cpy[2], 2) ^
-                galois_multiplication(cpy[1], 1) ^
-                galois_multiplication(cpy[0], 1) ^
-                galois_multiplication(cpy[3], 3);
-
-    column[3] = galois_multiplication(cpy[3], 2) ^
-                galois_multiplication(cpy[2], 1) ^
-                galois_multiplication(cpy[1], 1) ^
-                galois_multiplication(cpy[0], 3);
-}
-
 void aes_main(unsigned char *state, unsigned char *expandedKey, int nbrRounds)
 {
     int i = 0;
