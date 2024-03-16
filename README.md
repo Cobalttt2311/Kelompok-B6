@@ -59,6 +59,9 @@ Proyek ini dibuat dengan :
 
 Enkripsi Algoritma AES
 
+Sub Byte :
+mengambil Nilai bit awal dan bit akhir untuk dijadikan index penunjuk sbox
+lalu mensubtitusikan / menukar nilai yang dikirim(state) dengan sbox
  <!--![Algorithm schema](./image/nama.jpg) ini buat image algoritma encrypt-->
 
 ## Fitur Aplikasi
