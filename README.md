@@ -6,8 +6,8 @@ Enkripsi AES dan LSB
   * [Informasi Umum](#informasi-umum)
   * [Teknologi](#teknologi)
   * [Petunjuk Instalasi](#petunjuk-instalasi)
+  * [Struktur/Hirarki Program](#penjelasan-strukturhirarki-program)
   * [Algoritma Advanced Encryption Standard(AES)](#algoritma-aes)
-  * [Penjelasan Struktur/Hirarki Program](#penjelasan-strukturhirarki-program)
   * [Fitur Aplikasi](#fitur-aplikasi)
   * [About Us](#about-us)
   * [Sumber](#sumber-referensi)
@@ -49,17 +49,17 @@ Proyek ini dibuat dengan :
 4. Tambahkan proyek baru
 5. Tambahkkan seluruh file yang telah diunduh ke dalam proyek
 
+## Struktur/Hirarki Program
+
+1. Diagram Alur Encrypt AES
+
+![Diagram AES](./image/Encrypt_AES.png)
+
 ## Algoritma Advanced Encryption Standard (AES)
 
 Enkripsi Algoritma AES
 
  <!--![Algorithm schema](./image/nama.jpg) ini buat image algoritma encrypt-->
-
-## Penjelasan Struktur/Hirarki Program
-
-1. Diagram Alur Encrypt AES
-
-![Diagram AES](./image/Encrypt_AES.png)
 
 ## Fitur Aplikasi
 
