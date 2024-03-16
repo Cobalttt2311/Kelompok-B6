@@ -1,6 +1,8 @@
 #include "AES_Encryption.h"
 #include "addroundkey.h"
 #include "mixcolumn.h"
+#include "enum.h"
+#include "shiftrows.h"
 #include <stdio.h>
 #include <stdlib.h>
 
