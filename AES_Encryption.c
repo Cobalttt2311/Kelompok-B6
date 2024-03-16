@@ -1,7 +1,9 @@
-#include "AES_Encryption.h"
+#include "expandkey.h"
 #include "addroundkey.h"
 #include "mixcolumn.h"
 #include "aesencrypt.h"
+#include "aesmain.h"
+#include "subbytes.h"
 #include "shiftrows.h"
 #include "enum.h"
 #include <stdio.h>
@@ -61,6 +63,38 @@ unsigned char Rcon[255] = {
     0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36, 0x6c, 0xd8, 0xab, 0x4d, 0x9a, 0x2f, 0x5e, 0xbc, 0x63, 
     0xc6, 0x97, 0x35, 0x6a, 0xd4, 0xb3, 0x7d, 0xfa, 0xef, 0xc5, 0x91, 0x39, 0x72, 0xe4, 0xd3, 0xbd, 
     0x61, 0xc2, 0x9f, 0x25, 0x4a, 0x94, 0x33, 0x66, 0xcc, 0x83, 0x1d, 0x3a, 0x74, 0xe8, 0xcb};
+
+
+// procedure aes_round, melakukan satu putaran enkripsi AES pada state dengan kunci putaran yang diberikan
+void aes_round(char *state, char *roundKey)
+{
+    subBytes(state); //memanggil fungsi subBytes
+    shiftRows(state); //memanggil fungsi shiftRows
+    mixColumns(state); //memanggil fungsi mixColumns
+    addRoundKey(state, roundKey); //memanggil fungsi addRoundKey
+}
+
+// procedure pembangkit_kunci, melakukan Rotword, Subword, dan XOR
+void pembangkit_kunci(char *word, int iteration)
+{
+    int i; // Variabel untuk iterasi
+    char temp = word[0]; // karakter pertama disimpan kedalam variabel sementara 
+     
+    // Operasi Rotasi (ROTWORD)
+    for (i = 0; i < 3; i++) // Loop untuk melakukan rotasi ke kiri pada karakter
+	{
+        word[i] = word[i + 1]; // Pindahkan karakter ke kiri
+    }
+	word[3] = temp; // Tempatkan karakter pertama yang disimpan di akhir
+
+    // substitusi S-Box pada keempat bagian dari word (SubWord)
+    for (i = 0; i < 4; ++i)
+    {
+        word[i] = sbox[word[i]]; // Panggil fungsi untuk mendapatkan nilai S-Box
+    }
+
+    // XOR keluaran dari operasi rcon dengan i untuk bagian pertama (paling kiri) saja
+    word[0] = word[0] ^ Rcon[iteration]; // Panggil fungsi untuk mendapatkan nilai Rcon
 
 void aes_round(unsigned char *state, unsigned char *roundKey)
 {
