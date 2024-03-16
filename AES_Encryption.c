@@ -1,4 +1,11 @@
 #include "expandkey.h"
+#include "addroundkey.h"
+#include "mixcolumn.h"
+#include "aesencrypt.h"
+#include "aesmain.h"
+#include "subbytes.h"
+#include "shiftrows.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -57,6 +64,7 @@ unsigned char Rcon[255] = {
     0xc6, 0x97, 0x35, 0x6a, 0xd4, 0xb3, 0x7d, 0xfa, 0xef, 0xc5, 0x91, 0x39, 0x72, 0xe4, 0xd3, 0xbd, 
     0x61, 0xc2, 0x9f, 0x25, 0x4a, 0x94, 0x33, 0x66, 0xcc, 0x83, 0x1d, 0x3a, 0x74, 0xe8, 0xcb};
 
+
 // procedure aes_round, melakukan satu putaran enkripsi AES pada state dengan kunci putaran yang diberikan
 void aes_round(char *state, char *roundKey)
 {
@@ -87,6 +95,13 @@ void pembangkit_kunci(char *word, int iteration)
 
     // XOR keluaran dari operasi rcon dengan i untuk bagian pertama (paling kiri) saja
     word[0] = word[0] ^ Rcon[iteration]; // Panggil fungsi untuk mendapatkan nilai Rcon
+
+void aes_round(unsigned char *state, unsigned char *roundKey)
+{
+    subBytes(state); //panggil fungsi subBytes
+    shiftRows(state); //panggil fungsi shiftRows
+    mixColumns(state); //panggil fungsi mixColumns
+    addRoundKey(state, roundKey); //panggil fungsi addRoundKey
 }
 
 void shiftRows(unsigned char *state)
@@ -287,7 +302,6 @@ unsigned char galois_multiplication(unsigned char a, unsigned char b)
     }
     return p;
 }
-
 void mixColumns(unsigned char *state)
 {
     int i, j;
@@ -311,35 +325,6 @@ void mixColumns(unsigned char *state)
             state[(j * 4) + i] = column[j];
         }
     }
-}
-
-void mixColumn(unsigned char *column)
-{
-    unsigned char cpy[4];
-    int i;
-    for (i = 0; i < 4; i++)
-    {
-        cpy[i] = column[i];
-    }
-    column[0] = galois_multiplication(cpy[0], 2) ^
-                galois_multiplication(cpy[3], 1) ^
-                galois_multiplication(cpy[2], 1) ^
-                galois_multiplication(cpy[1], 3);
-
-    column[1] = galois_multiplication(cpy[1], 2) ^
-                galois_multiplication(cpy[0], 1) ^
-                galois_multiplication(cpy[3], 1) ^
-                galois_multiplication(cpy[2], 3);
-
-    column[2] = galois_multiplication(cpy[2], 2) ^
-                galois_multiplication(cpy[1], 1) ^
-                galois_multiplication(cpy[0], 1) ^
-                galois_multiplication(cpy[3], 3);
-
-    column[3] = galois_multiplication(cpy[3], 2) ^
-                galois_multiplication(cpy[2], 1) ^
-                galois_multiplication(cpy[1], 1) ^
-                galois_multiplication(cpy[0], 3);
 }
 
 void aes_main(unsigned char *state, unsigned char *expandedKey, int nbrRounds)
