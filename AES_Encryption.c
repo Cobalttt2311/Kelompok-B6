@@ -48,13 +48,13 @@ unsigned char Rcon[11] = {
     0x8d, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36};
 
 // subBytes, Terapkan transformasi SubBytes pada state
-void subBytes(unsigned char state[4][4]) {
-  int i, j;
+void subBytes(int baris, int kolom, unsigned char state[baris][kolom]) {
+  int i, j, row, col;
   for (i = 0; i < 4; i++) {
     for (j = 0; j < 4; j++) {
-      int row = (state[i][j] >> 4) & 0x0F;
-      int col = state[i][j] & 0x0F;
-      state[i][j] = sbox[row][col];
+	row = (state[i][j] >> 4) & 0x0F;
+	col = (state[i][j] << 4) & 0x0F;
+	state[i][j] = sbox[row][col];
     }
   }
 }
@@ -152,7 +152,7 @@ void createRoundKey(unsigned char expandedKey[4][4], unsigned char roundKey[4][4
 
 // aes_round, Lakukan satu putaran enkripsi AES pada state dengan kunci putaran yang diberikan
 void aes_round(unsigned char state[4][4], unsigned char roundKey[4][4]) {
-  subBytes(state);
+  subBytes(4,4,state);
   shiftRows(state);
   mixColumns(state);
   addRoundKey(state, roundKey);
@@ -235,7 +235,7 @@ void aes_main(unsigned char state[4][4], unsigned char *expandedKey, int nbrRoun
   createRoundKey((unsigned char (*)[4])(expandedKey + (nbrRounds * 16)), (unsigned char (*)[4])roundKey);
 
 
-  subBytes(state);
+  subBytes(4,4,state);
   shiftRows(state);
   addRoundKey(state, roundKey);
 }
