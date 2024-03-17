@@ -1,5 +1,5 @@
-#ifndef enum_h
-#define enum_h
+#IFNDEF enum_h
+#DEFINE enum_h
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -8,4 +8,4 @@ enum keySize;
 //enum errorCode, untuk penanda kesalahan
 enum errorCode;
 
-#endif
+#ENDIF
