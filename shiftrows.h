@@ -1,5 +1,5 @@
 #ifndef SHIFTROWS_H
-#defibe SHIFTROWS_H
+#define SHIFTROWS_H
 #include <stdio.h>
 #include <stdlib.h>
 
