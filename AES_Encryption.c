@@ -46,30 +46,29 @@ unsigned char sbox[256] = {
 unsigned char Rcon[11] = {
     0x8d, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36, };
 
-// getSBoxValue, Mendapatkan nilai S-box untuk byte input yang diberikan
+// procedure pembangkit_kunci, melakukan Rotword, Subword, dan XOR
 void pembangkit_kunci(unsigned char *word, int iteration)
 {
     int i; // Variabel untuk iterasi
-
-    unsigned char c; // Variabel untuk menyimpan sementara karakter
-
-    /* Operasi rotasi jadwal kunci Rijndael
-     * memutar delapan word bit ke kiri
-     * rotate(1d2c3a4f) = 2c3a4f1d
-     * word adalah array char dengan ukuran 4 (32 bit)*/
-    c = word[0]; // Simpan karakter pertama dalam variabel sementara c
+    unsigned char temp; // Variabel untuk menyimpan karakter sementara
+    
+    temp = word[0]; // karakter pertama disimpan kedalam variabel sementara 
+     
+    // Operasi Rotasi (ROTWORD)
     for (i = 0; i < 3; i++) // Loop untuk melakukan rotasi ke kiri pada karakter
+	{
         word[i] = word[i + 1]; // Pindahkan karakter ke kiri
-    word[3] = c; // Tempatkan karakter pertama yang disimpan di akhir
+    }
+	word[3] = temp; // Tempatkan karakter pertama yang disimpan di akhir
 
-    // Terapkan substitusi S-Box pada keempat bagian dari word 32-bit
+    // substitusi S-Box pada keempat bagian dari word (SubWord)
     for (i = 0; i < 4; ++i)
     {
-        word[i] = sbox[word[i]]; // Menggunakan sbox langsung tanpa memanggil fungsi getSBoxValue
+        word[i] = sbox[word[i]];
     }
 
-    // XOR hasil operasi rcon dengan i pada bagian pertama (kiri atas) saja
-    word[0] = word[0] ^ Rcon[iteration]; // Menggunakan array Rcon langsung tanpa memanggil fungsi getRconValue
+    // XOR keluaran dari operasi rcon dengan i untuk bagian pertama (paling kiri) saja
+    word[0] = word[0] ^ Rcon[iteration]; 
 }
 
 // subBytes, Terapkan transformasi SubBytes pada state
