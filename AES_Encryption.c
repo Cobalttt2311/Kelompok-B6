@@ -192,7 +192,7 @@ void createRoundKey(unsigned char *expandedKey, unsigned char *roundKey)
 // aes_round, Lakukan satu putaran enkripsi AES pada state dengan kunci putaran yang diberikan
 void aes_round(unsigned char *state, unsigned char *roundKey)
 {
-    subBytes(state); //panggil fungsi subBytes
+    subBytes(4,4,state); //panggil fungsi subBytes
     shiftRows(state); //panggil fungsi shiftRows
     mixColumns(state); //panggil fungsi mixColumns
     addRoundKey(state, roundKey); //panggil fungsi addRoundKey
@@ -259,7 +259,7 @@ void aes_main(unsigned char *state, unsigned char *expandedKey, int nbrRounds)
     // Membuat kunci putaran terakhir
     createRoundKey(expandedKey + 16 * nbrRounds, roundKey);
     // Melakukan operasi SubBytes pada state
-    subBytes(state);
+    subBytes(4,4,state);
     // Melakukan operasi ShiftRows pada state
     shiftRows(state);
     // Menambahkan kunci putaran terakhir ke state
