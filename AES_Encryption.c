@@ -23,14 +23,13 @@ char sbox[256] = {
 
 // Rcon, Mendefinisikan array Rcon yang berisi nilai-nilai konstan untuk operasi key expansion.
 
-void subBytes(unsigned char *state)
-{
-    int index;
-    int i;
-    for (i = 0; i < 16; i++) {
-        int row = (state[i] >> 4) & 0x0F;
-        int col = (state[i] << 4) & 0x0F;
-        index = 16 * row + col;
-        state[i] = sbox[index];
+void subBytes(int baris, int kolom, unsigned char state[baris][kolom]) {
+  int i, j, row, col;
+  for (i = 0; i < baris; i++) {
+    for (j = 0; j < kolom; j++) {
+      row = (state[i][j] >> 4) & 0x0F;
+      col = (state[i][j] << 4) & 0x0F;
+      state[i][j] = sbox[row][col];
     }
+  }
 }
