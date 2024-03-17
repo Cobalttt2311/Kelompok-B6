@@ -1,5 +1,5 @@
-#ifndef expandkey_h
-#define expandkey_h
+#ifndef EXPANDKEY_H
+#define EXPANDKEY_H
 
 //Procedure pembangkit_kunci AES Encrypt 128 Bit
 void pembangkit_kunci(unsigned char *word, int iteration);
