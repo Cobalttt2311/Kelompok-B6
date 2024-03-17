@@ -79,6 +79,9 @@ ShiftRows :
 memanipulasi baris-baris dalam matriks state dengan cara menggeser setiap baris 
 ke kiri dengan jumlah posisi yang berbeda-beda.
 
+MixColumn :
+Mix Column adalah mengalikan tiap elemen dari blok chiper dengan matriks transformasi.
+
 Pembangkit kunci : 
 Prosedur yang menghasilkan kunci enkripsi, pembangkit kunci ini melibatkan 3 proses
 1. Rotasi(RotWord), setiap karakter dalam kata kunci dipindahkan ke posisi sebelumnya dalam array, dengan karakter pertama dipindahkan ke posisi terakhir.
