@@ -103,13 +103,13 @@ void shiftRows(unsigned char *state) {
 }
 
 // addRoundKey, Terapkan AddRoundKey pada state
-void addRoundKey(unsigned char *state, unsigned char *roundKey)
-{
-    int i;
-    // Loop melalui semua elemen state dan roundKey (masing-masing 16 elemen)
-    for (i = 0; i < 16; i++)
-        // Melakukan operasi XOR antara elemen state dan roundKey pada posisi yang sesuai
-        state[i] = state[i] ^ roundKey[i];
+void addRoundKey(unsigned char state[4][4], unsigned char roundKey[4][4]) {
+  int i, j;
+  for (i = 0; i < 4; i++) {
+    for (j = 0; j < 4; j++) {
+      state[i][j] = state[i][j] ^ roundKey[i][j];
+    }
+  }
 }
 
 // galois_multiplication, Melakukan perkalian Galois untuk keperluan mix columns
@@ -178,16 +178,15 @@ void mixColumns(unsigned char *state)
 }
 
 // createRoundKey, Buat kunci putaran untuk iterasi tertentu dari kunci yang diperluas
-void createRoundKey(unsigned char *expandedKey, unsigned char *roundKey)
-{
-    int i, j;
-    // melakukan iterasi pada kolom-kolom
-    for (i = 0; i < 4; i++)
-    {
-        // melakukan iterasi pada baris
-        for (j = 0; j < 4; j++)
-            roundKey[(i + (j * 4))] = expandedKey[(i * 4) + j];
+void createRoundKey(unsigned char expandedKey[4][4], unsigned char roundKey[4][4]) {
+  int i, j;
+  // Iterasi baris
+  for (i = 0; i < 4; i++) {
+    // Iterasi kolom
+    for (j = 0; j < 4; j++) {
+      roundKey[j][i] = expandedKey[i][j];
     }
+  }
 }
 // aes_round, Lakukan satu putaran enkripsi AES pada state dengan kunci putaran yang diberikan
 void aes_round(unsigned char *state, unsigned char *roundKey)
@@ -236,34 +235,22 @@ void expandKey(unsigned char *expandedKey, unsigned char *key, enum keySize size
 }
 
 // aes_main, Lakukan enkripsi AES pada state menggunakan kunci yang diperluas untuk putaran yang ditentukan
-void aes_main(unsigned char *state, unsigned char *expandedKey, int nbrRounds)
-{
-    int i = 0;
+void aes_main(unsigned char state[4][4], unsigned char *expandedKey, int nbrRounds) {
+  int i = 0;
+  unsigned char roundKey[4][4];
 
-    unsigned char roundKey[16];
+  createRoundKey((unsigned char (*)[4])expandedKey, (unsigned char (*)[4])roundKey);
 
-    // Membuat kunci putaran pertama
-    createRoundKey(expandedKey, roundKey);
-    // Menambahkan kunci putaran pertama ke state
-    addRoundKey(state, roundKey);
+  addRoundKey(state, roundKey);
 
-    // Melakukan iterasi untuk setiap putaran kecuali yang terakhir
-    for (i = 1; i < nbrRounds; i++)
-    {
-        // Membuat kunci putaran berikutnya
-        createRoundKey(expandedKey + 16 * i, roundKey);
-        // Melakukan operasi putaran AES pada state dengan kunci putaran yang sesuai
+  for (i = 1; i < nbrRounds; i++) {
+	createRoundKey((unsigned char (*)[4])(expandedKey + (i * 16)), (unsigned char (*)[4])roundKey);
         aes_round(state, roundKey);
-    }
-
-    // Membuat kunci putaran terakhir
-    createRoundKey(expandedKey + 16 * nbrRounds, roundKey);
-    // Melakukan operasi SubBytes pada state
-    subBytes(4,4,state);
-    // Melakukan operasi ShiftRows pada state
-    shiftRows(state);
-    // Menambahkan kunci putaran terakhir ke state
-    addRoundKey(state, roundKey);
+  }
+  createRoundKey((unsigned char (*)[4])(expandedKey + (nbrRounds * 16)), (unsigned char (*)[4])roundKey);
+  subBytes(state);
+  shiftRows(state);
+  addRoundKey(state, roundKey);
 }
 
 
