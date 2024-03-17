@@ -226,79 +226,28 @@ void aes_main(unsigned char state[4][4], unsigned char *expandedKey, int nbrRoun
 
 
 //aes_encrypt, Mendefinisikan fungsi aes_encrypt yang merupakan antarmuka untuk melakukan enkripsi AES dengan input berupa teks biasa, kunci.
-char aes_encrypt(unsigned char *input, unsigned char *output, unsigned char *key, enum keySize size)
-{
-    // Ukuran kunci yang diperluas
-    int expandedKeySize;
+char aes_encrypt(unsigned char *input, unsigned char *output, unsigned char *key, enum keySize size) {
+  // Ukuran kunci yang diperluas
+  int expandedKeySize;
 
-    // Jumlah putaran AES
-    int nbrRounds;
+  // Jumlah putaran AES
+  int nbrRounds;
 
-    // Kunci yang telah diperluas
-    unsigned char *expandedKey;
+  // Kunci yang telah diperluas
+  unsigned char *expandedKey;
 
-    // Blok 128 bit untuk dienkripsi
-    unsigned char block[16];
-	
-	// Variabel loop
-    int i, j;
+  // Blok 128 bit untuk dienkripsi
+  unsigned char block[4][4];
 
-    // Tetapkan jumlah putaran berdasarkan ukuran kunci
-    switch (size)
-    {
-    case SIZE_16:
-        nbrRounds = 10; // Kunci 128-bit memiliki 10 putaran
-        break;
-    default:
-        return ERROR_AES_UNKNOWN_KEYSIZE;
-        break;
-    }
-	
-    expandedKeySize = (16 * (nbrRounds + 1)); // Hitung ukuran kunci yang diperluas
+  // Variabel loop
+  int i, j;
 
-    // Alokasi memori untuk expandedKey
-    expandedKey = (unsigned char *)malloc(expandedKeySize * sizeof(unsigned char));
-
-    if (expandedKey == NULL)
-    {
-        return ERROR_MEMORY_ALLOCATION_FAILED; // Kembalikan kesalahan jika alokasi memori gagal
-    }
-    else
-    {
-        /* Tetapkan nilai blok, untuk blok:
-         * a0,0 a0,1 a0,2 a0,3
-         * a1,0 a1,1 a1,2 a1,3
-         * a2,0 a2,1 a2,2 a2,3
-         * a3,0 a3,1 a3,2 a3,3
-         * urutan pemetaan adalah a0,0 a1,0 a2,0 a3,0 a0,1 a1,1 ... a2,3 a3,3
-         */
-
-        // Iterasi untuk kolom
-        for (i = 0; i < 4; i++)
-        {
-            // Iterasi untuk baris
-            for (j = 0; j < 4; j++)
-                block[(i + (j * 4))] = input[(i * 4) + j];
-        }
-
-        // Perluas kunci menjadi kunci 176, 208, 240 byte
-        expandKey(expandedKey, key, size, expandedKeySize);
-
-        // Enkripsi blok menggunakan expandedKey
-        aes_main(block, expandedKey, nbrRounds);
-
-        // Kembalikan blok lagi ke output
-        for (i = 0; i < 4; i++)
-        {
-            // Iterasi untuk baris
-            for (j = 0; j < 4; j++)
-                output[(i * 4) + j] = block[(i + (j * 4))];
-        }
-
-        // Bebaskan memori untuk expandedKey
-        free(expandedKey);
-        expandedKey = NULL;
-    }
-
-    return SUCCESS; // Kembalikan kode sukses
-}
+  // Tetapkan jumlah putaran berdasarkan ukuran kunci
+  switch (size) {
+  case SIZE_16:
+    nbrRounds = 10; // Kunci 128-bit memiliki 10 putaran
+    break;
+  default:
+    return ERROR_AES_UNKNOWN_KEYSIZE;
+    break;
+  }
