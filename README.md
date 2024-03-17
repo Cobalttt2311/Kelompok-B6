@@ -42,6 +42,7 @@ Proyek ini dibuat dengan :
 - Bahasa Pemrograman : C++
 - VSCODE Version : 1.84.2
 - Dev-C Version : 4.9.2
+- GIT Version : 2.44.0
 
 ## Petunjuk Instalasi
 
