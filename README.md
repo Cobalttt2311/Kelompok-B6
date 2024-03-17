@@ -79,6 +79,9 @@ ShiftRows :
 memanipulasi baris-baris dalam matriks state dengan cara menggeser setiap baris 
 ke kiri dengan jumlah posisi yang berbeda-beda.
 
+Pembangkit kunci : 
+Prosedur yang menghasilkan kunci enkripsi. Prosesnya melibatkan rotasi karakter dalam kata kunci, substitusi karakter menggunakan tabel S-Box, dan operasi XOR antara nilai konstan (Rcon) dan karakter pertama kata kunci.
+
 ## Fitur Aplikasi
 
 Kriptografi
