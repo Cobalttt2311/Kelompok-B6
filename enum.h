@@ -1,5 +1,5 @@
-#ifndef enum_h
-#define enum_h
+#ifndef ENUM_H
+#define ENUM_H
 #include <stdio.h>
 #include <stdlib.h>
 
