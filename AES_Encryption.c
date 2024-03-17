@@ -251,3 +251,40 @@ char aes_encrypt(unsigned char *input, unsigned char *output, unsigned char *key
     return ERROR_AES_UNKNOWN_KEYSIZE;
     break;
   }
+
+  expandedKeySize = (16 * (nbrRounds + 1)); // Hitung ukuran kunci yang diperluas
+
+  // Alokasi memori untuk expandedKey
+  expandedKey = (unsigned char *)malloc(expandedKeySize * sizeof(unsigned char));
+
+  if (expandedKey == NULL) {
+    return ERROR_MEMORY_ALLOCATION_FAILED; // Kembalikan kesalahan jika alokasi memori gagal
+  } else {
+    // Iterasi untuk kolom
+	for (i = 0; i < 4; i++) {
+	  for (j = 0; j < 4; j++) {
+	    block[j][i] = input[(i * 4) + j];
+	  }
+	}
+
+    // Perluas kunci menjadi kunci 176, 208, 240 byte
+    expandKey(expandedKey, key, size, expandedKeySize);
+
+    // Enkripsi blok menggunakan expandedKey
+    aes_main(block, expandedKey, nbrRounds);
+
+    // Kembalikan blok lagi ke output
+    for (i = 0; i < 4; i++) {
+      // Iterasi untuk baris
+      for (j = 0; j < 4; j++) {
+        output[(i * 4) + j] = block[j][i];
+      }
+    }
+
+    // Bebaskan memori untuk expandedKey
+    free(expandedKey);
+    expandedKey = NULL;
+  }
+
+  return SUCCESS; // Kembalikan kode sukses
+}
