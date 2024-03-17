@@ -1,11 +1,4 @@
-#include "expandkey.h"
-#include "addroundkey.h"
-#include "mixcolumn.h"
-#include "aesencrypt.h"
-#include "aesmain.h"
-#include "subbytes.h"
-#include "shiftrows.h"
-#include "enum.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -149,43 +142,32 @@ void createRoundKey(unsigned char *expandedKey, unsigned char *roundKey)
 //expandKey, Mendefinisikan fungsi expandKey untuk memperluas kunci utama menjadi kunci yang diperluas sesuai dengan algoritma AES.
 void expandKey(unsigned char *expandedKey, unsigned char *key, enum keySize size, size_t expandedKeySize)
 {
-    // KeySize yang diperluas, dalam byte
-    int currentSize = 0;
-    int rconIteration = 1;
-    int i;
-    unsigned char t[4] = {0}; // variabel sementara 4 byte
+    int currentSize = 0; // Variabel untuk melacak ukuran kunci yang telah diperluas
+    int rconIteration = 1; // Iterasi untuk menghasilkan nilai Rcon
+    int i; // Variabel loop untuk iterasi
+    unsigned char t[4] = {0}; // Variabel sementara 4 byte untuk menyimpan nilai
 
-    // Mengatur 16,24,32 byte dari kunci yang diperluas ke kunci input 
+    // Salin kunci awal ke dalam kunci yang diperluas
     for (i = 0; i < size; i++)
         expandedKey[i] = key[i];
     currentSize += size;
 
+    // Loop sampai kunci yang diperluas mencapai ukuran yang diinginkan
     while (currentSize < expandedKeySize)
     {
-        // menetapkan 4 byte sebelumnya kenilai sementara t
+        // Ambil 4 byte terakhir sebagai nilai sementara
         for (i = 0; i < 4; i++)
         {
             t[i] = expandedKey[(currentSize - 4) + i];
         }
 
-        /* setiap 16,24,32 byte kita menerapkan inti jadwal ke t
-         * dan meningkatkan rconIteration setelahnya
-         */
+        // Setiap 16 byte, terapkan operasi inti (core) pada nilai sementara
         if (currentSize % size == 0)
         {
             pembangkit_kunci(t, rconIteration++);
         }
 
-        // Untuk kunci 256-bit, kita menambahkan sbox ekstra ke perhitungan
-        if (size == SIZE_32 && ((currentSize % size) == 16))
-        {
-            for (i = 0; i < 4; i++)
-                t[i] = getSBoxValue(t[i]);
-        }
-
-        /* OR t dengan blok empat byte sebelumnya 16,24,32 byte sebelum kunci yang diperluas yang baru.
-         * Ini menjadi empat byte berikutnya dalam kunci yang diperluas.
-         */
+        // XOR nilai sementara dengan blok sebelumnya dan tambahkan ke kunci yang diperluas
         for (i = 0; i < 4; i++)
         {
             expandedKey[currentSize] = expandedKey[currentSize - size] ^ t[i];
