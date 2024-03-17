@@ -71,22 +71,15 @@ void pembangkit_kunci(unsigned char *word, int iteration)
     word[0] = word[0] ^ Rcon[iteration]; 
 }
 
-// subBytes, Terapkan transformasi SubBytes pada state
-void subBytes(unsigned char *state)
-{
-    int index;
-    int i;
-    // Loop melalui semua elemen state (ada 16 elemen)
-    for (i = 0; i < 16; i++) {
-        // Mendapatkan nilai baris dan kolom dari elemen state saat ini
-        int row = (state[i] >> 4) & 0x0F; // Mendapatkan 4 bit pertama
-        int col = state[i] & 0x0F; // Mendapatkan 4 bit terakhir
-        // Menghitung indeks dalam sbox menggunakan baris dan kolom
-        index = 16 * row + col;
-        // Mengganti nilai elemen state dengan nilai yang sesuai dari sbox
-        state[i] = sbox[index];
-    }
-}
+
+void subBytes(int baris, int kolom, unsigned char state[baris][kolom]) {
+  int i, j, row, col;
+  for (i = 0; i < baris; i++) {
+    for (j = 0; j < kolom; j++) {
+      row = (state[i][j] >> 4) & 0x0F;
+      col = (state[i][j] << 4) & 0x0F;
+      state[i][j] = sbox[row][col];
+
 
 
 // shiftRows, Terapkan transformasi ShiftRows pada state
