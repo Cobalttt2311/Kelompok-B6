@@ -42,10 +42,12 @@ char sbox[16][16] = {
     {0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68, 0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16}  // F
 };
 
+
 // Rcon, Mendefinisikan array konstanta putaran yang digunakan untuk pembangkitan kunci
 unsigned char Rcon[11] = {
-    0x8d, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36, };
+    0x8d, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36};
 
+// subBytes, Terapkan transformasi SubBytes pada state
 void subBytes(unsigned char state[4][4]) {
   int i, j;
   for (i = 0; i < 4; i++) {
@@ -133,7 +135,7 @@ void mixColumns(unsigned char state[4][4])
 
         for (j = 0; j < 4; j++)
             state[j][i] = result[j];
-    }
+    }
 }
 
 // createRoundKey, Buat kunci putaran untuk iterasi tertentu dari kunci yang diperluas
@@ -210,20 +212,33 @@ void aes_main(unsigned char state[4][4], unsigned char *expandedKey, int nbrRoun
   int i = 0;
   unsigned char roundKey[4][4];
 
-  createRoundKey((unsigned char (*)[4])expandedKey, (unsigned char (*)[4])roundKey);
+  
+  // Buat intialround
+	createRoundKey((unsigned char (*)[4])expandedKey, (unsigned char (*)[4])roundKey);
 
-  addRoundKey(state, roundKey);
 
-  for (i = 1; i < nbrRounds; i++) {
+  // tambahkan roundkey pertama ke dalam state
+  	addRoundKey(state, roundKey);
+
+  // Iterate for all rounds except the last
+  	for (i = 1; i < nbrRounds; i++) {
+
+    // buat roundkey selanjutnya.
 	createRoundKey((unsigned char (*)[4])(expandedKey + (i * 16)), (unsigned char (*)[4])roundKey);
-        aes_round(state, roundKey);
+
+
+    // Melakukan proses enkripsi aes sesuai state
+    aes_round(state, roundKey);
   }
+
+  // Buat last round key 
   createRoundKey((unsigned char (*)[4])(expandedKey + (nbrRounds * 16)), (unsigned char (*)[4])roundKey);
+
+
   subBytes(state);
   shiftRows(state);
   addRoundKey(state, roundKey);
 }
-
 
 //aes_encrypt, Mendefinisikan fungsi aes_encrypt yang merupakan antarmuka untuk melakukan enkripsi AES dengan input berupa teks biasa, kunci.
 char aes_encrypt(unsigned char *input, unsigned char *output, unsigned char *key, enum keySize size) {
@@ -260,6 +275,7 @@ char aes_encrypt(unsigned char *input, unsigned char *output, unsigned char *key
   if (expandedKey == NULL) {
     return ERROR_MEMORY_ALLOCATION_FAILED; // Kembalikan kesalahan jika alokasi memori gagal
   } else {
+
     // Iterasi untuk kolom
 	for (i = 0; i < 4; i++) {
 	  for (j = 0; j < 4; j++) {
