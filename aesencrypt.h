@@ -1,4 +1,4 @@
-#ifnedef AESENCRYPT_H
+#ifndef AESENCRYPT_H
 #define AESENCRYPT_H
 
 // Implementasi : encrypt
