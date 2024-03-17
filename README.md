@@ -42,6 +42,7 @@ Proyek ini dibuat dengan :
 - Bahasa Pemrograman : C++
 - VSCODE Version : 1.84.2
 - Dev-C Version : 4.9.2
+- GIT Version : 2.44.0
 
 ## Petunjuk Instalasi
 
@@ -78,6 +79,9 @@ lalu mensubtitusikan / menukar nilai yang dikirim(state) dengan sbox
 ShiftRows :
 memanipulasi baris-baris dalam matriks state dengan cara menggeser setiap baris 
 ke kiri dengan jumlah posisi yang berbeda-beda.
+
+MixColumn :
+Mix Column adalah mengalikan tiap elemen dari blok chiper dengan matriks transformasi.
 
 Pembangkit kunci : 
 Prosedur yang menghasilkan kunci enkripsi, pembangkit kunci ini melibatkan 3 proses
