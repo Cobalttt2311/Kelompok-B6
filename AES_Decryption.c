@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 void aes_invRound(unsigned char *state, unsigned char *roundKey)
 {
 
@@ -27,3 +28,5 @@ void aes_invMain(unsigned char *state, unsigned char *expandedKey, int nbrRounds
     invSubBytes(state);
     addRoundKey(state, roundKey);
 }
+=======
+>>>>>>> ee6c4188d71c5bd17cbb6e5bc4ed7fa7baf9e551
