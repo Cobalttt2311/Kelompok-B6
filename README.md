@@ -83,11 +83,13 @@ ke kiri dengan jumlah posisi yang berbeda-beda.
 MixColumn :
 Mix Column adalah mengalikan tiap elemen dari blok chiper dengan matriks transformasi.
 
-Pembangkit kunci : 
-Prosedur yang menghasilkan kunci enkripsi, pembangkit kunci ini melibatkan 3 proses
-1. Rotasi(RotWord), setiap karakter dalam kata kunci dipindahkan ke posisi sebelumnya dalam array, dengan karakter pertama dipindahkan ke posisi terakhir.
-2. Substitusi (SubWord), melakukan substitusi pada setiap karakter dalam kata kunci dengan nilai yang sesuai dari tabel S-Box.
-3. XOR, melakukan XOR karakter dengan tabel Rcon
+ExpandKey :
+* Menghasilkan kunci yang diperluas
+* Menyediakan kunci yang diperlukan untuk putaran Enkripsi
+* Menerapkan operasi pembangkit kunci yang melibatkan 3 proses
+  1. Rotasi(RotWord), setiap karakter dalam kata kunci dipindahkan ke posisi sebelumnya dalam array, dengan karakter pertama dipindahkan ke posisi terakhir.
+  2. Substitusi (SubWord), melakukan substitusi pada setiap karakter dalam kata kunci dengan nilai yang sesuai dari tabel S-Box.
+  3. XOR, melakukan XOR karakter dengan tabel Rcon
 
 ## Fitur Aplikasi
 
