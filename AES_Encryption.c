@@ -90,11 +90,11 @@ void pembangkit_kunci(unsigned *word, int iteration)
     // substitusi S-Box pada keempat bagian dari word (SubWord)
     for (i = 0; i < 4; ++i)
     {
-        word[i] = sbox[word[i]]; // Panggil fungsi untuk mendapatkan nilai S-Box
+        word[i] = sbox[word[i]]; 
     }
 
     // XOR
-    word[0] = word[0] ^ Rcon[iteration]; // Panggil fungsi untuk mendapatkan nilai Rcon
+    word[0] = word[0] ^ Rcon[iteration];
 }
 
 void shiftRows(unsigned char *state) {
@@ -173,7 +173,7 @@ void expandKey(unsigned char *expandedKey, unsigned char *key, enum keySize size
          */
         if (currentSize % size == 0)
         {
-            core(t, rconIteration++);
+            pembangkit_kunci(t, rconIteration++);
         }
 
         // Untuk kunci 256-bit, kita menambahkan sbox ekstra ke perhitungan
