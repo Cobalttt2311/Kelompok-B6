@@ -1,6 +1,6 @@
 #ifndef SUBBYTES_H
 #define SUBBYTES_H
 
-subBytes(unsigned char *state);
+void subBytes(int baris, int kolom, unsigned char state[baris][kolom]);
 
 #endif
