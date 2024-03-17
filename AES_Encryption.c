@@ -66,7 +66,7 @@ unsigned char Rcon[255] = {
 
 
 // procedure aes_round, melakukan satu putaran enkripsi AES pada state dengan kunci putaran yang diberikan
-void aes_round(char *state, char *roundKey)
+void aes_round(unsigned char *state, unsigned char *roundKey)
 {
     subBytes(state); //memanggil fungsi subBytes
     shiftRows(state); //memanggil fungsi shiftRows
@@ -75,10 +75,10 @@ void aes_round(char *state, char *roundKey)
 }
 
 // procedure pembangkit_kunci, melakukan Rotword, Subword, dan XOR
-void pembangkit_kunci(char *word, int iteration)
+void pembangkit_kunci(unsigned *word, int iteration)
 {
     int i; // Variabel untuk iterasi
-    char temp = word[0]; // karakter pertama disimpan kedalam variabel sementara 
+    unsigned char temp = word[0]; // karakter pertama disimpan kedalam variabel sementara 
      
     // Operasi Rotasi (ROTWORD)
     for (i = 0; i < 3; i++) // Loop untuk melakukan rotasi ke kiri pada karakter
@@ -93,15 +93,8 @@ void pembangkit_kunci(char *word, int iteration)
         word[i] = sbox[word[i]]; // Panggil fungsi untuk mendapatkan nilai S-Box
     }
 
-    // XOR keluaran dari operasi rcon dengan i untuk bagian pertama (paling kiri) saja
+    // XOR
     word[0] = word[0] ^ Rcon[iteration]; // Panggil fungsi untuk mendapatkan nilai Rcon
-
-void aes_round(unsigned char *state, unsigned char *roundKey)
-{
-    subBytes(state); //panggil fungsi subBytes
-    shiftRows(state); //panggil fungsi shiftRows
-    mixColumns(state); //panggil fungsi mixColumns
-    addRoundKey(state, roundKey); //panggil fungsi addRoundKey
 }
 
 void shiftRows(unsigned char *state) {

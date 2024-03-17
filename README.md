@@ -80,7 +80,10 @@ memanipulasi baris-baris dalam matriks state dengan cara menggeser setiap baris
 ke kiri dengan jumlah posisi yang berbeda-beda.
 
 Pembangkit kunci : 
-Prosedur yang menghasilkan kunci enkripsi. Prosesnya melibatkan rotasi karakter dalam kata kunci, substitusi karakter menggunakan tabel S-Box, dan operasi XOR antara nilai konstan (Rcon) dan karakter pertama kata kunci.
+Prosedur yang menghasilkan kunci enkripsi, pembangkit kunci ini melibatkan 3 proses
+1. Rotasi(RotWord), setiap karakter dalam kata kunci dipindahkan ke posisi sebelumnya dalam array, dengan karakter pertama dipindahkan ke posisi terakhir.
+2. Substitusi (SubWord), melakukan substitusi pada setiap karakter dalam kata kunci dengan nilai yang sesuai dari tabel S-Box.
+3. XOR, melakukan XOR karakter dengan tabel Rcon
 
 ## Fitur Aplikasi
 
