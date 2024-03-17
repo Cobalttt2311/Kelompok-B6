@@ -19,6 +19,8 @@ Disini kami mencoba mengembangkan sebuah program keamanan melalui teknik kriptog
 PENGERTIAN AES
 Advanced Encryption Standard (AES) merupakan algoritma cryptographic yang dapat digunkan untuk mengamakan data. Algoritma AES adalah blok chipertext simetrik yang dapat mengenkripsi (encipher) dan dekripsi (decipher) informasi. Enkripsi merubah data yang tidak dapat lagi dibaca disebut ciphertext; sebaliknya dekripsi adalah merubah ciphertext data menjadi bentuk semula yang kita kenal sebagai plaintext. Algoritma AES is mengunkan kunci kriptografi 128, 192, dan 256 bits untuk mengenkrip dan dekrip data pada blok 128 bits.
 
+![REPRESENTASI AES](./image/AES.webp)
+
 PENGERTIAN STEGANOGRAFI
 Steganografi adalah ilmu yang melibatkan komunikasi data rahasia dalam sebuah media, misalnya file gambar, audio, dan video. Hal ini didasarkan pada asumsi bahwa jika rahasia mudah terlihat, maka mudah untuk dipecahkan, sehingga tujuan dari LSB di sini adalah untuk menyembunyikan keberadaan data yang disisipkan tanpa mudah diketahui orang lain.
 
@@ -59,6 +61,16 @@ Proyek ini dibuat dengan :
 
 Enkripsi Algoritma AES
 
+CreateRoundKey :
+Fungsi ini membuat dan mengambil 16 elemen dari expandedKey dan menyalin nya ke dalam block roundkey sesuai urutan dari initial round hingga round 10. Nantinya akan menghasilkan roundkey dari kunci yang diperluas.
+Dengan menggunakan fungsi ini, kita dapat membuat round key yang unik untuk setiap ronde enkripsi, yang kemudian digunakan untuk melakukan operasi enkripsi pada blok teks.
+
+AddRoundKey :
+Addroundkey adalah proses XOR (eksklusif OR) antara setiap byte dalam blok data dengan kunci putaran (round key) yang telah dikembangkan sebelumnya. 
+Addroundkey ini diterapkan pada
+1. Initial Round, melakukan proses XOR antara Plaintext, dan Key yang diinput oleh user, sehingga menghasilkan blok baru untuk proses enkripsi
+2. Proses Enkripsi dari Round 1 - 10
+
 Sub Byte :
 mengambil Nilai bit awal dan bit akhir untuk dijadikan index penunjuk sbox
 lalu mensubtitusikan / menukar nilai yang dikirim(state) dengan sbox
@@ -66,7 +78,6 @@ lalu mensubtitusikan / menukar nilai yang dikirim(state) dengan sbox
 ShiftRows :
 memanipulasi baris-baris dalam matriks state dengan cara menggeser setiap baris 
 ke kiri dengan jumlah posisi yang berbeda-beda.
- <!--![Algorithm schema](./image/nama.jpg) ini buat image algoritma encrypt-->
 
 ## Fitur Aplikasi
 
