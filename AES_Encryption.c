@@ -172,13 +172,13 @@ void createRoundKey(unsigned char expandedKey[4][4], unsigned char roundKey[4][4
     }
   }
 }
+
 // aes_round, Lakukan satu putaran enkripsi AES pada state dengan kunci putaran yang diberikan
-void aes_round(unsigned char *state, unsigned char *roundKey)
-{
-    subBytes(state); //panggil fungsi subBytes
-    shiftRows(state); //panggil fungsi shiftRows
-    mixColumns(state); //panggil fungsi mixColumns
-    addRoundKey(state, roundKey); //panggil fungsi addRoundKey
+void aes_round(unsigned char state[4][4], unsigned char roundKey[4][4]) {
+  subBytes(state);
+  shiftRows(state);
+  mixColumns(state);
+  addRoundKey(state, roundKey);
 }
 
 //expandKey, Mendefinisikan fungsi expandKey untuk memperluas kunci utama menjadi kunci yang diperluas sesuai dengan algoritma AES.
