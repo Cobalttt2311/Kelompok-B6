@@ -127,49 +127,38 @@ unsigned char galois_multiplication(unsigned char a, unsigned char b)
 }
 
 // mixColumns, Terapkan transformasi MixColumns pada state
-void mixColumns(unsigned char *state)
+void mixColumns(unsigned char state[4][4])
 {
     int i, j;
-    unsigned char column[4]; // Variabel untuk menyimpan satu kolom sementara
-    unsigned char cpy[4]; // Variabel untuk menyimpan salinan nilai kolom
+    unsigned char column[4]; 
 
-    // Iterasi melalui 4 kolom
+
+    unsigned char mixMatrix[4][4] = {
+        {0x02, 0x03, 0x01, 0x01},
+        {0x01, 0x02, 0x03, 0x01},
+        {0x01, 0x01, 0x02, 0x03},
+        {0x03, 0x01, 0x01, 0x02}
+    };
+
+    unsigned char result[4]; 
+
     for (i = 0; i < 4; i++)
     {
-        // Membangun satu kolom dengan iterasi melalui 4 baris
+        for (j = 0; j < 4; j++)
+            column[j] = state[j][i]; 
+
+
         for (j = 0; j < 4; j++)
         {
-            column[j] = state[(j * 4) + i]; // Ambil nilai dari state dan letakkan dalam kolom
-            cpy[j] = column[j]; // Salin nilai ke dalam array sementara
+            result[j] = galois_multiplication(mixMatrix[j][0], column[0]) ^
+                        galois_multiplication(mixMatrix[j][1], column[1]) ^
+                        galois_multiplication(mixMatrix[j][2], column[2]) ^
+                        galois_multiplication(mixMatrix[j][3], column[3]);
         }
 
-        // Terapkan operasi mixColumn pada satu kolom
-        column[0] = galois_multiplication(cpy[0], 2) ^
-                    galois_multiplication(cpy[3], 1) ^
-                    galois_multiplication(cpy[2], 1) ^
-                    galois_multiplication(cpy[1], 3);
-
-        column[1] = galois_multiplication(cpy[1], 2) ^
-                    galois_multiplication(cpy[0], 1) ^
-                    galois_multiplication(cpy[3], 1) ^
-                    galois_multiplication(cpy[2], 3);
-
-        column[2] = galois_multiplication(cpy[2], 2) ^
-                    galois_multiplication(cpy[1], 1) ^
-                    galois_multiplication(cpy[0], 1) ^
-                    galois_multiplication(cpy[3], 3);
-
-        column[3] = galois_multiplication(cpy[3], 2) ^
-                    galois_multiplication(cpy[2], 1) ^
-                    galois_multiplication(cpy[1], 1) ^
-                    galois_multiplication(cpy[0], 3);
-
-        // Masukkan kembali nilai-nilai kolom yang sudah dimodifikasi ke dalam state
         for (j = 0; j < 4; j++)
-        {
-            state[(j * 4) + i] = column[j];
-        }
-    }
+            state[j][i] = result[j];
+    }
 }
 
 // createRoundKey, Buat kunci putaran untuk iterasi tertentu dari kunci yang diperluas
