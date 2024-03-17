@@ -46,31 +46,6 @@ char sbox[16][16] = {
 unsigned char Rcon[11] = {
     0x8d, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36, };
 
-// procedure pembangkit_kunci, melakukan Rotword, Subword, dan XOR
-void pembangkit_kunci(unsigned char *word, int iteration)
-{
-    int i; // Variabel untuk iterasi
-    unsigned char temp; // Variabel untuk menyimpan karakter sementara
-    
-    temp = word[0]; // karakter pertama disimpan kedalam variabel sementara 
-     
-    // Operasi Rotasi (ROTWORD)
-    for (i = 0; i < 3; i++) // Loop untuk melakukan rotasi ke kiri pada karakter
-	{
-        word[i] = word[i + 1]; // Pindahkan karakter ke kiri
-    }
-	word[3] = temp; // Tempatkan karakter pertama yang disimpan di akhir
-
-    // substitusi S-Box pada keempat bagian dari word (SubWord)
-    for (i = 0; i < 4; ++i)
-    {
-        word[i] = sbox[word[i]];
-    }
-
-    // XOR keluaran dari operasi rcon dengan i untuk bagian pertama (paling kiri) saja
-    word[0] = word[0] ^ Rcon[iteration]; 
-}
-
 void subBytes(unsigned char state[4][4]) {
   int i, j;
   for (i = 0; i < 4; i++) {
@@ -182,41 +157,53 @@ void aes_round(unsigned char state[4][4], unsigned char roundKey[4][4]) {
 }
 
 //expandKey, Mendefinisikan fungsi expandKey untuk memperluas kunci utama menjadi kunci yang diperluas sesuai dengan algoritma AES.
-void expandKey(unsigned char *expandedKey, unsigned char *key, enum keySize size, size_t expandedKeySize)
-{
-    int currentSize = 0; // Variabel untuk melacak ukuran kunci yang telah diperluas
-    int rconIteration = 1; // Iterasi untuk menghasilkan nilai Rcon
-    int i; // Variabel loop untuk iterasi
-    unsigned char t[4] = {0}; // Variabel sementara 4 byte untuk menyimpan nilai
+void expandKey(unsigned char *expandedKey, unsigned char *key, enum keySize size, size_t expandedKeySize) {
+  int currentSize = 0;
+  int rconIteration = 1;
+  int i;
+  unsigned char t[4] = {0}; // t digunakan untuk menyimpan nilai sementara
 
-    // Salin kunci awal ke dalam kunci yang diperluas
-    for (i = 0; i < size; i++)
-        expandedKey[i] = key[i];
-    currentSize += size;
+  // Salin kunci awal ke dalam kunci yang diperluas
+  for (i = 0; i < size; i++) {
+    expandedKey[i] = key[i];
+  }
+  currentSize += size;
 
-    // Loop sampai kunci yang diperluas mencapai ukuran yang diinginkan
-    while (currentSize < expandedKeySize)
-    {
-        // Ambil 4 byte terakhir sebagai nilai sementara
-        for (i = 0; i < 4; i++)
-        {
-            t[i] = expandedKey[(currentSize - 4) + i];
-        }
-
-        // Setiap 16 byte, terapkan operasi inti (core) pada nilai sementara
-        if (currentSize % size == 0)
-        {
-            pembangkit_kunci(t, rconIteration++);
-        }
-
-        // XOR nilai sementara dengan blok sebelumnya dan tambahkan ke kunci yang diperluas
-        for (i = 0; i < 4; i++)
-        {
-            expandedKey[currentSize] = expandedKey[currentSize - size] ^ t[i];
-            currentSize++;
-        }
+  // Loop sampai kunci yang diperluas mencapai ukuran yang diinginkan
+  while (currentSize < expandedKeySize) {
+    // Ambil 4 byte terakhir sebagai nilai sementara
+    for (i = 0; i < 4; i++) {
+      t[i] = expandedKey[(currentSize - 4) + i];
     }
+
+    // pembangkit kunci, melakukan Rotword, Subword, dan XOR
+    if (currentSize % size == 0) {
+    	
+      // Operasi Rotasi (ROTWORD)
+      unsigned char temp = t[0];
+      for (i = 0; i < 3; i++) // Loop untuk melakukan rotasi ke kiri pada karakter
+	  {
+        t[i] = t[i + 1]; // Pindahkan karakter ke kiri
+      }
+      t[3] = temp; // Tempatkan karakter pertama yang disimpan di akhir
+
+      // Substitusi S-Box pada keempat bagian dari word (SubWord)
+      for (i = 0; i < 4; ++i) {
+        t[i] = sbox[t[i] / 16] [t[i] % 16];
+      }
+
+      // XOR dengan Rcon
+      t[0] = t[0] ^ Rcon[rconIteration++];
+    }
+
+    // XOR nilai sementara dengan blok sebelumnya dan tambahkan ke kunci yang diperluas
+    for (i = 0; i < 4; i++) {
+      expandedKey[currentSize] = expandedKey[currentSize - size] ^ t[i];
+      currentSize++;
+    }
+  }
 }
+
 
 // aes_main, Lakukan enkripsi AES pada state menggunakan kunci yang diperluas untuk putaran yang ditentukan
 void aes_main(unsigned char state[4][4], unsigned char *expandedKey, int nbrRounds) {
