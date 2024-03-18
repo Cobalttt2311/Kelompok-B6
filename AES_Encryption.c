@@ -61,18 +61,30 @@ void subBytes(unsigned char state[4][4]) {
 
 
 // shiftRows, Terapkan transformasi ShiftRows pada state
-void shiftRows(unsigned char state[4][4]) {
-  int i, j;
-  unsigned char tmp;
-  for (i = 0; i < 4; i++) {
-    for (j = 0; j < i; j++) {
-      tmp = state[i][0];
-      state[i][0] = state[i][1];
-      state[i][1] = state[i][2];
-      state[i][2] = state[i][3];
-      state[i][3] = tmp;
-    }
-  }
+void shiftRowsBaru(unsigned char state[4][4]) {
+    unsigned char tmp;
+
+    // Pergeseran baris ke-1 sebanyak 1 kali ke kiri
+    tmp = state[1][0];
+    state[1][0] = state[1][1];
+    state[1][1] = state[1][2];
+    state[1][2] = state[1][3];
+    state[1][3] = tmp;
+
+    // Pergeseran baris ke-2 sebanyak 2 kali ke kiri
+    tmp = state[2][0];
+    state[2][0] = state[2][2];
+    state[2][2] = tmp;
+    tmp = state[2][1];
+    state[2][1] = state[2][3];
+    state[2][3] = tmp;
+
+    // Pergeseran baris ke-3 sebanyak 3 kali ke kiri
+    tmp = state[3][3];
+    state[3][3] = state[3][2];
+    state[3][2] = state[3][1];
+    state[3][1] = state[3][0];
+    state[3][0] = tmp;
 }
 
 // addRoundKey, Terapkan AddRoundKey pada state
