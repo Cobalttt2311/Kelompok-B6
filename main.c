@@ -7,7 +7,7 @@
 #include "aesmain.h"
 #include "expandkey.h"
 #include "mixcolumn.h"
-#include "shiftrow.h"
+#include "shiftrows.h"
 #include "subbytes.h"
 
 enum keySize
