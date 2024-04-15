@@ -1,5 +1,14 @@
-#include <stdio.h>  
-#include <stdlib.h> 
+#include <stdio.h>  // for printf
+#include <stdlib.h> // for malloc, free
+#include "AES_Encryption.h"
+#include "AES_Decryption.h"
+#include "addroundkey.h"
+#include "aesencrypt.h"
+#include "aesmain.h"
+#include "expandkey.h"
+#include "mixcolumn.h"
+#include "shiftrow.h"
+#include "subbytes.h"
 
 enum keySize
 {
@@ -13,8 +22,9 @@ enum errorCode
     ERROR_MEMORY_ALLOCATION_FAILED,
 };
 
-int main(int argc, char *argv[])
+int main()
 {
+	
     // the expanded keySize
     int expandedKeySize = 176;
 
@@ -32,26 +42,25 @@ int main(int argc, char *argv[])
     // the ciphertext
     unsigned char ciphertext[16];
 
-    int i;
-    int var;
+    // the decrypted text
+    unsigned char decryptedtext[16];
 
-    printf("\n");
-    printf("+-+-+-+-+-+-+-+-+-+-+\n");
-    printf("|         AES       |\n");
-    printf("+-+-+-+-+-+-+-+-+-+-+\n\n");
-	
-	while(1) { // Loop sampe user exit
-        printf("+-------------------+\n");
-        printf("| Masukkan Pilihan: |\n");
-        printf("+-------------------+\n");
-        printf("| 1. Enkripsi       |\n");
-        printf("| 2. Dekripsi/Soon  |\n");
-        printf("| 3. Keluar         |\n");
-        printf("+-------------------+\n");
-        printf("Pilihan Anda: ");
-        scanf("%d", &var);
-        system("cls"); // Hapus layar sebelum mencetak menu yang diperbarui
+    int i;
+	int var;
+
+	while(1) { // Loop indefinitely until user chooses to exit
+    printf("\n|----------------------------------|\n");
+    printf("|       AES & LSB Kelompok 6       |\n");
+    printf("|----------------------------------|");
+    printf("\n|Menu Pilihan:		   	   |\n");
+    printf("|1. Enkripsi           	  	   |\n");
+    printf("|2. Dekripsi/Soon		   |\n"); 
+    printf("|3. Keluar		           |\n");
+    printf("|----------------------------------|\n");
     
+    printf("\n Masukkan Pilihan (1)/(2)/(3) :\n ");
+    scanf("%d", &var);
+    printf("-------------------------------------------------------------------------------------------------------------------\n");
     switch (var) {
         case 1:
             printf("Enter Cipher Key (16 characters):\n");
@@ -104,6 +113,38 @@ int main(int argc, char *argv[])
             }
             printf("\n\n");
  	    break;
+ 	case 2:
+	 		// Meminta pengguna untuk memasukkan kunci dan ciphertext
+	    printf("Enter Cipher Key (16 characters in HEX format):\n");
+		fflush(stdin);
+		for (i = 0; i < 16; i++)
+		{
+	    	scanf("%2x", &key[i]); // Menggunakan %2x untuk membaca input sebagai nilai HEX
+		}
+	
+	    printf("\nEnter Cipher text (16 characters in HEX format):\n");
+	    fflush(stdin);
+	    for (i = 0; i < 16; i++)
+	    {
+	        scanf("%2x", &ciphertext[i]); // Menggunakan %2x untuk membaca input sebagai nilai HEX
+	    }
+	
+	    // Melakukan dekripsi
+	    aes_decrypt(ciphertext, decryptedtext, key, SIZE_16);
+	
+		printf("\nDecrypted text:\n");
+	    for (i = 0; i < 16; i++)
+	    {
+	        printf("%c", decryptedtext[i]);
+	    }
+	    printf("\n");
+	    // Menampilkan hasil dekripsi
+	    printf("\nDecrypted text (HEX format):\n");
+	    for (i = 0; i < 16; i++)
+	    {
+	        printf("%2.2x%c", decryptedtext[i], ((i + 1) % 16) ? ' ' : '\n');
+	    }
+	    break;
 	case 3:
         	return SUCCESS;
     	}
