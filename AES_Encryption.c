@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -42,10 +43,10 @@ unsigned char Rcon[11] = {
 // subBytes, Terapkan transformasi SubBytes pada state
 void subBytes(int baris, int kolom, unsigned char state[baris][kolom]) {
   int i, j, row, col;
-  for (i = 0; i < baris; i++) {
-    for (j = 0; j < kolom; j++) {
+  for (i = 0; i < 4; i++) {
+    for (j = 0; j < 4; j++) {
 	row = (state[i][j] >> 4) & 0x0F;
-	col = (state[i][j] << 4) & 0x0F;
+	col = state[i][j] & 0x0F;
 	state[i][j] = sbox[row][col];
     }
   }
@@ -53,18 +54,19 @@ void subBytes(int baris, int kolom, unsigned char state[baris][kolom]) {
 
 // shiftRows, Terapkan transformasi ShiftRows pada state
 void shiftRows(unsigned char state[4][4]) {
-  int i, j;
-  unsigned char tmp;
-  for (i = 0; i < 4; i++) {
-    for (j = 0; j < i; j++) {
-      tmp = state[i][0];
-      state[i][0] = state[i][1];
-      state[i][1] = state[i][2];
-      state[i][2] = state[i][3];
-      state[i][3] = tmp;
-    }
+ int i, j;
+ unsigned char tmp;
+ for (i = 0; i < 4; i++) {
+  for (j = 0; j < i; j++) {
+   tmp = state[i][0];
+   state[i][0] = state[i][1];
+   state[i][1] = state[i][2];
+   state[i][2] = state[i][3];
+   state[i][3] = tmp;
   }
+ }
 }
+
 
 // addRoundKey, Terapkan AddRoundKey pada state
 void addRoundKey(unsigned char state[4][4], unsigned char roundKey[4][4]) {
@@ -236,19 +238,14 @@ void aes_main(unsigned char state[4][4], unsigned char *expandedKey, int nbrRoun
 char aes_encrypt(unsigned char *input, unsigned char *output, unsigned char *key, enum keySize size) {
   // Ukuran kunci yang diperluas
   int expandedKeySize;
-
   // Jumlah putaran AES
   int nbrRounds;
-
   // Kunci yang telah diperluas
   unsigned char *expandedKey;
-
   // Blok 128 bit untuk dienkripsi
   unsigned char block[4][4];
-
   // Variabel loop
   int i, j;
-
   // Tetapkan jumlah putaran berdasarkan ukuran kunci
   switch (size) {
   case SIZE_16:
@@ -259,7 +256,7 @@ char aes_encrypt(unsigned char *input, unsigned char *output, unsigned char *key
     break;
   }
 
-  expandedKeySize = (16 * (nbrRounds + 1)); // Hitung ukuran kunci yang diperluas
+  expandedKeySize = (16 * (nbrRounds + 1)); // Hitung ukuran kunci yang diperluas 176
 
   // Alokasi memori untuk expandedKey
   expandedKey = (unsigned char *)malloc(expandedKeySize * sizeof(unsigned char));
@@ -270,12 +267,13 @@ char aes_encrypt(unsigned char *input, unsigned char *output, unsigned char *key
 
     // Iterasi untuk kolom
 	for (i = 0; i < 4; i++) {
+		//iterasi untuk baris
 	  for (j = 0; j < 4; j++) {
 	    block[j][i] = input[(i * 4) + j];
 	  }
 	}
 
-    // Perluas kunci menjadi kunci 176, 208, 240 byte
+    // Perluas kunci menjadi kunci 176 byte
     expandKey(expandedKey, key, size, expandedKeySize);
 
     // Enkripsi blok menggunakan expandedKey
