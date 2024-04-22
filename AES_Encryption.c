@@ -43,8 +43,8 @@ unsigned char Rcon[11] = {
 // subBytes, Terapkan transformasi SubBytes pada state
 void subBytes(int baris, int kolom, unsigned char state[baris][kolom]) {
   int i, j, row, col;
-  for (i = 0; i < 4; i++) {
-    for (j = 0; j < 4; j++) {
+  for (i = 0; i < baris; i++) {
+    for (j = 0; j < kolom; j++) {
 	row = (state[i][j] >> 4) & 0x0F;
 	col = state[i][j] & 0x0F;
 	state[i][j] = sbox[row][col];
