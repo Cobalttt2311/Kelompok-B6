@@ -59,18 +59,27 @@ int main()
     printf("|----------------------------------|\n");
     
     printf("\n Masukkan Pilihan (1)/(2)/(3) :\n ");
-    scanf("%d", &var);
+    
+    if (scanf("%d", &var) != 1 || var < 1 || var > 3) {
+    printf("\nInvalid input. Tolong masukkan angka antara 1 sampai 3.\n");
+    fflush(stdin);  // Clear the input buffer for the next iteration
+    printf("\nTekan Enter untuk melanjutkan...");
+    getchar();
+    system("cls");
+    continue;
+    }
+            
     printf("-------------------------------------------------------------------------------------------------------------------\n");
     switch (var) {
         case 1:
-            printf("Enter Cipher Key (16 characters):\n");
+            printf("\nMasukkan Cipher Key (16 karakter):\n");
     	    fflush(stdin);
     	    for (i = 0; i < 16; i++)
     	    {
         	scanf("%c", &key[i]);
     	    }
 
-    	    printf("\nEnter Plaintext (16 characters):\n");
+    	    printf("\nMasukkan Plain Text (16 karakter):\n");
     	    fflush(stdin);
     	    for (i = 0; i < 16; i++)
     	    {
@@ -79,13 +88,13 @@ int main()
     
 	    aes_encrypt(plaintext, ciphertext, key, SIZE_16);
 	
-	    printf("\nCipher Key (HEX format):\n");
+	    printf("\nCipher Key (Format HEX):\n");
     	    for (i = 0; i < 16; i++)
             {
             	printf("%2.2x%c", key[i], ((i + 1) % 16) ? ' ' : '\n');
    	    }
 	
-	    printf("\nPlaintext (HEX format):\n");
+	    printf("\nPlain Text (Format HEX):\n");
             for (i = 0; i < 16; i++)
             {
             	printf("%2.2x%c", plaintext[i], ((i + 1) % 16) ? ' ' : '\n');
@@ -93,57 +102,65 @@ int main()
     
     	    //Key Expansion
             expandKey(expandedKey, key, size, expandedKeySize);
-
-            printf("\nExpanded Key (HEX format):\n");
-            for (i = 0; i < expandedKeySize; i++)
-            {
-        	printf("%2.2x%c", expandedKey[i], ((i + 1) % 16) ? ' ' : '\n');
-    	    }
+            
+//			  Jikalau mau print expandkey dari round awal hingga akhir
+//            printf("\nExpanded Key (Format HEX):\n");
+//            for (i = 0; i < expandedKeySize; i++)
+//            {
+//        	printf("%2.2x%c", expandedKey[i], ((i + 1) % 16) ? ' ' : '\n');
+//    	    }
     
-    	    printf("\nCiphertext (HEX format):\n");
+    	    printf("\nCipher Text (Format HEX):\n");
             for (i = 0; i < 16; i++)
             {
         	printf("%2.2x%c", ciphertext[i], ((i + 1) % 16) ? ' ' : '\n');
             }
               
-   	    printf("\nCiphertext (Text format):\n");
+   	    printf("\nCipher Text (Format Text):\n");
             for (i = 0; i < 16; i++)
             {
 	    	printf("%c", ciphertext[i]);
             }
             printf("\n\n");
+   			system("pause");
+   			system("cls");
  	    break;
  	case 2:
 	 		// Meminta pengguna untuk memasukkan kunci dan ciphertext
-	    printf("Enter Cipher Key (16 characters in HEX format):\n");
-		fflush(stdin);
-		for (i = 0; i < 16; i++)
-		{
-	    	scanf("%2x", &key[i]); // Menggunakan %2x untuk membaca input sebagai nilai HEX
-		}
-	
-	    printf("\nEnter Cipher text (16 characters in HEX format):\n");
-	    fflush(stdin);
-	    for (i = 0; i < 16; i++)
-	    {
-	        scanf("%2x", &ciphertext[i]); // Menggunakan %2x untuk membaca input sebagai nilai HEX
-	    }
-	
-	    // Melakukan dekripsi
-	    aes_decrypt(ciphertext, decryptedtext, key, SIZE_16);
-	
-		printf("\nDecrypted text:\n");
-	    for (i = 0; i < 16; i++)
-	    {
-	        printf("%c", decryptedtext[i]);
-	    }
-	    printf("\n");
-	    // Menampilkan hasil dekripsi
-	    printf("\nDecrypted text (HEX format):\n");
-	    for (i = 0; i < 16; i++)
-	    {
-	        printf("%2.2x%c", decryptedtext[i], ((i + 1) % 16) ? ' ' : '\n');
-	    }
+	 	printf("\nSegera Hadir dalam waktu dekat");
+	 	printf("\nTekan Enter untuk melanjutkan...");
+        getchar();
+        system("pause");
+        system("cls");
+//	    printf("\nMasukkan Cipher Key (16 karakter dalam format HEX):\n");
+//		fflush(stdin);
+//		for (i = 0; i < 16; i++)
+//		{
+//	    	scanf("%2x", &key[i]); // Menggunakan %2x untuk membaca input sebagai nilai HEX
+//		}
+//	
+//	    printf("\nMasukkan Cipher Text (16 karakter dalam format HEX):\n");
+//	    fflush(stdin);
+//	    for (i = 0; i < 16; i++)
+//	    {
+//	        scanf("%2x", &ciphertext[i]); // Menggunakan %2x untuk membaca input sebagai nilai HEX
+//	    }
+//	
+//	    // Melakukan dekripsi
+//	    aes_decrypt(ciphertext, decryptedtext, key, SIZE_16);
+//	  
+//		printf("\nDecrypted text:\n");
+//	    for (i = 0; i < 16; i++)
+//	    {
+//	        printf("%c", decryptedtext[i]);
+//	    }
+//	    printf("\n");
+//	    // Menampilkan hasil dekripsi
+//	    printf("\nDecrypted text (HEX format):\n");
+//	    for (i = 0; i < 16; i++)
+//	    {
+//	        printf("%2.2x%c", decryptedtext[i], ((i + 1) % 16) ? ' ' : '\n');
+//	    }
 	    break;
 	case 3:
         	return SUCCESS;
