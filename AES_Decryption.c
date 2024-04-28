@@ -68,5 +68,18 @@ void invShiftRows( unsigned char state[4][4]) {
 
   for ( j = 0; j < shift; j++) {
 
+char aes_decrypt(unsigned char *input, unsigned char *output, unsigned char *key, enum keySize size)
+{
+  // the number of rounds
+  int nbrRounds;
+
+  // the expanded key
+  unsigned char expandedKey[16][16]; // 15 rounds maximum
+
+  // the 128 bit block to decode
+  unsigned char block[BLOCK_SIZE];
+
+  return SUCCESS;
+}
 
   
