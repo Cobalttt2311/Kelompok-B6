@@ -112,3 +112,34 @@ char aes_decrypt(unsigned char *input, unsigned char *output, unsigned char *key
     for (j = 0; j < 4; j++)
       output[(i * 4) + j] = block[(i + (j * 4))];
   }
+
+void invMixColumns(unsigned char state[4][4]) {
+    // Define the inverse mix matrix
+    unsigned char invMixMatrix[4][4] = {
+        {0x0e, 0x0b, 0x0d, 0x09},
+        {0x09, 0x0e, 0x0b, 0x0d},
+        {0x0d, 0x09, 0x0e, 0x0b},
+        {0x0b, 0x0d, 0x09, 0x0e}
+    };
+
+    int i, j;
+    unsigned char column[4];
+    unsigned char result[4];
+
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 4; j++) {
+            column[j] = state[j][i];
+        }
+
+        for (j = 0; j < 4; j++) {
+            result[j] = galois_multiplication(invMixMatrix[j][0], column[0]) ^
+                        galois_multiplication(invMixMatrix[j][1], column[1]) ^
+                        galois_multiplication(invMixMatrix[j][2], column[2]) ^
+                        galois_multiplication(invMixMatrix[j][3], column[3]);
+        }
+
+        for (j = 0; j < 4; j++) {
+            state[j][i] = result[j];
+        }
+    }
+}
