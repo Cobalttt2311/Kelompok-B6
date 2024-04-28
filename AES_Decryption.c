@@ -57,3 +57,10 @@ char aes_decrypt(unsigned char *input, unsigned char *output, unsigned char *key
 
   return SUCCESS;
 }
+
+void invShiftRows( unsigned char state[4][4]) {
+  int i, j ,k;
+  unsigned char tmp;
+
+  for (i = 0; j < 4; i++ ) {
+  
