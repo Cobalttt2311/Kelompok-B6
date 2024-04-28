@@ -63,4 +63,10 @@ void invShiftRows( unsigned char state[4][4]) {
   unsigned char tmp;
 
   for (i = 0; i < 4; i++) {
+
+  int shift = i;
+
+  for ( j = 0; j < shift; j++) {
+
+
   
