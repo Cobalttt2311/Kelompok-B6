@@ -58,15 +58,24 @@ char aes_decrypt(unsigned char *input, unsigned char *output, unsigned char *key
   return SUCCESS;
 }
 
-void invShiftRows( unsigned char state[4][4]) {
-  int i, j ,k;
-  unsigned char tmp;
+void invShiftRows(unsigned char state[4][4]) {
+    int i, j, k;
+    unsigned char tmp;
 
-  for (i = 0; i < 4; i++) {
+    for (i = 0; i < 4; i++) {
+        // Number of cyclic shifts for this row (based on row index)
+        int shift = i;
 
-  int shift = i;
-
-  for ( j = 0; j < shift; j++) {
+        // Perform cyclic shift to the right by `shift` positions
+        for (j = 0; j < shift; j++) {
+            tmp = state[i][3];  // Store the last element
+            for ( k = 2; k >= 0; k--) {  // Shift elements to the right
+                state[i][k + 1] = state[i][k];
+            }
+            state[i][0] = tmp;  // Move the stored element to the beginning
+        }
+    }
+}
 
 char aes_decrypt(unsigned char *input, unsigned char *output, unsigned char *key, enum keySize size)
 {
