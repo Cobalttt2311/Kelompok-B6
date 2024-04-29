@@ -207,3 +207,24 @@ char aes_decrypt(unsigned char *input, unsigned char *output, unsigned char *key
 
   return SUCCESS;
 }
+
+void aes_invMain(unsigned char state[4][4], unsigned char *expandedKey, int nbrRounds)
+{
+  int i = 0;
+
+  unsigned char roundKey[4][4];
+
+  createRoundKey(expandedKey + 16 * nbrRounds, roundKey);
+  addRoundKey(state, roundKey);
+
+  for (i = nbrRounds - 1; i > 0; i--)
+  {
+    createRoundKey(expandedKey + 16 * i, roundKey);
+    aes_invRound(state, roundKey);
+  }
+
+  createRoundKey(expandedKey, roundKey);
+  invShiftRows(state);
+  invsubBytes(4,state);
+  addRoundKey(state, roundKey);
+}
