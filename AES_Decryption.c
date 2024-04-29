@@ -99,7 +99,7 @@ void invShiftRows(unsigned char state[4][4]) {
 
         // pergeseran ke kanan dengan berdasarkan posisi shift
         for (j = 0; j < shift; j++) {
-            tmp = state[i][3];  // Store the last element
+            tmp = state[i][3];  // melakukan penyimpanan untuk elemen terakhir
             for ( k = 2; k >= 0; k--) {  // Shift elements to the right
                 state[i][k + 1] = state[i][k];
             }
