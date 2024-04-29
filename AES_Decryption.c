@@ -1,4 +1,3 @@
-
 #include <stdio.h>  
 #include <stdlib.h> 
 #define BLOCK_SIZE 16
@@ -34,8 +33,7 @@ char inverseSbox[16][16] = {
     {0x17, 0x2b, 0x04, 0x7e, 0xba, 0x77, 0xd6, 0x26, 0xe1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0c, 0x7d}  // F
 };
 
-
-void invSubBytes(int ukuran, unsigned char state[ukuran][ukuran]) {
+void invsubBytes(int ukuran, unsigned char state[ukuran][ukuran]) {
   int i, j;
   for (i = 0; i < ukuran; i++) {
     for (j = 0; j < ukuran; j++) {
@@ -46,84 +44,30 @@ void invSubBytes(int ukuran, unsigned char state[ukuran][ukuran]) {
   }
 }
 
-void aes_invRound(unsigned char state[4][4], unsigned char roundKey[4][4])
-{
-  invShiftRows(state);
-  invSubBytes(4,state);
-  addRoundKey(state, roundKey);
-  invMixColumns(state);
-}
-
-char aes_decrypt(unsigned char *input, unsigned char *output, unsigned char *key, enum keySize size)
-{
-  // the number of rounds
-  int nbrRounds;
-
-  // the expanded key
-  unsigned char expandedKey[16][16]; // 15 rounds maximum
-
-  // the 128 bit block to decode
-  unsigned char block[BLOCK_SIZE];
-
-  int i, j;
-
-  // set the number of rounds
-  switch (size)
-  {
-  case SIZE_16:
-    nbrRounds = 10;
-    break;
-  default:
-    return ERROR_AES_UNKNOWN_KEYSIZE;
-    break;
-  }
-
-  // Set the block values
-  for (i = 0; i < 4; i++)
-  {
-    for (j = 0; j < 4; j++)
-      block[(i + (j * 4))] = input[(i * 4) + j];
-  }
-
-  // Expand the key into a 176 bytes key
-  expandKey(expandedKey[0], key, size, 16 * (nbrRounds + 1));
-
-  // Decrypt the block using the expandedKey
-  // Pass the address of block (which acts as 2D array)
-  aes_invMain(block, expandedKey[0], nbrRounds); 
-
-  // Unmap the block again into the output
-  for (i = 0; i < 4; i++)
-  {
-    for (j = 0; j < 4; j++)
-      output[(i * 4) + j] = block[(i + (j * 4))];
-  }
-
-  return SUCCESS;
-}
-
-
 void invShiftRows(unsigned char state[4][4]) {
     int i, j, k;
     unsigned char tmp;
 
     for (i = 0; i < 4; i++) {
-        // Jumlah pergesseran dengan berdasarkan indeks baris
+        // Number of cyclic shifts for this row (based on row index)
         int shift = i;
 
-        // pergeseran ke kanan dengan berdasarkan posisi shift
+        // Perform cyclic shift to the right by `shift` positions
         for (j = 0; j < shift; j++) {
-            tmp = state[i][3];  // melakukan penyimpanan untuk elemen terakhir
-            for ( k = 2; k >= 0; k--) {  // melakukan pergeseran elemen ke kanan
+            tmp = state[i][3];  // Store the last element
+            for ( k = 2; k >= 0; k--) {  // Shift elements to the right
                 state[i][k + 1] = state[i][k];
             }
-            state[i][0] = tmp;  // memindahkan elemen yang disimpan ke awal
+            state[i][0] = tmp;  // Move the stored element to the beginning
         }
     }
 }
 
+
 void invMixColumns(unsigned char state[4][4]) {
     // Define the inverse mix matrix
+    
+    
     unsigned char invMixMatrix[4][4] = {
         {0x0e, 0x0b, 0x0d, 0x09},
         {0x09, 0x0e, 0x0b, 0x0d},
@@ -153,12 +97,34 @@ void invMixColumns(unsigned char state[4][4]) {
     }
 }
 
+
 void aes_invRound(unsigned char state[4][4], unsigned char roundKey[4][4])
 {
   invShiftRows(state);
-  invSubBytes(4,state);
+  invsubBytes(4,state);
   addRoundKey(state, roundKey);
   invMixColumns(state);
+}
+
+void aes_invMain(unsigned char state[4][4], unsigned char *expandedKey, int nbrRounds)
+{
+  int i = 0;
+
+  unsigned char roundKey[4][4];
+
+  createRoundKey(expandedKey + 16 * nbrRounds, roundKey);
+  addRoundKey(state, roundKey);
+
+  for (i = nbrRounds - 1; i > 0; i--)
+  {
+    createRoundKey(expandedKey + 16 * i, roundKey);
+    aes_invRound(state, roundKey);
+  }
+
+  createRoundKey(expandedKey, roundKey);
+  invShiftRows(state);
+  invsubBytes(4,state);
+  addRoundKey(state, roundKey);
 }
 
 char aes_decrypt(unsigned char *input, unsigned char *output, unsigned char *key, enum keySize size)
@@ -209,23 +175,3 @@ char aes_decrypt(unsigned char *input, unsigned char *output, unsigned char *key
   return SUCCESS;
 }
 
-void aes_invMain(unsigned char state[4][4], unsigned char *expandedKey, int nbrRounds)
-{
-  int i = 0;
-
-  unsigned char roundKey[4][4];
-
-  createRoundKey(expandedKey + 16 * nbrRounds, roundKey);
-  addRoundKey(state, roundKey);
-
-  for (i = nbrRounds - 1; i > 0; i--)
-  {
-    createRoundKey(expandedKey + 16 * i, roundKey);
-    aes_invRound(state, roundKey);
-  }
-
-  createRoundKey(expandedKey, roundKey);
-  invShiftRows(state);
-  invsubBytes(4,state);
-  addRoundKey(state, roundKey);
-}
