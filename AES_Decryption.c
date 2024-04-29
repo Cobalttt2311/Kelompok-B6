@@ -94,7 +94,7 @@ void invShiftRows(unsigned char state[4][4]) {
     unsigned char tmp;
 
     for (i = 0; i < 4; i++) {
-        // Number of cyclic shifts for this row (based on row index)
+        // Jumlah pergesseran dengan berdasarkan indeks baris
         int shift = i;
 
         // Perform cyclic shift to the right by `shift` positions
