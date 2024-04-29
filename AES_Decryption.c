@@ -35,7 +35,7 @@ char inverseSbox[16][16] = {
 };
 
 
-void invsubBytes(int ukuran, unsigned char state[ukuran][ukuran]) {
+void invSubBytes(int ukuran, unsigned char state[ukuran][ukuran]) {
   int i, j;
   for (i = 0; i < ukuran; i++) {
     for (j = 0; j < ukuran; j++) {
@@ -44,11 +44,12 @@ void invsubBytes(int ukuran, unsigned char state[ukuran][ukuran]) {
       state[i][j] = inverseSbox[row][col];
     }
   }
+}
 
 void aes_invRound(unsigned char state[4][4], unsigned char roundKey[4][4])
 {
   invShiftRows(state);
-  invSubBytes(state);
+  invSubBytes(4,state);
   addRoundKey(state, roundKey);
   invMixColumns(state);
 }
@@ -155,7 +156,7 @@ void invMixColumns(unsigned char state[4][4]) {
 void aes_invRound(unsigned char state[4][4], unsigned char roundKey[4][4])
 {
   invShiftRows(state);
-  invSubBytes(state);
+  invSubBytes(4,state);
   addRoundKey(state, roundKey);
   invMixColumns(state);
 }
