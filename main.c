@@ -9,6 +9,11 @@
 #include "mixcolumn.h"
 #include "shiftrows.h"
 #include "subbytes.h"
+#include "invExpandedkey.h"
+#include "invMixColumn.h"
+#include "invShiftRows.h"
+#include "invaesmain.h"
+#include "invSubByte.h"
 
 enum keySize
 {
@@ -126,41 +131,41 @@ int main()
    			system("cls");
  	    break;
  	case 2:
-	 		// Meminta pengguna untuk memasukkan kunci dan ciphertext
-	 	printf("\nSegera Hadir dalam waktu dekat");
-	 	printf("\nTekan Enter untuk melanjutkan...");
-        getchar();
-        system("pause");
-        system("cls");
-//	    printf("\nMasukkan Cipher Key (16 karakter dalam format HEX):\n");
-//		fflush(stdin);
-//		for (i = 0; i < 16; i++)
-//		{
-//	    	scanf("%2x", &key[i]); // Menggunakan %2x untuk membaca input sebagai nilai HEX
-//		}
-//	
-//	    printf("\nMasukkan Cipher Text (16 karakter dalam format HEX):\n");
-//	    fflush(stdin);
-//	    for (i = 0; i < 16; i++)
-//	    {
-//	        scanf("%2x", &ciphertext[i]); // Menggunakan %2x untuk membaca input sebagai nilai HEX
-//	    }
-//	
-//	    // Melakukan dekripsi
-//	    aes_decrypt(ciphertext, decryptedtext, key, SIZE_16);
-//	  
-//		printf("\nDecrypted text:\n");
-//	    for (i = 0; i < 16; i++)
-//	    {
-//	        printf("%c", decryptedtext[i]);
-//	    }
-//	    printf("\n");
-//	    // Menampilkan hasil dekripsi
-//	    printf("\nDecrypted text (HEX format):\n");
-//	    for (i = 0; i < 16; i++)
-//	    {
-//	        printf("%2.2x%c", decryptedtext[i], ((i + 1) % 16) ? ' ' : '\n');
-//	    }
+//	 		// Meminta pengguna untuk memasukkan kunci dan ciphertext
+//	 	printf("\nSegera Hadir dalam waktu dekat");
+//	 	printf("\nTekan Enter untuk melanjutkan...");
+//        getchar();
+//        system("pause");
+//        system("cls");
+	    printf("\nMasukkan Cipher Key (16 karakter dalam format HEX):\n");
+		fflush(stdin);
+		for (i = 0; i < 16; i++)
+		{
+	    	scanf("%2x", &key[i]); // Menggunakan %2x untuk membaca input sebagai nilai HEX
+		}
+	
+	    printf("\nMasukkan Cipher Text (16 karakter dalam format HEX):\n");
+	    fflush(stdin);
+	    for (i = 0; i < 16; i++)
+	    {
+	        scanf("%2x", &ciphertext[i]); // Menggunakan %2x untuk membaca input sebagai nilai HEX
+	    }
+	
+	    // Melakukan dekripsi
+	    aes_decrypt(ciphertext, decryptedtext, key, SIZE_16);
+	  
+		printf("\nDecrypted text:\n");
+	    for (i = 0; i < 16; i++)
+	    {
+	        printf("%c", decryptedtext[i]);
+	    }
+	    printf("\n");
+	    // Menampilkan hasil dekripsi
+	    printf("\nDecrypted text (HEX format):\n");
+	    for (i = 0; i < 16; i++)
+	    {
+	        printf("%2.2x%c", decryptedtext[i], ((i + 1) % 16) ? ' ' : '\n');
+	    }
 	    break;
 	case 3:
         	return SUCCESS;
