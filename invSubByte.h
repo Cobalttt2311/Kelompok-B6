@@ -1,6 +1,6 @@
-#ifndef INVERSESBOX_H
-#define INVERSESBOX_H
+#ifndef INVSYBBYTE_H
+#define INVSUBBYTE_H
 
-void invsubBytes(int ukuran, unsigned char state[ukuran][ukuran]);
+void invSubBytes(int ukuran, unsigned char state[ukuran][ukuran]);
 
 #endif
