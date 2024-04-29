@@ -2,6 +2,13 @@
 #include <stdlib.h> 
 #define BLOCK_SIZE 16
 
+enum errorCode
+{
+    SUCCESS = 0,
+    ERROR_AES_UNKNOWN_KEYSIZE,
+    ERROR_MEMORY_ALLOCATION_FAILED,
+};
+
 enum keySize
 {
     SIZE_16 = 16
