@@ -116,7 +116,7 @@ void invShiftRows(unsigned char state[4][4]) {
             for ( k = 2; k >= 0; k--) {  // melakukan pergeseran elemen ke kanan
                 state[i][k + 1] = state[i][k];
             }
-            state[i][0] = tmp;  // Move the stored element to the beginning
+            state[i][0] = tmp;  // memindahkan elemen yang disimpan ke awal
         }
     }
 }
