@@ -1,0 +1,7 @@
+#ifndef INVSHIFTROWS_H
+#define INVSHIFTROWS_H
+
+// invShiftRows, dekripsi dari shiftrows
+void invShiftRows(unsigned char state[4][4]);
+
+#endif
