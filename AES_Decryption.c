@@ -97,7 +97,7 @@ void invShiftRows(unsigned char state[4][4]) {
         // Jumlah pergesseran dengan berdasarkan indeks baris
         int shift = i;
 
-        // Perform cyclic shift to the right by `shift` positions
+        // pergeseran ke kanan dengan berdasarkan posisi shift
         for (j = 0; j < shift; j++) {
             tmp = state[i][3];  // Store the last element
             for ( k = 2; k >= 0; k--) {  // Shift elements to the right
