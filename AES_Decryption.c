@@ -49,16 +49,16 @@ void invShiftRows(unsigned char state[4][4]) {
     unsigned char tmp;
 
     for (i = 0; i < 4; i++) {
-        // Number of cyclic shifts for this row (based on row index)
+        // jumlah pergeseran dengan berdasarkan indeks baris
         int shift = i;
 
-        // Perform cyclic shift to the right by `shift` positions
+        // proses pergeseran ke kanan dengan posisi 'shift'
         for (j = 0; j < shift; j++) {
-            tmp = state[i][3];  // Store the last element
-            for ( k = 2; k >= 0; k--) {  // Shift elements to the right
+            tmp = state[i][3];  // menyimpan elemen terakhir
+            for ( k = 2; k >= 0; k--) {  // menggeser elemen ke kanan
                 state[i][k + 1] = state[i][k];
             }
-            state[i][0] = tmp;  // Move the stored element to the beginning
+            state[i][0] = tmp;  // memindahkan elelmen yang disimpan ke awal
         }
     }
 }
