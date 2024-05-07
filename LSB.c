@@ -28,17 +28,23 @@ void decrypt_message(const unsigned char* image_data, int image_size, int messag
     for ( j = 0; j < message_size; ++j) {
         unsigned char byte = 0;
         for (k = 0; k < 8; ++k) {
-            int bit = read_lsb(image_data[i]);
-            byte |= (bit << (7 - k));
+            // Membaca LSB dari setiap byte pixel gambar
+            int bit = read_lsb(image_data[i]); 
+            // Menggeser bit yang terbaca ke posisi yang tepat pada byte yang akan didekripsi
+            byte |= (bit << (7 - k)); 
             ++i;
-            if (++count >= message_size * 8) {
+            // Memeriksa apakah sudah membaca semua bit pesan
+            if (++count >= message_size * 8) { 
                 break;
             }
         }
-        decrypted_message[j] = byte;
-        if (count >= message_size * 8) {
+        // Menyimpan byte yang telah didekripsi dalam pesan terdekripsi
+        decrypted_message[j] = byte; 
+        // Memeriksa apakah sudah membaca semua bit pesan
+        if (count >= message_size * 8) { 
             break;
         }
     }
-    decrypted_message[message_size - 1] = '\0'; // Pastikan string terakhir diakhiri dengan null terminator
+    // Memastikan string terakhir diakhiri dengan null terminator
+    decrypted_message[message_size - 1] = '\0'; 
 }
