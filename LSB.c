@@ -20,7 +20,7 @@ void hide_message(unsigned char* image_data, int image_size, const unsigned char
 }
 
 
-
+// Fungsi untuk mendekripsi pesan yang disembunyikan dalam gambar menggunakan metode LSB
 void decrypt_message(const unsigned char* image_data, int image_size, int message_size, char* decrypted_message) {
     int i = 0, j, k;
     int count = 0;
