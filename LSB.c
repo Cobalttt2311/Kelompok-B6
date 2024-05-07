@@ -18,3 +18,27 @@ void hide_message(unsigned char* image_data, int image_size, const unsigned char
         }
     }
 }
+
+
+
+void decrypt_message(const unsigned char* image_data, int image_size, int message_size, char* decrypted_message) {
+    int i = 0, j, k;
+    int count = 0;
+
+    for ( j = 0; j < message_size; ++j) {
+        unsigned char byte = 0;
+        for (k = 0; k < 8; ++k) {
+            int bit = read_lsb(image_data[i]);
+            byte |= (bit << (7 - k));
+            ++i;
+            if (++count >= message_size * 8) {
+                break;
+            }
+        }
+        decrypted_message[j] = byte;
+        if (count >= message_size * 8) {
+            break;
+        }
+    }
+    decrypted_message[message_size - 1] = '\0'; // Pastikan string terakhir diakhiri dengan null terminator
+}
