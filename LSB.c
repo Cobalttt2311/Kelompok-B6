@@ -63,7 +63,8 @@ void decrypt_message(const unsigned char* image_data, int image_size, int messag
     decrypted_message[message_size - 1] = '\0'; 
 }
 
-// Function to read the least significant bit (LSB) of a byte
+// Fungsi untuk membaca bit paling tidak signifikan (LSB) dari sebuah byte
 unsigned char read_lsb(unsigned char byte) {
-    return byte & 1;
+    return byte & 1; // Mengembalikan hasil dari operasi bitwise AND antara byte dan bilangan 1
 }
+
