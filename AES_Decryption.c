@@ -1,4 +1,3 @@
-
 #include <stdio.h>  
 #include <stdlib.h> 
 #define BLOCK_SIZE 16
@@ -35,7 +34,7 @@ char inverseSbox[16][16] = {
 };
 
 
-void invSubBytes(int ukuran, unsigned char state[ukuran][ukuran]) {
+void invsubBytes(int ukuran, unsigned char state[ukuran][ukuran]) {
   int i, j;
   for (i = 0; i < ukuran; i++) {
     for (j = 0; j < ukuran; j++) {
@@ -102,28 +101,30 @@ char aes_decrypt(unsigned char *input, unsigned char *output, unsigned char *key
   return SUCCESS;
 }
 
-
 void invShiftRows(unsigned char state[4][4]) {
     int i, j, k;
     unsigned char tmp;
 
     for (i = 0; i < 4; i++) {
-        // Jumlah pergesseran dengan berdasarkan indeks baris
+        // jumlah pergeseran dengan berdasarkan indeks baris
         int shift = i;
 
-        // pergeseran ke kanan dengan berdasarkan posisi shift
+        // proses pergeseran ke kanan dengan posisi 'shift'
         for (j = 0; j < shift; j++) {
-            tmp = state[i][3];  // melakukan penyimpanan untuk elemen terakhir
-            for ( k = 2; k >= 0; k--) {  // melakukan pergeseran elemen ke kanan
+            tmp = state[i][3];  // menyimpan elemen terakhir
+            for ( k = 2; k >= 0; k--) {  // menggeser elemen ke kanan
                 state[i][k + 1] = state[i][k];
             }
-            state[i][0] = tmp;  // Move the stored element to the beginning
+            state[i][0] = tmp;  // memindahkan elelmen yang disimpan ke awal
         }
     }
 }
 
+
 void invMixColumns(unsigned char state[4][4]) {
     // Define the inverse mix matrix
+    
+    
     unsigned char invMixMatrix[4][4] = {
         {0x0e, 0x0b, 0x0d, 0x09},
         {0x09, 0x0e, 0x0b, 0x0d},
@@ -153,12 +154,34 @@ void invMixColumns(unsigned char state[4][4]) {
     }
 }
 
+
 void aes_invRound(unsigned char state[4][4], unsigned char roundKey[4][4])
 {
   invShiftRows(state);
-  invSubBytes(4,state);
+  invsubBytes(4,state);
   addRoundKey(state, roundKey);
   invMixColumns(state);
+}
+
+void aes_invMain(unsigned char state[4][4], unsigned char *expandedKey, int nbrRounds)
+{
+  int i = 0;
+
+  unsigned char roundKey[4][4];
+
+  createRoundKey(expandedKey + 16 * nbrRounds, roundKey);
+  addRoundKey(state, roundKey);
+
+  for (i = nbrRounds - 1; i > 0; i--)
+  {
+    createRoundKey(expandedKey + 16 * i, roundKey);
+    aes_invRound(state, roundKey);
+  }
+
+  createRoundKey(expandedKey, roundKey);
+  invShiftRows(state);
+  invsubBytes(4,state);
+  addRoundKey(state, roundKey);
 }
 
 char aes_decrypt(unsigned char *input, unsigned char *output, unsigned char *key, enum keySize size)
@@ -208,3 +231,4 @@ char aes_decrypt(unsigned char *input, unsigned char *output, unsigned char *key
 
   return SUCCESS;
 }
+

@@ -1,7 +1,7 @@
 #ifndef INVSHIFTROWS_H
 #define INVSHIFTROWS_H
 
-// invShiftRows, dekripsi dari shiftrows
+// shiftRows, Terapkan transformasi ShiftRows pada state
 void invShiftRows(unsigned char state[4][4]);
 
 #endif
