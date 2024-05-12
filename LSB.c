@@ -1,3 +1,15 @@
+void reverse_string(char* str) {
+    int len = strlen(str);
+    int i, j;
+    char temp;
+
+    for (i = 0, j = len - 1; i < j; ++i, --j) {
+        temp = str[i];
+        str[i] = str[j];
+        str[j] = temp;
+    }
+}
+
 // Fungsi untuk meneyembunyikan pesan dalam gambar metode LSB
 void hide_message(unsigned char* image_data, int image_size, const unsigned char* message, int message_length) { 
     int i;
@@ -48,3 +60,6 @@ void decrypt_message(const unsigned char* image_data, int image_size, int messag
     // Memastikan string terakhir diakhiri dengan null terminator
     decrypted_message[message_size - 1] = '\0'; 
 }
+
+
+
