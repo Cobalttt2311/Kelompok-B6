@@ -1,12 +1,14 @@
 void reverse_string(char* str) {
-    int len = strlen(str);
-    int i, j;
-    char temp;
+    // Fungsi ini digunakan untuk membalikkan string input `str`.
+    int len = strlen(str); // Menghitung panjang string
+    int i, j; // Mendeklarasikan variabel integer i dan j untuk iterasi
+    char temp; // Mendeklarasikan variabel karakter sementara untuk menyimpan nilai selama pertukaran
 
+    // Melakukan perulangan melalui string dari kedua ujung menuju tengah
     for (i = 0, j = len - 1; i < j; ++i, --j) {
-        temp = str[i];
-        str[i] = str[j];
-        str[j] = temp;
+        temp = str[i]; // Menyimpan karakter pada indeks i ke dalam temp
+        str[i] = str[j]; // Mengganti karakter pada indeks i dengan karakter pada indeks j
+        str[j] = temp; // Mengganti karakter pada indeks j dengan karakter yang disimpan di temp
     }
 }
 
