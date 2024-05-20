@@ -285,7 +285,49 @@ int main()
 	    }
 	    break;
 	case 3:
-        	return SUCCESS;
+        	// Enkripsi pesan
+                printf("Masukkan nama file gambar PNG: ");
+                scanf("%s", filename);
+
+                image_data = stbi_load(filename, &width, &height, &channels, 0);
+
+                if (!image_data) {
+                    printf("Gagal membuka file gambar.\n");
+                    break;
+                }
+
+                {
+                    char message[51];
+                    printf("Masukkan pesan yang akan disisipkan: ");
+                    getchar(); // membersihkan newline yang tersisa dalam input buffer
+                    fgets(message, sizeof(message), stdin);
+                    message[strcspn(message, "\n")] = '\0'; // menghapus newline yang ditambahkan oleh fgets
+
+                    int message_size = strlen(message) + 1; // Menambahkan 1 untuk karakter nul akhir
+
+                    // Menyembunyikan pesan ke dalam gambar
+                    hide_message(image_data, width * height * channels, (unsigned char*)message, message_size);
+                    // Simpan gambar yang telah dimodifikasi
+                    char output_filename[100];
+                    printf("Masukkan nama file untuk menyimpan gambar yang dimodifikasi: ");
+                    scanf("%s", output_filename);
+                    if (!strstr(output_filename, ".")) {
+                        strcat(output_filename, ".png"); // Tambahkan ekstensi .png jika belum ada
+                    }
+                    printf("Nama file output: %s\n", output_filename);
+
+                    if (!stbi_write_png(output_filename, width, height, channels, image_data, width * channels)) {
+                        printf("Gagal menyimpan gambar.\n");
+                        return 1;
+                    }
+
+                    printf("Pesan telah disisipkan ke dalam gambar.\n");
+                }
+
+                // Membebaskan memori yang dialokasikan untuk gambar
+                stbi_image_free(image_data);
+
+                break;
     	}
     }
     return 0;
