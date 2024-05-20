@@ -1,6 +1,13 @@
 #include "linkedlist.h"
 #include "AES_Encryption.h"
 
+address nodetipuan(address baru, int n) {
+    baru = (address)malloc(sizeof(ElmtList));
+    info(baru) = sbox[fibonaci(n)][fibonaci(n + 1)];
+    next(baru) = prev(baru) = Nil;
+    return baru;
+}
+
 address nodesebelumpalsu(int fibo, address first) {
     address cari = first;
     int j;
