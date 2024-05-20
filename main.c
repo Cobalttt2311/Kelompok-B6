@@ -94,12 +94,21 @@ int main()
     printf("=============================================================\n");
     switch (var) {
         case 1:
-            printf("\nMasukkan Cipher Key (16 karakter):\n");
-    	    fflush(stdin);
-    	    for (i = 0; i < 16; i++)
-    	    {
-        	scanf("%c", &key[i]);
-    	    }
+            // Handle input untuk Cipher Key
+	    while (1) {
+	        printf("\nMasukkan Cipher Key (maksimal 16 karakter):\n");
+	        fflush(stdin);
+	        if (fgets(temp, sizeof(temp), stdin) != NULL) {
+	            temp[strcspn(temp, "\n")] = '\0'; // Menghapus karakter newline
+	            if (strlen(temp) <= MAX_LEN && strlen(temp) > 0) {
+	                strncpy(key, temp, MAX_LEN); // Salin ke buffer dengan panjang yang sesuai
+	                key[MAX_LEN] = '\0'; // Pastikan null-terminated
+	                break;
+	            } else {
+	                printf("Input terlalu panjang. Maksimal %d karakter. Silakan coba lagi.\n", MAX_LEN);
+	            }
+	        } 
+	    }
 
     	    printf("\nMasukkan Plain Text (16 karakter):\n");
     	    fflush(stdin);
