@@ -32,3 +32,11 @@ void hapustipuan(address first) {
         free(tipuan);
     }
 }
+
+void putar(address *first,int key){
+	int i;
+
+	for(i = 0 ; i < putaran ; i++){
+		*first = next(*first);
+	}
+}
