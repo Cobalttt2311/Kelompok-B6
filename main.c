@@ -29,6 +29,21 @@ enum errorCode
 
 int main()
 {
+
+    address first;
+    address firstDec;
+    int choice;
+    char filename[100];
+    int width, height, channels;
+    unsigned char* image_data;
+    char masukan;
+    int totalfib;
+    int i;
+    int var;
+    char temp[50];
+    first = Nil;
+    firstDec = Nil;
+    totalfib = 1;
 	
     // the expanded keySize
     int expandedKeySize = 176;
@@ -49,9 +64,6 @@ int main()
 
     // the decrypted text
     unsigned char decryptedtext[16];
-
-    int i;
-	int var;
 
     while(1) 
     { // Loop indefinitely until user chooses to exit
