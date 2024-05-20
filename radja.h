@@ -3,6 +3,6 @@
 
 void sisipkantipuan (address first);
 void hapustipuan(address first);
-void pputar(address *first, int key);
+void pputar(address *first, int key, bool reverse);
 
 #endif
