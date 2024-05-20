@@ -328,6 +328,38 @@ int main()
                 stbi_image_free(image_data);
 
                 break;
+	    case 4:
+            // Dekripsi pesan
+            printf("Masukkan nama file gambar PNG: ");
+            scanf("%s", filename);
+
+            image_data = stbi_load(filename, &width, &height, &channels, 0);
+
+            if (!image_data)
+            {
+                printf("Gagal membuka file gambar.\n");
+                break;
+            }
+
+            {
+                // Membaca pesan tersembunyi dari gambar yang dimodifikasi
+                char *decrypted_message = (char *)malloc(45);
+                int ukuran = width * height * channels;
+                decrypt_message(image_data, ukuran, 45, decrypted_message);
+
+                // Membalikkan string yang telah didekripsi
+                reverse_string(decrypted_message);
+
+                // Menampilkan pesan tersembunyi yang telah dibalik
+                printf("Pesan tersembunyi: %s\n", decrypted_message);
+
+                // Membebaskan memori yang dialokasikan untuk pesan terdekripsi
+                free(decrypted_message);
+            }
+
+            // Membebaskan memori yang dialokasikan untuk gambar
+            stbi_image_free(image_data);
+            break;
     	}
     }
     return 0;
