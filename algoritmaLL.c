@@ -125,3 +125,12 @@ void insert(address *first, infotype isi) {
         }
     }
 }
+
+infotype pindahkearray(address *first) {
+    address hapus = *first;
+    *first = next(*first);
+    next(hapus) = Nill;
+	prev(hapus) = Nil;
+    return info(hapus);
+	free(hapus);
+}
