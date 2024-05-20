@@ -53,28 +53,33 @@ int main()
     int i;
 	int var;
 
-	while(1) { // Loop indefinitely until user chooses to exit
-    printf("\n|----------------------------------|\n");
-    printf("|       AES & LSB Kelompok 6       |\n");
-    printf("|----------------------------------|");
-    printf("\n|Menu Pilihan:		   	   |\n");
-    printf("|1. Enkripsi           	  	   |\n");
-    printf("|2. Dekripsi/Soon		   |\n"); 
-    printf("|3. Keluar		           |\n");
-    printf("|----------------------------------|\n");
-    
-    printf("\n Masukkan Pilihan (1)/(2)/(3) :\n ");
-    
-    if (scanf("%d", &var) != 1 || var < 1 || var > 3) {
-    printf("\nInvalid input. Tolong masukkan angka antara 1 sampai 3.\n");
-    fflush(stdin);  // Clear the input buffer for the next iteration
-    printf("\nTekan Enter untuk melanjutkan...");
-    getchar();
-    system("cls");
-    continue;
+    while(1) 
+    { // Loop indefinitely until user chooses to exit
+    	printf("=============================================================\n");
+        printf("|                      AES & LSB Kelompok 6                 |\n");
+        printf("=============================================================\n");
+        printf("|                           MENU                            |\n");
+        printf("|-----------------------------------------------------------|\n");
+        printf("| 1. Enkripsi                                               |\n");
+        printf("| 2. Dekripsi                                               |\n");
+        printf("| 3. Sisipkan Pesan ke Gambar                               |\n");
+        printf("| 4. Ekstrak Pesan dari Gambar                              |\n");
+        printf("| 5. Exit                                                   |\n");
+        printf("=============================================================\n");
+
+        printf("\n Masukkan Pilihan (1)/(2)/(3)/(4)/(5) : ");
+
+        if (scanf("%d", &var) != 1 || var < 1 || var > 5)
+        {
+            printf("\nInvalid input. Tolong masukkan angka antara 1 sampai 5.\n");
+            fflush(stdin); // Clear the input buffer for the next iteration
+            printf("\nTekan Enter untuk melanjutkan...");
+            getchar();
+            system("cls");
+            continue;
     }
             
-    printf("-------------------------------------------------------------------------------------------------------------------\n");
+    printf("=============================================================\n");
     switch (var) {
         case 1:
             printf("\nMasukkan Cipher Key (16 karakter):\n");
