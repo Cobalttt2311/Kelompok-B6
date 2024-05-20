@@ -181,6 +181,71 @@ int main()
 
             printf("\n\n");
             system("pause");
+	    while (1)
+            {
+            	//Handle input untuk melanjutkan ke metode LSB
+                printf("\nApakah anda mau menyisipkan pesan rahasia ke gambar menggunakan metode LSB? Masukkan Y atau N: ");
+                scanf(" %c", &masukan);
+                masukan = toupper(masukan); // Ubah huruf ke uppercase
+                if (masukan == 'N')
+                {
+                    printf("Anda memilih untuk tidak menyisipkan pesan ke gambar.\n");
+                    break; // Keluar dari switch
+                }
+                else if (masukan == 'Y')
+                {
+                    printf("Masukkan nama file gambar PNG: ");
+                    scanf("%s", filename);
+
+                    image_data = stbi_load(filename, &width, &height, &channels, 0);
+
+                    if (!image_data)
+                    {
+                        printf("Gagal membuka file gambar.\n");
+                        break;
+                    }
+
+                    {
+                        char message[45]; // Ukuran pesan adalah 16 karakter, ditambah satu untuk karakter null
+                        for (i = 0; i < 22; i++)
+                        {
+                            sprintf(message + i * 2, "%02X", ciphertext[i]);
+                        }
+                        message[44] = '\0'; // Menambahkan null terminator pada akhir pesan
+
+                        // Menghitung ukuran pesan
+                        int message_size = strlen(message) + 1; // Menambahkan 1 untuk karakter nul akhir
+
+                        // Menyembunyikan pesan ke dalam gambar
+                        hide_message(image_data, width * height * channels, (unsigned char *)message, message_size);
+                        // Simpan gambar yang telah dimodifikasi
+                        char output_filename[100];
+                        printf("Masukkan nama file untuk menyimpan gambar yang dimodifikasi: ");
+                        scanf("%s", output_filename);
+                        if (!strstr(output_filename, "."))
+                        {
+                            strcat(output_filename, ".png"); // Tambahkan ekstensi .png jika belum ada
+                        }
+                        printf("Nama file output: %s\n", output_filename);
+
+                        if (!stbi_write_png(output_filename, width, height, channels, image_data, width * channels))
+                        {
+                            printf("Gagal menyimpan gambar.\n");
+                            return 1;
+                        }
+
+                        printf("Pesan telah disisipkan ke dalam gambar.\n");
+                    }
+
+                    // Membebaskan memori yang dialokasikan untuk gambar
+                    stbi_image_free(image_data);
+                    break;
+                }
+                else
+                {
+                    printf("Input tidak valid. Harap masukkan Y atau N.\n");
+                }
+            }
  	    break;
  	case 2:
 //	 		// Meminta pengguna untuk memasukkan kunci dan ciphertext
