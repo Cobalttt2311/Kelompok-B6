@@ -33,10 +33,15 @@ void hapustipuan(address first) {
     }
 }
 
-void putar(address *first,int key){
-	int i;
-
-	for(i = 0 ; i < putaran ; i++){
-		*first = next(*first);
+void putar(address *first,char key,bool reverse){
+	int putaran,i;
+	if(reverse){
+		for(i = 0 ; i < key ; i++){
+			*first = prev(*first);
+		}
+	}else{
+		for(i = 0 ; i < key ; i++){
+			*first = next(*first);
+		}	
 	}
 }
