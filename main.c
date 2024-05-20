@@ -52,13 +52,13 @@ int main()
     unsigned char expandedKey[expandedKeySize];
 	
     // the cipher key
-    unsigned char key[16];
+    unsigned char key[17];
 
     // the cipher key size
     enum keySize size = SIZE_16;
 
     // the plaintext
-    unsigned char plaintext[16]; 
+    unsigned char plaintext[17]; 
     // the ciphertext
     unsigned char ciphertext[16];
 
