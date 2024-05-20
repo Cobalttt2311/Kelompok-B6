@@ -23,27 +23,19 @@ void printLL(address first) {
 //doubly linked list circular
 void acak(address first) {
     int j;
-    address kiri, kanan, tengah, lastNode;
-    
-    lastNode = first;
-    while (next(lastNode) != NULL) {
-        lastNode = next(lastNode);
-    }
-    next(lastNode) = first;
-    prev(first) = lastNode;
+    address kiri, kanan;
 
-    tengah = first;
-    for (j = 1; j <= 21; j++) {
+    kiri = first;
+    for (j = 0; j <= 21; j++) {
         if (j % 2 != 0) {
-            kiri = prev(tengah);
-            kanan = next(tengah);
-
-            if (kiri != NULL && kanan != NULL) {
-                infotype temp = info(tengah);
-                info(tengah) = info(kanan);
+            kanan = next(kiri);
+        
+            if (kanan != NULL) {
+                infotype temp = info(kiri);
+                info(kiri) = info(kanan);
                 info(kanan) = temp;
             }
         }
-        tengah = next(tengah);
+        kiri = next(kiri);
     }
 }
