@@ -96,7 +96,7 @@ int main()
         case 1:
             // Handle input untuk Cipher Key
 	    while (1) {
-	        printf("\nMasukkan Cipher Key (maksimal 16 karakter):\n");
+	        printf("\nMasukkan Cipher Key (maksimal 16 karakter): ");
 	        fflush(stdin);
 	        if (fgets(temp, sizeof(temp), stdin) != NULL) {
 	            temp[strcspn(temp, "\n")] = '\0'; // Menghapus karakter newline
@@ -112,7 +112,7 @@ int main()
 
     	    // Handle input untuk Plain Text
 	    while (1) {
-	        printf("\nMasukkan Plain Text (maksimal 16 karakter):\n");
+	        printf("\nMasukkan Plain Text (maksimal 16 karakter): ");
 	        fflush(stdin);
 	        if (fgets(temp, sizeof(temp), stdin) != NULL) {
 	            temp[strcspn(temp, "\n")] = '\0'; // Menghapus karakter newline
@@ -142,13 +142,6 @@ int main()
     
     	    //Key Expansion
             expandKey(expandedKey, key, size, expandedKeySize);
-            
-//			  Jikalau mau print expandkey dari round awal hingga akhir
-//            printf("\nExpanded Key (Format HEX):\n");
-//            for (i = 0; i < expandedKeySize; i++)
-//            {
-//        	printf("%2.2x%c", expandedKey[i], ((i + 1) % 16) ? ' ' : '\n');
-//    	    }
     
     	    printf("\nCipher Text (Format HEX):\n");
             for (i = 0; i < 16; i++)
@@ -161,9 +154,33 @@ int main()
             {
 	    	printf("%c", ciphertext[i]);
             }
+		
+            for (i = 0; i < 16; i++)
+            {
+                insert(&first, ciphertext[i]);
+            }
+            sisipkantipuan(first);
+            printLL(first);
+            acak(first);
+            putar(&first, 6, true);
+            for (i = 0; i < 22; i++)
+            {
+                ciphertext[i] = pindahkearray(&first);
+            }
+            printf("\n");
+            printf("Cipher text setelah dimodifikasi (Format HEX):");
+            for (i = 0; i < 22; i++)
+            {
+                printf("%2.2x%c", ciphertext[i], ((i + 1) % 16) ? ' ' : '\n');
+            }
+            //   Jikalau mau print expandkey dari round awal hingga akhir
+            //   printf("\nExpanded Key (Format HEX):\n");
+            //   for (i = 0; i < expandedKeySize; i++){
+            //   printf("%2.2x%c", expandedKey[i], ((i + 1) % 16) ? ' ' : '\n');
+            //   }
+
             printf("\n\n");
-   			system("pause");
-   			system("cls");
+            system("pause");
  	    break;
  	case 2:
 //	 		// Meminta pengguna untuk memasukkan kunci dan ciphertext
