@@ -110,12 +110,21 @@ int main()
 	        } 
 	    }
 
-    	    printf("\nMasukkan Plain Text (16 karakter):\n");
-    	    fflush(stdin);
-    	    for (i = 0; i < 16; i++)
-    	    {
-            	scanf("%c", &plaintext[i]);
-            }
+    	    // Handle input untuk Plain Text
+	    while (1) {
+	        printf("\nMasukkan Plain Text (maksimal 16 karakter):\n");
+	        fflush(stdin);
+	        if (fgets(temp, sizeof(temp), stdin) != NULL) {
+	            temp[strcspn(temp, "\n")] = '\0'; // Menghapus karakter newline
+	            if (strlen(temp) <= MAX_LEN && strlen(temp) > 0) {
+	                strncpy(plaintext, temp, MAX_LEN); // Salin ke buffer dengan panjang yang sesuai
+	                plaintext[MAX_LEN] = '\0'; // Pastikan null-terminated
+	                break;
+	            } else {
+	                printf("Input terlalu panjang. Maksimal %d karakter. Silakan coba lagi.\n", MAX_LEN);
+	            }
+	        } 
+	    }
     
 	    aes_encrypt(plaintext, ciphertext, key, SIZE_16);
 	
