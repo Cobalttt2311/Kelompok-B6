@@ -100,3 +100,28 @@ int fibonaci(int n) {
         return fibonaci(n - 2) + fibonaci(n - 1);
     }
 }
+
+void insert(address *first, infotype isi) {
+    address baru = (address)malloc(sizeof(ElmtList));
+    if (baru == Nil) {
+        printf("Alokasi gagal");
+    } else {
+        info(baru) = isi;
+        next(baru) = Nil;
+        prev(baru) = Nil;
+        if (*first == Nil) {
+            *first = baru;
+            next(baru) = baru;
+            prev(baru) = baru;
+        } else {
+            address temp = *first;
+            while (next(temp) != *first) {
+                temp = next(temp);
+            }
+            next(temp) = baru;
+            prev(baru) = temp;
+            next(baru) = *first;
+            prev(*first) = baru;
+        }
+    }
+}
