@@ -117,7 +117,7 @@ int main()
 	                key[MAX_LEN] = '\0'; // Pastikan null-terminated
 	                break;
 	            } else {
-	                printf("Input terlalu panjang. Maksimal %d karakter. Silakan coba lagi.\n", MAX_LEN);
+	                printf("Input Tidak Tepat. Maksimal %d karakter. Minimal 1 karakter. Silakan coba lagi.\n", MAX_LEN);
 	            }
 	        } 
 	    }
@@ -133,7 +133,7 @@ int main()
 	                plaintext[MAX_LEN] = '\0'; // Pastikan null-terminated
 	                break;
 	            } else {
-	                printf("Input terlalu panjang. Maksimal %d karakter. Silakan coba lagi.\n", MAX_LEN);
+	                printf("Input Tidak Tepat. Maksimal %d karakter. Minimal 1 karakter. Silakan coba lagi.\n", MAX_LEN);
 	            }
 	        } 
 	    }
