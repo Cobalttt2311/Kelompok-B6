@@ -33,6 +33,10 @@ void hide_message(unsigned char* image_data, int image_size, const unsigned char
     }
 }
 
+// Fungsi untuk membaca bit paling tidak signifikan (LSB) dari sebuah byte
+unsigned char read_lsb(unsigned char byte) {
+    return byte & 1; // Mengembalikan hasil dari operasi bitwise AND antara byte dan bilangan 1
+}
 
 // Fungsi untuk mendekripsi pesan yang disembunyikan dalam gambar menggunakan metode LSB
 void decrypt_message(const unsigned char* image_data, int image_size, int message_size, char* decrypted_message) {
@@ -63,8 +67,5 @@ void decrypt_message(const unsigned char* image_data, int image_size, int messag
     decrypted_message[message_size - 1] = '\0'; 
 }
 
-// Fungsi untuk membaca bit paling tidak signifikan (LSB) dari sebuah byte
-unsigned char read_lsb(unsigned char byte) {
-    return byte & 1; // Mengembalikan hasil dari operasi bitwise AND antara byte dan bilangan 1
-}
+
 
