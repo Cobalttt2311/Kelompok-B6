@@ -180,7 +180,7 @@ int main()
                 ciphertext[i] = pindahkearray(&first);
             }
             printf("\n");
-            printf("Cipher text setelah dimodifikasi (Format HEX):");
+            printf("Cipher text setelah dimodifikasi (Format HEX):\n");
             for (i = 0; i < 22; i++)
             {
                 printf("%2.2x ", ciphertext[i]);
@@ -379,7 +379,9 @@ int main()
             // Membebaskan memori yang dialokasikan untuk gambar
             stbi_image_free(image_data);
             break;
+        case 5:
+        	printf("\nTerimakasih");
+        	return 0;
     	}
     }
-    return 0;
 }
