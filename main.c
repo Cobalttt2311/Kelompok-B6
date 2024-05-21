@@ -183,7 +183,7 @@ int main()
             printf("Cipher text setelah dimodifikasi (Format HEX):");
             for (i = 0; i < 22; i++)
             {
-                printf("%2.2x%c", ciphertext[i], ((i + 1) % 16) ? ' ' : '\n');
+                printf("%2.2x ", ciphertext[i]);
             }
             //   Jikalau mau print expandkey dari round awal hingga akhir
             //   printf("\nExpanded Key (Format HEX):\n");
