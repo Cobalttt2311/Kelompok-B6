@@ -2,5 +2,5 @@
 #define DECRYPTION_H
 
 void aes_invRound(unsigned char state[4][4], unsigned char roundKey[4][4]); //inverse tahapan  di round
-
+char inverseSbox[16][16];
 #endif
