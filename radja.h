@@ -1,8 +1,8 @@
-#ifndef NODETIPUAN_H
-#define NODETIPUAN_H
+#ifndef RADJA_H
+#define RADJA_H
 
-void sisipkantipuan (address first);
+void sisipkantipuan(address first);
 void hapustipuan(address first);
-void pputar(address *first, int key, bool reverse);
+void putar(address *first, int key, bool reverse);
 
 #endif
