@@ -5,5 +5,6 @@
 enum keySize;
 //enum errorCode, untuk penanda kesalahan
 enum errorCode;
+char sbox[16][16];
 
 #endif
