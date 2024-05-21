@@ -1,3 +1,4 @@
+#include <string.h>
 void reverse_string(char* str) {
     // Fungsi ini digunakan untuk membalikkan string input `str`.
     int len = strlen(str); // Menghitung panjang string
