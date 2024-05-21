@@ -1,5 +1,10 @@
+#define STB_IMAGE_IMPLEMENTATION
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#define MAX_LEN 16
 #include <stdio.h>  // for printf
 #include <stdlib.h> // for malloc, free
+#include <string.h>
+#include <ctype.h>
 #include "AES_Encryption.h"
 #include "AES_Decryption.h"
 #include "addroundkey.h"
@@ -14,6 +19,13 @@
 #include "invShiftRows.h"
 #include "invaesmain.h"
 #include "invSubByte.h"
+#include "stb_image.h"
+#include "stb_image_write.h"
+#include "LSB_Encryption.h"
+#include "LSB_Decryption.h"
+#include "ReadLSB.h"
+#include "ReverseString.h"
+#include "linkedlist.h"
 
 enum keySize
 {
@@ -256,31 +268,38 @@ int main()
 //        system("cls");
 	    printf("\nMasukkan Cipher Key (16 karakter dalam format HEX):\n");
 		fflush(stdin);
-		for (i = 0; i < 16; i++)
-		{
+		for (i = 0; i < 16; i++){
 	    	scanf("%2x", &key[i]); // Menggunakan %2x untuk membaca input sebagai nilai HEX
 		}
-	
-	    printf("\nMasukkan Cipher Text (16 karakter dalam format HEX):\n");
+	    printf("\nMasukkan Cipher Text (dalam format HEX):\n");
 	    fflush(stdin);
-	    for (i = 0; i < 16; i++)
-	    {
+	    for (i = 0; i < 22; i++){
 	        scanf("%2x", &ciphertext[i]); // Menggunakan %2x untuk membaca input sebagai nilai HEX
 	    }
-	
-	    // Melakukan dekripsi
+	    
+	    for(i = 0; i < 22; i++){
+        	insert(&firstDec,ciphertext[i]);
+		}
+		printLL(firstDec);
+		putar(&firstDec,6,false);
+		acak(firstDec);
+		hapustipuan(firstDec);
+		for(i = 0; i < 16 ; i++){
+       	    ciphertext[i] = pindahkearray(&firstDec);
+		}
+		printf("\nCipher Text (Format Text):\n");
+        for (i = 0; i < 16; i++){
+           	printf("%c", ciphertext[i]);
+        }
+	    
 	    aes_decrypt(ciphertext, decryptedtext, key, SIZE_16);
-	  
 		printf("\nDecrypted text:\n");
-	    for (i = 0; i < 16; i++)
-	    {
+	    for (i = 0; i < 16; i++){
 	        printf("%c", decryptedtext[i]);
 	    }
 	    printf("\n");
-	    // Menampilkan hasil dekripsi
 	    printf("\nDecrypted text (HEX format):\n");
-	    for (i = 0; i < 16; i++)
-	    {
+	    for (i = 0; i < 16; i++){
 	        printf("%2.2x%c", decryptedtext[i], ((i + 1) % 16) ? ' ' : '\n');
 	    }
 	    break;
