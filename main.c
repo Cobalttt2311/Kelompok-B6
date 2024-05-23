@@ -1,8 +1,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #define MAX_LEN 16
-#include <stdio.h>  // for printf
-#include <stdlib.h> // for malloc, free
+#include <stdio.h> 
+#include <stdlib.h> 
 #include <string.h>
 #include <ctype.h>
 #include "AES_Encryption.h"
@@ -26,6 +26,11 @@
 #include "ReadLSB.h"
 #include "ReverseString.h"
 #include "linkedlist.h"
+#include "alanna.h"
+#include "daffa.h"
+#include "erina.h"
+#include "nalen.h"
+#include "radja.h"
 
 enum keySize
 {
@@ -57,28 +62,28 @@ int main()
     firstDec = Nil;
     totalfib = 1;
 	
-    // the expanded keySize
+    //expanded keySize
     int expandedKeySize = 176;
 
-    // the expanded key
+    //expanded key
     unsigned char expandedKey[expandedKeySize];
 	
-    // the cipher key
+    //cipher key
     unsigned char key[17];
 
-    // the cipher key size
+    //cipher key size
     enum keySize size = SIZE_16;
 
-    // the plaintext
+    //plaintext
     unsigned char plaintext[17]; 
-    // the ciphertext
+    //ciphertext
     unsigned char ciphertext[16];
 
-    // the decrypted text
+    //decrypted text
     unsigned char decryptedtext[16];
 
     while(1) 
-    { // Loop indefinitely until user chooses to exit
+    { 
     	printf("=============================================================\n");
         printf("|                      AES & LSB Kelompok 6                 |\n");
         printf("=============================================================\n");
@@ -96,7 +101,7 @@ int main()
         if (scanf("%d", &var) != 1 || var < 1 || var > 5)
         {
             printf("\nInvalid input. Tolong masukkan angka antara 1 sampai 5.\n");
-            fflush(stdin); // Clear the input buffer for the next iteration
+            fflush(stdin); // Clear the input buffer
             printf("\nTekan Enter untuk melanjutkan...");
             getchar();
             system("cls");
@@ -172,9 +177,10 @@ int main()
                 insert(&first, ciphertext[i]);
             }
             sisipkantipuan(first);
-            printLL(first);
             acak(first);
             putar(&first, 6, true);
+            printf("\n\nSetelah dilakukan Penambahan Node Tipuan, Acak dan Pemutaran \n");
+            printLL(first);
             for (i = 0; i < 22; i++)
             {
                 ciphertext[i] = pindahkearray(&first);
@@ -248,8 +254,6 @@ int main()
 
                         printf("Pesan telah disisipkan ke dalam gambar.\n");
                     }
-
-                    // Membebaskan memori yang dialokasikan untuk gambar
                     stbi_image_free(image_data);
                     break;
                 }
@@ -260,12 +264,6 @@ int main()
             }
  	    break;
  	case 2:
-//	 		// Meminta pengguna untuk memasukkan kunci dan ciphertext
-//	 	printf("\nSegera Hadir dalam waktu dekat");
-//	 	printf("\nTekan Enter untuk melanjutkan...");
-//        getchar();
-//        system("pause");
-//        system("cls");
 	    printf("\nMasukkan Cipher Key (16 karakter dalam format HEX):\n");
 		fflush(stdin);
 		for (i = 0; i < 16; i++){
@@ -364,7 +362,7 @@ int main()
                 // Membaca pesan tersembunyi dari gambar yang dimodifikasi
                 char *decrypted_message = (char *)malloc(45);
                 int ukuran = width * height * channels;
-                decrypt_message(image_data, ukuran, 45, decrypted_message);
+                decrypt_message(*image_data, ukuran, 45, *decrypted_message);
 
                 // Membalikkan string yang telah didekripsi
                 reverse_string(decrypted_message);
