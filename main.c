@@ -362,7 +362,7 @@ int main()
                 // Membaca pesan tersembunyi dari gambar yang dimodifikasi
                 char *decrypted_message = (char *)malloc(45);
                 int ukuran = width * height * channels;
-                decrypt_message(*image_data, ukuran, 45, *decrypted_message);
+                decrypt_message(image_data, ukuran, 45, decrypted_message);
 
                 // Membalikkan string yang telah didekripsi
                 reverse_string(decrypted_message);
