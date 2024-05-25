@@ -304,6 +304,27 @@ int main()
 			            }
 			        }
 			    }
+		
+	    	// Loop untuk validasi Cipher Text
+		 while (1) {
+				printf("\nMasukkan Cipher Text (maksimal 22 karakter dalam format HEX): \n");
+			        fflush(stdin);
+			        if (fgets(temp, sizeof(temp), stdin) != NULL) {
+			            temp[strcspn(temp, "\n")] = '\0'; // Menghapus karakter newline
+			            remove_spaces(temp); // Menghapus spasi
+			
+			            if (strlen(temp) == 44) { // 22 karakter HEX (44 digit tanpa spasi)
+			                for (i = 0; i < 44; i++) {
+			                    sscanf(&temp[i * 2], "%2hhx", &ciphertext[i]);
+			                }
+			                break;
+			            } else {
+			                printf("Error: Cipher Text harus tepat 22 karakter HEX.\n");
+			            }
+			        }
+			    }
+
+	
 	case 3:
         	// Enkripsi pesan
                 printf("Masukkan nama file gambar PNG: ");
