@@ -95,8 +95,6 @@ int main()
     //decrypted text
     unsigned char decryptedtext[16];
 
-     //nalen
-    // Reset or clear necessary variables and states
     clear_list(&first);
 
     while(1) 
