@@ -323,7 +323,18 @@ int main()
 			            }
 			        }
 			    }
-
+	            for (i = 0; i < 22; i++)
+	            {
+	                insert(&firstDec, ciphertext[i]);
+	            }
+	            printLL(firstDec);
+	            putar(&firstDec, 6, false);
+	            acak(firstDec);
+	            hapustipuan(firstDec);
+	            for (i = 0; i < 16; i++)
+	            {
+	                ciphertext[i] = pindahkearray(&firstDec);
+	            }
 	
 	case 3:
         	// Enkripsi pesan
