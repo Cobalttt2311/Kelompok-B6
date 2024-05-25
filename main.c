@@ -286,6 +286,7 @@ int main()
 		printf("=============================================================\n");
 		printf("|                         DEKRIPSI                          |\n");
 		printf("-------------------------------------------------------------\n");
+
 	        printf("\nMasukkan Cipher Key (16 karakter dalam format HEX):\n");
 		fflush(stdin);
 		for (i = 0; i < 16; i++){
