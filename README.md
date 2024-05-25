@@ -157,10 +157,10 @@ Linked list yang kami gunakan dalam program ini berupa Circular Doubly Linked Li
 Fungsi ini digunakan untuk menambahkan node baru ke dalam linked list. Node baru ditambahkan di akhir linked list. Jika linked list kosong, node baru menjadi node pertama dan menunjuk ke dirinya sendiri sebagai next dan prev.
 
     address nodetipuan(address baru, int n)
-Fungsi ini membuat node tipuan dengan nilai dari tabel S-Box berdasarkan bilangan Fibonacci.
+Fungsi ini membuat node tipuan dengan nilai dari tabel S-Box yang nilai baris dan kolomnya ditentukan oleh bilangan Fibonacci.
 
     address nodesebelumpalsu(int fibo, address first)
-Fungsi ini mencari node pada posisi tertentu berdasarkan nilai Fibonacci.
+Fungsi ini mencari node pada posisi node sebelum palsu berdasarkan nilai Fibonacci.
 
     void sisipkantipuan(address first)
 Fungsi ini menyisipkan node tipuan ke dalam linked list pada posisi yang ditentukan oleh nilai Fibonacci.
@@ -169,13 +169,13 @@ Fungsi ini menyisipkan node tipuan ke dalam linked list pada posisi yang ditentu
 Fungsi ini mencetak semua elemen dari linked list mulai dari node pertama hingga kembali ke node pertama. 
 
     infotype pindahkearray(address *first)
-Fungsi ini menghapus node pertama dari linked list dan mengembalikan nilainya.
+Fungsi ini mengubah linked list kembali menjadi bentuk array.
 
     void hapustipuan(address first)
 Fungsi ini menghapus node tipuan dari linked list pada posisi yang ditentukan oleh nilai Fibonacci.
 
     void acak(address first)
-Fungsi ini mengacak nilai dalam linked list dengan menukar nilai pada posisi ganjil.
+Fungsi ini menukar nilai node yang indexnya bernilai ganjil dalam linked list dengan nilai node setelahnya.
 
     void putar(address *first,char key,bool reverse)
 Fungsi ini memutar linked list ke kiri atau ke kanan sejumlah langkah yang ditentukan oleh key.
