@@ -298,7 +298,7 @@ int main()
 			        for (i = 0; i < MAX_LEN; i++) {
 			        sscanf(&temp[i * 2], "%2hhx", &key[i]);
 			         }
-			                break;
+			        break;
 				} else {
 				printf("Error: Cipher Key harus tepat 16 karakter HEX.\n");
 				}
@@ -307,22 +307,23 @@ int main()
 		
 	    	// Loop untuk validasi Cipher Text
 		 while (1) {
-				printf("\nMasukkan Cipher Text (maksimal 22 karakter dalam format HEX): \n");
-			        fflush(stdin);
-			        if (fgets(temp, sizeof(temp), stdin) != NULL) {
-			            temp[strcspn(temp, "\n")] = '\0'; // Menghapus karakter newline
-			            remove_spaces(temp); // Menghapus spasi
+			printf("\nMasukkan Cipher Text (maksimal 22 karakter dalam format HEX): \n");
+			fflush(stdin);
+			if (fgets(temp, sizeof(temp), stdin) != NULL) {
+			        temp[strcspn(temp, "\n")] = '\0'; // Menghapus karakter newline
+			        remove_spaces(temp); // Menghapus spasi
 			
-			            if (strlen(temp) == 44) { // 22 karakter HEX (44 digit tanpa spasi)
-			                for (i = 0; i < 44; i++) {
-			                    sscanf(&temp[i * 2], "%2hhx", &ciphertext[i]);
-			                }
-			                break;
-			            } else {
-			                printf("Error: Cipher Text harus tepat 22 karakter HEX.\n");
-			            }
+			        if (strlen(temp) == 44) { // 22 karakter HEX (44 digit tanpa spasi)
+			        for (i = 0; i < 44; i++) {
+			        sscanf(&temp[i * 2], "%2hhx", &ciphertext[i]);
 			        }
-			    }
+			        break;
+			        } else {
+			        printf("Error: Cipher Text harus tepat 22 karakter HEX.\n");
+			        }
+			}
+		}
+
 	            for (i = 0; i < 22; i++)
 	            {
 	                insert(&firstDec, ciphertext[i]);
@@ -335,6 +336,28 @@ int main()
 	            {
 	                ciphertext[i] = pindahkearray(&firstDec);
 	            }
+		
+	            printf("\n======================= HASIL DEKRIPSI =======================\n");
+	            printf("\nCipher Text (Format Text):\n");
+	            for (i = 0; i < 16; i++)
+	            {
+	                printf("%c", ciphertext[i]);
+	            }
+	
+	            aes_decrypt(ciphertext, decryptedtext, key, SIZE_16);
+	            printf("\nDecrypted text:\n");
+	            for (i = 0; i < 16; i++)
+	            {
+	                printf("%c", decryptedtext[i]);
+	            }
+	            printf("\n");
+	            printf("\nDecrypted text (HEX format):\n");
+	            for (i = 0; i < 16; i++)
+	            {
+	                printf("%2.2x%c", decryptedtext[i], ((i + 1) % 16) ? ' ' : '\n');
+	            }
+	            system("pause");
+	            break;	
 	
 	case 3:
         	// Enkripsi pesan
