@@ -82,7 +82,7 @@ Disini anda akan diminta menginputkan nama file gambar (gambar polosan yang ingi
 Program ini dapat mensupport gambar bertype JPG, PNG.
 Pastikan nama file sesuai, dan file gambar telah tersedia di direktori program yang kamu jalankan. 
 jika tidak, maka program tidak akan memproses, dan akan mengemnbalikan anda ke menu utama.
-Selanjutnya setelah gambar berhasil dibuka, anda diminta memasukkan pesan yang ingin disisipkan, batasan pesan yang dimasukkan tergantung ukuran gambar itu sendiri, namun kami membatasi karakter yang dibaca dan dienkripsi sebesar 500 kata (termasuk spasi).
+Selanjutnya setelah gambar berhasil dibuka, anda diminta memasukkan pesan yang ingin disisipkan, batasan pesan yang dimasukkan tergantung ukuran gambar itu sendiri, namun kami membatasi karakter yang dibaca dan dienkripsi sebesar 300 kata (termasuk spasi).
 Selanjutnya anda akan diminta untuk memasukkan nama file gambar yang sudah di sisipkan pesan rahasia tadi.
 output yang dihasilkan adalah sebuah gambar dengan format .png
 
