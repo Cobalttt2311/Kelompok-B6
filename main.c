@@ -93,6 +93,7 @@ int main()
     int var;
     char temp[50];
     totalfib = 1;
+    char input[45];
 	
     //expanded keySize
     int expandedKeySize = 176;
@@ -332,12 +333,12 @@ int main()
 			        remove_spaces(temp); // Menghapus spasi
 			
 			        if (strlen(temp) == 32) { // 16 karakter HEX (32 digit tanpa spasi)
-			        for (i = 0; i < MAX_LEN; i++) {
-			        sscanf(&temp[i * 2], "%2hhx", &key[i]);
-			         }
-			        break;
+			        	for (i = 0; i < MAX_LEN; i++) {
+			        		sscanf(&temp[i * 2], "%2hhx", &key[i]);
+			         	}
+			        	break;
 				} else {
-				printf("Error: Cipher Key harus tepat 16 karakter HEX.\n");
+					printf("Error: Cipher Key harus tepat 16 karakter HEX.\n");
 				}
 			}
 		 }
@@ -351,12 +352,12 @@ int main()
 			        remove_spaces(temp); // Menghapus spasi
 			
 			        if (strlen(temp) == 44) { // 22 karakter HEX (44 digit tanpa spasi)
-			        for (i = 0; i < 44; i++) {
-			        sscanf(&temp[i * 2], "%2hhx", &ciphertext[i]);
-			        }
-			        break;
+			        	for (i = 0; i < 44; i++) {
+			        		sscanf(&temp[i * 2], "%2hhx", &ciphertext[i]);
+			        	}
+			        	break;
 			        } else {
-			        printf("Error: Cipher Text harus tepat 22 karakter HEX.\n");
+			        	printf("Error: Cipher Text harus tepat 22 karakter HEX.\n");
 			        }
 			}
 		}
