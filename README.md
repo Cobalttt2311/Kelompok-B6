@@ -145,15 +145,44 @@ Kriptografi
 
 ## Linked List
 
-# Struktur Linked List
+### Struktur Linked List
 Program ini menggunakan linked list dalam beberapa proses, yaitu: 
 1. Pada saat enkripsi, program akan menggunakan linked list untuk menyimpan dan mengelola cipher text untuk dimasukkan ke dalam linked list.
 2. Menyisipkan node tipuan, node tipuan ini akan disisipkan ke dalam linked list untuk menambah keamanan data.
 3. Mengacak dan memutar data, nilai-nilai dalam linked list akan diacak dan diputar untuk membuat ciphertext lebih sulit ditebak.
 Linked list yang kami gunakan dalam program ini berupa Circular Doubly Linked List.
 
-# Implementasi Fungsi-fungsi Linked List
+### Implementasi Fungsi-fungsi Linked List
 
+    1. insert(address *first, infotype isi)
+Fungsi ini digunakan untuk menambahkan node baru ke dalam linked list. Node baru ditambahkan di akhir linked list. Jika linked list kosong, node baru menjadi node pertama dan menunjuk ke dirinya sendiri sebagai next dan prev.
+
+    2. nodetipuan(address baru, int n)
+Fungsi ini membuat node tipuan dengan nilai dari tabel S-Box berdasarkan bilangan Fibonacci.
+
+    3. nodesebelumpalsu(int fibo, address first)
+Fungsi ini mencari node pada posisi tertentu berdasarkan nilai Fibonacci.
+
+    4. sisipkantipuan(address first)
+Fungsi ini menyisipkan node tipuan ke dalam linked list pada posisi yang ditentukan oleh nilai Fibonacci.
+
+    5. printLL(address first)
+Fungsi ini mencetak semua elemen dari linked list mulai dari node pertama hingga kembali ke node pertama. 
+
+    6. pindahkearray(address *first)
+Fungsi ini menghapus node pertama dari linked list dan mengembalikan nilainya.
+
+    7. hapustipuan(address first)
+Fungsi ini menghapus node tipuan dari linked list pada posisi yang ditentukan oleh nilai Fibonacci.
+
+    8. acak(address first)
+Fungsi ini mengacak nilai dalam linked list dengan menukar nilai pada posisi ganjil.
+
+    9. putar(address *first, char key, bool reverse)
+Fungsi ini memutar linked list ke kiri atau ke kanan sejumlah langkah yang ditentukan oleh key.
+
+    10. clear_list(address *first)
+Fungsi ini menghapus semua node dari linked list untuk mengosongkan memori.
 
 ## About Us
 
