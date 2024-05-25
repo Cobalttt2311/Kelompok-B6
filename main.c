@@ -445,38 +445,43 @@ int main()
 
                 break;
 	    case 4:
-		    clearScreen();
-            // Dekripsi pesan
-            printf("Masukkan nama file gambar PNG: ");
-            scanf("%s", filename);
+		clearScreen();
+            	// Dekripsi pesan
+            	printf("=============================================================\n");
+		printf("|                      AES & LSB Kelompok 6                 |\n");
+		printf("=============================================================\n");
+		printf("|                 EKSTRAK PESAN DARI GAMBAR                 |\n");
+		printf("-------------------------------------------------------------\n");
+                printf("\n Masukkan nama file gambar PNG: ");
+                scanf("%s", filename);
 
-            image_data = stbi_load(filename, &width, &height, &channels, 0);
+                image_data = stbi_load(filename, &width, &height, &channels, 0);
 
-            if (!image_data)
-            {
-                printf("Gagal membuka file gambar.\n");
-		system("pause");
-                break;
-            }
+                if (!image_data) {
+                    printf("Gagal membuka file gambar.\n");
+                    //nalen
+                    system("pause");
+                    break;
+                }
 
-            {
-                // Membaca pesan tersembunyi dari gambar yang dimodifikasi
-                char *decrypted_message = (char *)malloc(45);
-                int ukuran = width * height * channels;
-                decrypt_message(image_data, ukuran, 45, decrypted_message);
+                {
+                    // Membaca pesan tersembunyi dari gambar yang dimodifikasi
+                    char *decrypted_message = (char *)malloc(45);
+                    int ukuran = width * height * channels;
+                    decrypt_message(image_data, ukuran, 45, decrypted_message);
 
-                // Membalikkan string yang telah didekripsi
-                reverse_string(decrypted_message);
+                    // Membalikkan string yang telah didekripsi
+                    reverse_string(decrypted_message);
 
-                // Menampilkan pesan tersembunyi yang telah dibalik
-                printf("Pesan tersembunyi: %s\n", decrypted_message);
+                    // Menampilkan pesan tersembunyi yang telah dibalik
+                    printf("Pesan tersembunyi: %s\n", decrypted_message);
 
-                // Membebaskan memori yang dialokasikan untuk pesan terdekripsi
-                free(decrypted_message);
-            }
+                    // Membebaskan memori yang dialokasikan untuk pesan terdekripsi
+                    free(decrypted_message);
+                }
 
-            // Membebaskan memori yang dialokasikan untuk gambar
-            stbi_image_free(image_data);
+                // Membebaskan memori yang dialokasikan untuk gambar
+                stbi_image_free(image_data);
 	    system("pause");
             break;
         case 5:
