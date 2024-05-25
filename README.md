@@ -53,6 +53,7 @@ Proyek ini dibuat dengan :
 
 ## Petunjuk Penggunaan Program
 ![Menu Program](./image/Menu.png)
+
 Saat program dijalankan, anda akan ditampilkan 5 jenis menu, yaitu sebagai berikut:
 1.  Enkripsi Pesan 
 2.  Dekripsi Pesan
@@ -149,6 +150,8 @@ Jurusan : Teknik Komputer dan Informatika
 Prodi : D3 - Teknik Informatika
 
 Kampus : Politeknik Negeri Bandung
+
+Kelas : 1B - JTK
 
 Kelompok B6 :
 
