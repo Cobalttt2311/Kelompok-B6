@@ -145,8 +145,15 @@ Kriptografi
 
 ## Linked List
 
-* Struktur Linked List
-Program ini menggunakan linked list untuk menyimpan dan mengelola data cipher text, menyisipkan Node Tipuan, mengacak dan memutar data, memindahkan data ke array, serta menghapus node tipuan. Linked list yang kami gunakan dalam program ini berupa Circular Doubly Linked List.
+# Struktur Linked List
+Program ini menggunakan linked list dalam beberapa proses, yaitu: 
+1. Pada saat enkripsi, program akan menggunakan linked list untuk menyimpan dan mengelola cipher text untuk dimasukkan ke dalam linked list.
+2. Menyisipkan node tipuan, node tipuan ini akan disisipkan ke dalam linked list untuk menambah keamanan data.
+3. Mengacak dan memutar data, nilai-nilai dalam linked list akan diacak dan diputar untuk membuat ciphertext lebih sulit ditebak.
+Linked list yang kami gunakan dalam program ini berupa Circular Doubly Linked List.
+
+# Implementasi Fungsi-fungsi Linked List
+
 
 ## About Us
 
