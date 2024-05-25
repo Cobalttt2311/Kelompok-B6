@@ -61,6 +61,17 @@ void clearScreen() {
     system(CLEAR_SCREEN);
 }
 
+void remove_spaces(char *input) {
+    char *i = input, *j = input;
+    while (*j != 0) {
+        *i = *j++;
+        if (*i != ' ') {
+            i++;
+        }
+    }
+    *i = 0;
+}
+
 int main()
 {
 
