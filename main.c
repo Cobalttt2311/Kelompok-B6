@@ -101,14 +101,13 @@ int main()
     enum keySize size = SIZE_16;
 
     //plaintext
-    unsigned char plaintext[17]; 
+    unsigned char plaintext[17];
+	
     //ciphertext
     unsigned char ciphertext[16];
 
     //decrypted text
     unsigned char decryptedtext[16];
-
-    clear_list(&first);
 
     while(1) 
     { 
@@ -209,6 +208,10 @@ int main()
             for (i = 0; i < 16; i++)
             {
 	    	printf("%c", ciphertext[i]);
+            }
+
+	    for (i = 0; i < 16; i++) {
+                insert(&first, ciphertext[i]);
             }
 		
             printf("\n===============================================================\n\n");
