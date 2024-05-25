@@ -288,22 +288,22 @@ int main()
 		printf("-------------------------------------------------------------\n");
 		
                 while (1) {
-			        printf("\nMasukkan Cipher Key (maksimal 16 karakter dalam format HEX): \n");
-			        fflush(stdin);
-			        if (fgets(temp, sizeof(temp), stdin) != NULL) {
-			            temp[strcspn(temp, "\n")] = '\0'; // Menghapus karakter newline
-			            remove_spaces(temp); // Menghapus spasi
+			 printf("\nMasukkan Cipher Key (maksimal 16 karakter dalam format HEX): \n");
+			 fflush(stdin);
+			 if (fgets(temp, sizeof(temp), stdin) != NULL) {
+			        temp[strcspn(temp, "\n")] = '\0'; // Menghapus karakter newline
+			        remove_spaces(temp); // Menghapus spasi
 			
-			            if (strlen(temp) == 32) { // 16 karakter HEX (32 digit tanpa spasi)
-			                for (i = 0; i < MAX_LEN; i++) {
-			                    sscanf(&temp[i * 2], "%2hhx", &key[i]);
-			                }
+			        if (strlen(temp) == 32) { // 16 karakter HEX (32 digit tanpa spasi)
+			        for (i = 0; i < MAX_LEN; i++) {
+			        sscanf(&temp[i * 2], "%2hhx", &key[i]);
+			         }
 			                break;
-			            } else {
-			                printf("Error: Cipher Key harus tepat 16 karakter HEX.\n");
-			            }
-			        }
-			    }
+				} else {
+				printf("Error: Cipher Key harus tepat 16 karakter HEX.\n");
+				}
+			}
+		 }
 		
 	    	// Loop untuk validasi Cipher Text
 		 while (1) {
