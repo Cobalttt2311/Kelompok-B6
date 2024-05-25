@@ -183,6 +183,7 @@ int main()
     
 	    aes_encrypt(plaintext, ciphertext, key, SIZE_16);
 
+	    printf("\n======================= HASIL ENKRIPSI =======================\n");
 	    printf("\nCipher Key (Format HEX):\n");
     	    for (i = 0; i < 16; i++)
             {
