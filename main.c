@@ -145,7 +145,12 @@ int main()
         	printf("=============================================================\n");
         	printf("|                         ENKRIPSI                          |\n");
         	printf("-------------------------------------------------------------\n");
-	    while (1) {
+
+		// Reset or clear necessary variables and states
+		clear_list(&first);
+
+		// Handle input untuk Cipher Key
+	    	while (1) {
 	        printf("\nMasukkan Cipher Key (maksimal 16 karakter): ");
 	        fflush(stdin);
 	        if (fgets(temp, sizeof(temp), stdin) != NULL) {
@@ -177,7 +182,7 @@ int main()
 	    }
     
 	    aes_encrypt(plaintext, ciphertext, key, SIZE_16);
-	
+
 	    printf("\nCipher Key (Format HEX):\n");
     	    for (i = 0; i < 16; i++)
             {
@@ -205,11 +210,6 @@ int main()
 	    	printf("%c", ciphertext[i]);
             }
 		
-            for (i = 0; i < 16; i++)
-            {
-                insert(&first, ciphertext[i]);
-            }
-		
             printf("\n===============================================================\n\n");
 	    for (i = 0; i < 16; i++) {
                 insert(&first, ciphertext[i]);
@@ -220,7 +220,8 @@ int main()
             putar(&first, 6, true);
             printf("\n================= HASIL PENERAPAN LINKED LIST =================\n");
             printf("  Setelah dilakukan Penambahan Node Tipuan, Acak dan Pemutaran \n");
-            printLL(first);
+            
+	    printLL(first);
             for (i = 0; i < 22; i++)
             {
                 ciphertext[i] = pindahkearray(&first);
@@ -231,11 +232,6 @@ int main()
             {
                 printf("%2.2x ", ciphertext[i]);
             }
-            //   Jikalau mau print expandkey dari round awal hingga akhir
-            //   printf("\nExpanded Key (Format HEX):\n");
-            //   for (i = 0; i < expandedKeySize; i++){
-            //   printf("%2.2x%c", expandedKey[i], ((i + 1) % 16) ? ' ' : '\n');
-            //   }
 
             printf("\n\n");
             system("pause");
