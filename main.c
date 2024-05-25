@@ -397,6 +397,7 @@ int main()
                     }
 
                     printf("Pesan telah disisipkan ke dalam gambar.\n");
+                    system("pause");
                 }
 
                 // Membebaskan memori yang dialokasikan untuk gambar
@@ -413,6 +414,7 @@ int main()
             if (!image_data)
             {
                 printf("Gagal membuka file gambar.\n");
+		system("pause");
                 break;
             }
 
@@ -434,6 +436,7 @@ int main()
 
             // Membebaskan memori yang dialokasikan untuk gambar
             stbi_image_free(image_data);
+	    system("pause");
             break;
         case 5:
         	printf("\nTerimakasih");
