@@ -407,6 +407,7 @@ int main()
 
                 if (!image_data) {
                     printf("Gagal membuka file gambar.\n");
+                    system("pause");
                     break;
                 }
 
