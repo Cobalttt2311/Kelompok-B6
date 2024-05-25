@@ -48,9 +48,50 @@ Proyek ini dibuat dengan :
 
 1. Download seluruh file yang tersedia di GitHub melalui link https://github.com/Cobalttt2311/Kelompok-B6
 2. Download aplikasi compiler bahasa C ( disarankan menggunakan Dev C++ )
-3. Import seluruh file yang telah diunduh ke aplikasi compiler bahasa C
-4. Tambahkan proyek baru
-5. Tambahkkan seluruh file yang telah diunduh ke dalam proyek
+3. Buka file Project1.dev
+4. Compile & Run Program
+
+## Petunjuk Penggunaan Program
+![Menu Program](./image/Menu.png)
+Saat program dijalankan, anda akan ditampilkan 5 jenis menu, yaitu sebagai berikut:
+1.  Enkripsi Pesan 
+2.  Dekripsi Pesan
+3.  Sisipkan Pesan ke Gambar
+4.  Ekstrak Pesan dari Gambar
+5.  Exit
+====================================================================================
+1. Menu Enkripsi
+Disini anda akan diminta menginputkan cipher key (bebas, maksimal 16 karakter), dan juga Plain Text(bebas, maksimal 16 karakter), /Plain Text disini adalah pesan yang anda ingin sembunyikan.
+Setelah memasukkan semua yang diperlukan, anda akan diberikan :
+a. Cipher Key (Format Hexa)
+b. Plain Text (Format Hexa)
+c. Cipher Text (Format Hexa)
+
+Anda perlu mencatat Cipher Key, dan Cipher Text untuk mendekripsi pesan yang sudah terenkripsi.
+Nantinya anda akan diberikan pilihan, apakah anda inigin menyiipkan pesan ke dalam sebuah gambar atau tidak. Jika ya maka akan dilanjutkan proses steganography (LSB) (Dijelaskan pada menu nomor 3), jika tidak maka akan kembali ke menu utama.
+
+2. Menu Dekripsi
+Disini anda akan diminta menginputkan Cipher Key yang anda miliki (Format Hexa), dan juga Cipher Text (Format Hexa). Setelah anda memasukkan semua yang diperlukan, anda akan diberikan Decrypted Text (Pesan yng disembunyikan)
+
+   
+3. Menu Sisipkan Menu ke Gambar
+Disini anda akan diminta menginputkan nama file gambar (gambar polosan yang ingin digunakan) dalam format png, anda wajib memberikan ekstensi .png pada akhir nama file, ex: (nama).png
+Program ini dapat mensupport gambar bertype JPG, PNG.
+Pastikan nama file sesuai, dan file gambar telah tersedia di direktori program yang kamu jalankan.
+jika tidak, maka program tidak akan memproses, dan akan mengemnbalikan anda ke menu utama.
+
+Selanjutnya setelah gambar berhasil dibuka, anda diminta memasukkan pesan yang ingin disisipkan, batasan pesan yang dimasukkan tergantung ukuran gambar itu sendiri, namun kami membatasi karakter yang dibaca dan dienkripsi sebesar 500 kata (termasuk spasi).
+Selanjutnya anda akan diminta untuk memasukkan nama file gambar yang sudah di sisipkan pesan rahasia tadi.
+output yang dihasilkan adalah sebuah gambar dengan format .png
+
+
+4. Menu Ekstrak Pesan dari Gambar
+Disini anda akan diminta meninputkan nama file gambar, anda wajib memberikan ekstensi .png pada akhir nama file, ex: (nama).png
+Output yang dihasilkan adalah pesan yang disisipkan dalam gambar tersebut.
+
+5. Exit
+Disini anda akan keluar dari program
+
 
 ## Struktur/Hirarki Program
 
