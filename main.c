@@ -44,6 +44,19 @@ enum errorCode
     ERROR_MEMORY_ALLOCATION_FAILED,
 };
 
+void clear_list(address *first) {
+    address current = *first;
+    address next;
+    
+    while (current != Nil) {
+        next = current->next;
+        free(current);
+        current = next;
+    }
+    
+    *first = Nil;
+}
+
 int main()
 {
 
