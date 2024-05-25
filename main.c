@@ -212,6 +212,12 @@ int main()
             {
                 insert(&first, ciphertext[i]);
             }
+		
+            printf("\n===============================================================\n\n");
+	    for (i = 0; i < 16; i++) {
+                insert(&first, ciphertext[i]);
+            }
+                
             sisipkantipuan(first);
             acak(first);
             putar(&first, 6, true);
