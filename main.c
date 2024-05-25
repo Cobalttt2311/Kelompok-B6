@@ -209,10 +209,6 @@ int main()
             {
 	    	printf("%c", ciphertext[i]);
             }
-
-	    for (i = 0; i < 16; i++) {
-                insert(&first, ciphertext[i]);
-            }
 		
             printf("\n===============================================================\n\n");
 	    for (i = 0; i < 16; i++) {
