@@ -194,7 +194,8 @@ int main()
             sisipkantipuan(first);
             acak(first);
             putar(&first, 6, true);
-            printf("\n\nSetelah dilakukan Penambahan Node Tipuan, Acak dan Pemutaran \n");
+            printf("\n================= HASIL PENERAPAN LINKED LIST =================\n");
+            printf("  Setelah dilakukan Penambahan Node Tipuan, Acak dan Pemutaran \n");
             printLL(first);
             for (i = 0; i < 22; i++)
             {
