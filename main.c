@@ -91,7 +91,7 @@ int main()
     int totalfib;
     int i;
     int var;
-    char temp[50];
+    char temp[150];
     totalfib = 1;
     char input[45];
 	
@@ -418,7 +418,7 @@ int main()
                 }
 
                 {
-                    char message[51];
+                    char message[300];
                     printf("Masukkan pesan yang akan disisipkan: ");
                     getchar(); // membersihkan newline yang tersisa dalam input buffer
                     fgets(message, sizeof(message), stdin);
@@ -472,9 +472,9 @@ int main()
 
                 {
                     // Membaca pesan tersembunyi dari gambar yang dimodifikasi
-                    char *decrypted_message = (char *)malloc(45);
+                    char *decrypted_message = (char *)malloc(300);
                     int ukuran = width * height * channels;
-                    decrypt_message(image_data, ukuran, 45, decrypted_message);
+                    decrypt_message(image_data, ukuran, 300, decrypted_message);
 
                     // Membalikkan string yang telah didekripsi
                     reverse_string(decrypted_message);
