@@ -280,9 +280,8 @@ int main()
             }
  	    break;
  	case 2:
-		//nalen
                 clear_list(&firstDec);
-	    printf("\nMasukkan Cipher Key (16 karakter dalam format HEX):\n");
+	        printf("\nMasukkan Cipher Key (16 karakter dalam format HEX):\n");
 		fflush(stdin);
 		for (i = 0; i < 16; i++){
 	    	scanf("%2x", &key[i]); // Menggunakan %2x untuk membaca input sebagai nilai HEX
