@@ -154,37 +154,35 @@ Linked list yang kami gunakan dalam program ini berupa Circular Doubly Linked Li
 
 ### Implementasi Fungsi-fungsi Linked List
 
-    ```ruby
     void insert(address *first, infotype isi)
-    ```
 Fungsi ini digunakan untuk menambahkan node baru ke dalam linked list. Node baru ditambahkan di akhir linked list. Jika linked list kosong, node baru menjadi node pertama dan menunjuk ke dirinya sendiri sebagai next dan prev.
 
-    2. nodetipuan(address baru, int n)
+    address nodetipuan(address baru, int n)
 Fungsi ini membuat node tipuan dengan nilai dari tabel S-Box berdasarkan bilangan Fibonacci.
 
-    3. nodesebelumpalsu(int fibo, address first)
+    address nodesebelumpalsu(int fibo, address first)
 Fungsi ini mencari node pada posisi tertentu berdasarkan nilai Fibonacci.
 
-    4. sisipkantipuan(address first)
+    void sisipkantipuan(address first)
 Fungsi ini menyisipkan node tipuan ke dalam linked list pada posisi yang ditentukan oleh nilai Fibonacci.
 
-    5. printLL(address first)
+    void printLL(address first)
 Fungsi ini mencetak semua elemen dari linked list mulai dari node pertama hingga kembali ke node pertama. 
 
-    6. pindahkearray(address *first)
+    infotype pindahkearray(address *first)
 Fungsi ini menghapus node pertama dari linked list dan mengembalikan nilainya.
 
-    7. hapustipuan(address first)
+    void hapustipuan(address first)
 Fungsi ini menghapus node tipuan dari linked list pada posisi yang ditentukan oleh nilai Fibonacci.
 
-    8. acak(address first)
+    void acak(address first)
 Fungsi ini mengacak nilai dalam linked list dengan menukar nilai pada posisi ganjil.
 
-    9. putar(address *first, char key, bool reverse)
+    void putar(address *first,char key,bool reverse)
 Fungsi ini memutar linked list ke kiri atau ke kanan sejumlah langkah yang ditentukan oleh key.
 
-    10. clear_list(address *first)
-Fungsi ini menghapus semua node dari linked list untuk mengosongkan memori.
+    int fibonaci(int n)
+Fungsi ini berfungsi untuk menghitung bilangan Fibonacci ke-n menggunakan pendekatan rekursif. Bilangan Fibonacci adalah deret angka di mana setiap angka adalah jumlah dari dua angka sebelumnya, dimulai dengan 0 dan 1. Namun, dalam fungsi ini, deret dimulai dengan 1 dan 1 karena basisnya adalah 1 untuk n <= 2.
 
 ## About Us
 
