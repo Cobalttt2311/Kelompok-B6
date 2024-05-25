@@ -9,6 +9,7 @@ Enkripsi AES dan LSB
   * [Struktur/Hirarki Program](#strukturhirarki-program)
   * [Algoritma Advanced Encryption Standard(AES)](#algoritma-advanced-encryption-standard-aes)
   * [Fitur Aplikasi](#fitur-aplikasi)
+  * [Linked List](#linked-list)
   * [About Us](#about-us)
   * [Sumber](#sumber-referensi)
 
@@ -141,6 +142,11 @@ Kriptografi
    Steganografi
 3. Menyisipkan sebuah pesan ke dalam gambar menggunakan metode LSB
 4. Dekripsi sebuah gambar menjadi sebuah pesan menggunakan metode LSB
+
+## Linked List
+
+* Struktur Linked List
+Program ini menggunakan linked list untuk menyimpan dan mengelola data cipher text, menyisipkan Node Tipuan, mengacak dan memutar data, memindahkan data ke array, serta menghapus node tipuan. Linked list yang kami gunakan dalam program ini berupa Circular Doubly Linked List.
 
 ## About Us
 
