@@ -155,12 +155,7 @@ Linked list yang kami gunakan dalam program ini berupa Circular Doubly Linked Li
 ### Implementasi Fungsi-fungsi Linked List
 
     ```ruby
-require **insert**(address *first )'github/markup'
-
-GitHub::Markup.render('README.markdown', "* One\n* Two")
-```
-    ```ruby
-    **void** insert(address *first, infotype isi)
+    void insert(address *first, infotype isi)
     ```
 Fungsi ini digunakan untuk menambahkan node baru ke dalam linked list. Node baru ditambahkan di akhir linked list. Jika linked list kosong, node baru menjadi node pertama dan menunjuk ke dirinya sendiri sebagai next dan prev.
 
