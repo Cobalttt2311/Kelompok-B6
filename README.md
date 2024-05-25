@@ -66,17 +66,17 @@ Saat program dijalankan, anda akan ditampilkan 5 jenis menu, yaitu sebagai berik
 1. Menu Enkripsi
 Disini anda akan diminta menginputkan cipher key (bebas, maksimal 16 karakter), dan juga Plain Text(bebas, maksimal 16 karakter), /Plain Text disini adalah pesan yang anda ingin sembunyikan.
 Setelah memasukkan semua yang diperlukan, anda akan diberikan :
-a. Cipher Key (Format Hexa)
-b. Plain Text (Format Hexa)
-c. Cipher Text (Format Hexa)
+ a. Cipher Key (Format Hexa)
+ b. Plain Text (Format Hexa)
+ c. Cipher Text (Format Hexa)
 Anda perlu mencatat Cipher Key, dan Cipher Text untuk mendekripsi pesan yang sudah terenkripsi.
 Nantinya anda akan diberikan pilihan, apakah anda inigin menyiipkan pesan ke dalam sebuah gambar atau tidak. Jika ya maka akan dilanjutkan proses steganography (LSB) (Dijelaskan pada menu nomor 3), jika tidak maka akan kembali ke menu utama.
 
-2. Menu Dekripsi
+3. Menu Dekripsi
 Disini anda akan diminta menginputkan Cipher Key yang anda miliki (Format Hexa), dan juga Cipher Text (Format Hexa). Setelah anda memasukkan semua yang diperlukan, anda akan diberikan Decrypted Text (Pesan yng disembunyikan)
 
    
-3. Menu Sisipkan Menu ke Gambar
+4. Menu Sisipkan Menu ke Gambar
 Disini anda akan diminta menginputkan nama file gambar (gambar polosan yang ingin digunakan) dalam format png, anda wajib memberikan ekstensi .png pada akhir nama file, ex: (nama).png
 Program ini dapat mensupport gambar bertype JPG, PNG.
 Pastikan nama file sesuai, dan file gambar telah tersedia di direktori program yang kamu jalankan.
