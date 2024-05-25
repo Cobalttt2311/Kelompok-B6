@@ -32,6 +32,12 @@
 #include "nalen.h"
 #include "radja.h"
 
+#ifdef _WIN32
+    #define CLEAR_SCREEN "cls"
+#else
+    #define CLEAR_SCREEN "clear"
+#endif
+
 enum keySize
 {
     SIZE_16 = 16
