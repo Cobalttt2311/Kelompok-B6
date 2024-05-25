@@ -283,6 +283,9 @@ int main()
                 clear_list(&firstDec);
 		printf("=============================================================\n");
 		printf("|                      AES & LSB Kelompok 6                 |\n");
+		printf("=============================================================\n");
+		printf("|                         DEKRIPSI                          |\n");
+		printf("-------------------------------------------------------------\n");
 	        printf("\nMasukkan Cipher Key (16 karakter dalam format HEX):\n");
 		fflush(stdin);
 		for (i = 0; i < 16; i++){
