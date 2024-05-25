@@ -393,9 +393,15 @@ int main()
 	
 	case 3:
 		clearScreen();
-        	// Enkripsi pesan
-                printf("Masukkan nama file gambar PNG: ");
+        	
+                printf("=============================================================\n");
+		printf("|                      AES & LSB Kelompok 6                 |\n");
+		printf("=============================================================\n");
+		printf("|                 SISIPKAN PESAN KE GAMBAR                  |\n");
+		printf("-------------------------------------------------------------\n");
+                printf("\n Masukkan nama file gambar PNG: ");
                 scanf("%s", filename);
+
 
                 image_data = stbi_load(filename, &width, &height, &channels, 0);
 
