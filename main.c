@@ -307,6 +307,7 @@ int main()
 
                     // Membebaskan memori yang dialokasikan untuk gambar
                     stbi_image_free(image_data);
+                    system("pause");
                     break;
                 }
                 else
@@ -314,7 +315,7 @@ int main()
                     printf("Input tidak valid. Harap masukkan Y atau N.\n");
                 }
             }
- 	    break;
+            break;
  	case 2:
 		clearScreen();
                 clear_list(&firstDec);
