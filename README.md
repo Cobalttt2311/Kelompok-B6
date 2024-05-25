@@ -136,8 +136,6 @@ ExpandKey :
 
 ## Fitur Aplikasi
 
- Kriptografi
-
 1. Enkripsi plainteks menggunakan metode AES
 2. Dekripsi chiperteks menggunakan metode AES
    Steganografi
