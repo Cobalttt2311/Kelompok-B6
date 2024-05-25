@@ -60,7 +60,7 @@ Saat program dijalankan, anda akan ditampilkan 5 jenis menu, yaitu sebagai berik
 3.  Sisipkan Pesan ke Gambar
 4.  Ekstrak Pesan dari Gambar
 5.  Exit
-====================================================================================
+.   
 1. Menu Enkripsi
 Disini anda akan diminta menginputkan cipher key (bebas, maksimal 16 karakter), dan juga Plain Text(bebas, maksimal 16 karakter), /Plain Text disini adalah pesan yang anda ingin sembunyikan.
 Setelah memasukkan semua yang diperlukan, anda akan diberikan :
