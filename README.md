@@ -17,15 +17,15 @@ Enkripsi AES dan LSB
 
 Disini kami mencoba mengembangkan sebuah program keamanan melalui teknik kriptografi dan steganografi. Sistem keamanan ini dikembangkan sebagai syarat untuk memenuhi tugas Proyek 2. Kami menggabungkan Advanced Encryption Standard (AES) untuk mengenkripsi data dan metode Least Significant Bit (LSB) untuk menyembunyikan data dalam gambar.
 
-PENGERTIAN AES
+### PENGERTIAN AES
 Advanced Encryption Standard (AES) merupakan algoritma cryptographic yang dapat digunkan untuk mengamakan data. Algoritma AES adalah blok chipertext simetrik yang dapat mengenkripsi (encipher) dan dekripsi (decipher) informasi. Enkripsi merubah data yang tidak dapat lagi dibaca disebut ciphertext; sebaliknya dekripsi adalah merubah ciphertext data menjadi bentuk semula yang kita kenal sebagai plaintext. Algoritma AES is mengunkan kunci kriptografi 128, 192, dan 256 bits untuk mengenkrip dan dekrip data pada blok 128 bits.
 
 ![REPRESENTASI AES](./image/AES.webp)
 
-PENGERTIAN STEGANOGRAFI
+### PENGERTIAN STEGANOGRAFI
 Steganografi adalah ilmu yang melibatkan komunikasi data rahasia dalam sebuah media, misalnya file gambar, audio, dan video. Hal ini didasarkan pada asumsi bahwa jika rahasia mudah terlihat, maka mudah untuk dipecahkan, sehingga tujuan dari LSB di sini adalah untuk menyembunyikan keberadaan data yang disisipkan tanpa mudah diketahui orang lain.
 
-STEGANOGRAFI GAMBAR LSB
+### STEGANOGRAFI GAMBAR LSB
 Steganografi LSB adalah teknik steganografi gambar di mana pesan disembunyikan di dalam sebuah gambar dengan mengganti bit paling tidak signifikan (bit paling rendah/belakang) dari setiap piksel dengan bit dari pesan yang akan disembunyikan.
 RGB (piksel 3x8-bit, warna asli) dan RGBA (piksel 4x8-bit, warna asli dengan transparansi). Nilai-nilai ini berkisar antara 0-255, (nilai 8-bit).
 
@@ -38,7 +38,7 @@ Untuk memecahkan kode gambar yang disandikan, kita cukup membalikkan prosesnya. 
 
 ## Teknologi
 
-Proyek ini dibuat dengan :
+### Proyek ini dibuat dengan :
 
 - Bahasa Pemrograman : C++
 - VSCODE Version : 1.84.2
@@ -102,7 +102,7 @@ Disini anda akan keluar dari program
 
 ## Algoritma Advanced Encryption Standard (AES)
 
-Enkripsi Algoritma AES
+### Enkripsi Algoritma AES
 
 CreateRoundKey :
 Fungsi ini membuat dan mengambil 16 elemen dari expandedKey dan menyalin nya ke dalam block roundkey sesuai urutan dari initial round hingga round 10. Nantinya akan menghasilkan roundkey dari kunci yang diperluas.
@@ -135,7 +135,7 @@ ExpandKey :
 
 ## Fitur Aplikasi
 
-Kriptografi
+ Kriptografi
 
 1. Enkripsi plainteks menggunakan metode AES
 2. Dekripsi chiperteks menggunakan metode AES
@@ -214,12 +214,12 @@ Kelompok B6 :
 
 ## Sumber referensi
 
-Aplikasi ini terinspirasi dari
+### Aplikasi ini terinspirasi dari
 https://github.com/m3y54m/aes-in-c
 https://youtu.be/YpHJPvuCHNA?si=-fCSDrAgCLqRn0DO
 
-Definisi AES :
+### Definisi AES :
 https://kelas-ol.esaunggul.ac.id/pluginfile.php/232572/mod_forum/intro/Enkripsi%20Algoritma%20AES%20(Advanced%20Encryption%20Standard)%20PERTEMUAN%20KE%205.pdf?time=1585913179960
 
-Definisi LSB :
+### Definisi LSB :
 https://medium.com/swlh/lsb-image-steganography-using-python-2bbbee2c69a2
