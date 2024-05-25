@@ -57,6 +57,10 @@ void clear_list(address *first) {
     *first = Nil;
 }
 
+void clearScreen() {
+    system(CLEAR_SCREEN);
+}
+
 int main()
 {
 
@@ -99,6 +103,7 @@ int main()
 
     while(1) 
     { 
+	clearScreen();
     	printf("=============================================================\n");
         printf("|                      AES & LSB Kelompok 6                 |\n");
         printf("=============================================================\n");
@@ -126,7 +131,12 @@ int main()
     printf("=============================================================\n");
     switch (var) {
         case 1:
-            // Handle input untuk Cipher Key
+            clearScreen();
+    		printf("=============================================================\n");
+       		printf("|                      AES & LSB Kelompok 6                 |\n");
+        	printf("=============================================================\n");
+        	printf("|                         ENKRIPSI                          |\n");
+        	printf("-------------------------------------------------------------\n");
 	    while (1) {
 	        printf("\nMasukkan Cipher Key (maksimal 16 karakter): ");
 	        fflush(stdin);
@@ -228,8 +238,14 @@ int main()
                 }
                 else if (masukan == 'Y')
                 {
-                    printf("Masukkan nama file gambar PNG: ");
-                    scanf("%s", filename);
+                	clearScreen();
+                    	printf("=============================================================\n");
+			printf("|                      AES & LSB Kelompok 6                 |\n");
+			printf("=============================================================\n");
+		    	printf("|      SISIPKAN PESAN KE GAMBAR MENGGUNAKAN METODE LSB      |\n");
+			printf("-------------------------------------------------------------\n");
+                        printf("Masukkan nama file gambar PNG: ");
+                    	scanf("%s", filename);
 
                     image_data = stbi_load(filename, &width, &height, &channels, 0);
 
@@ -280,6 +296,7 @@ int main()
             }
  	    break;
  	case 2:
+		clearScreen();
                 clear_list(&firstDec);
 		printf("=============================================================\n");
 		printf("|                      AES & LSB Kelompok 6                 |\n");
@@ -360,6 +377,7 @@ int main()
 	            break;	
 	
 	case 3:
+		clearScreen();
         	// Enkripsi pesan
                 printf("Masukkan nama file gambar PNG: ");
                 scanf("%s", filename);
@@ -405,6 +423,7 @@ int main()
 
                 break;
 	    case 4:
+		    clearScreen();
             // Dekripsi pesan
             printf("Masukkan nama file gambar PNG: ");
             scanf("%s", filename);
