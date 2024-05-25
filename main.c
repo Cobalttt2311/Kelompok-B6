@@ -75,8 +75,8 @@ void remove_spaces(char *input) {
 int main()
 {
 
-    address first;
-    address firstDec;
+    address first = Nil;
+    address firstDec = Nil;
     int choice;
     char filename[100];
     int width, height, channels;
@@ -86,8 +86,6 @@ int main()
     int i;
     int var;
     char temp[50];
-    first = Nil;
-    firstDec = Nil;
     totalfib = 1;
 	
     //expanded keySize
@@ -139,7 +137,6 @@ int main()
             continue;
     }
             
-    printf("=============================================================\n");
     switch (var) {
         case 1:
             clearScreen();
