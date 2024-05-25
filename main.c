@@ -286,44 +286,24 @@ int main()
 		printf("=============================================================\n");
 		printf("|                         DEKRIPSI                          |\n");
 		printf("-------------------------------------------------------------\n");
-
-	        printf("\nMasukkan Cipher Key (16 karakter dalam format HEX):\n");
-		fflush(stdin);
-		for (i = 0; i < 16; i++){
-	    	scanf("%2x", &key[i]); // Menggunakan %2x untuk membaca input sebagai nilai HEX
-		}
-	    printf("\nMasukkan Cipher Text (dalam format HEX):\n");
-	    fflush(stdin);
-	    for (i = 0; i < 22; i++){
-	        scanf("%2x", &ciphertext[i]); // Menggunakan %2x untuk membaca input sebagai nilai HEX
-	    }
-	    
-	    for(i = 0; i < 22; i++){
-        	insert(&firstDec,ciphertext[i]);
-		}
-		printLL(firstDec);
-		putar(&firstDec,6,false);
-		acak(firstDec);
-		hapustipuan(firstDec);
-		for(i = 0; i < 16 ; i++){
-       	    ciphertext[i] = pindahkearray(&firstDec);
-		}
-		printf("\nCipher Text (Format Text):\n");
-        for (i = 0; i < 16; i++){
-           	printf("%c", ciphertext[i]);
-        }
-	    
-	    aes_decrypt(ciphertext, decryptedtext, key, SIZE_16);
-		printf("\nDecrypted text:\n");
-	    for (i = 0; i < 16; i++){
-	        printf("%c", decryptedtext[i]);
-	    }
-	    printf("\n");
-	    printf("\nDecrypted text (HEX format):\n");
-	    for (i = 0; i < 16; i++){
-	        printf("%2.2x%c", decryptedtext[i], ((i + 1) % 16) ? ' ' : '\n');
-	    }
-	    break;
+		
+                while (1) {
+			        printf("\nMasukkan Cipher Key (maksimal 16 karakter dalam format HEX): \n");
+			        fflush(stdin);
+			        if (fgets(temp, sizeof(temp), stdin) != NULL) {
+			            temp[strcspn(temp, "\n")] = '\0'; // Menghapus karakter newline
+			            remove_spaces(temp); // Menghapus spasi
+			
+			            if (strlen(temp) == 32) { // 16 karakter HEX (32 digit tanpa spasi)
+			                for (i = 0; i < MAX_LEN; i++) {
+			                    sscanf(&temp[i * 2], "%2hhx", &key[i]);
+			                }
+			                break;
+			            } else {
+			                printf("Error: Cipher Key harus tepat 16 karakter HEX.\n");
+			            }
+			        }
+			    }
 	case 3:
         	// Enkripsi pesan
                 printf("Masukkan nama file gambar PNG: ");
